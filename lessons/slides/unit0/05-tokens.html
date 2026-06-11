@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — Tokens</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="2" data-section-label="LLM basics" data-title="LLM basics" data-toc="Tokens &mdash; click to inspect">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Tokens &mdash; the unit the model sees</h2>
+      <p class="lead">Models don't read characters or words. They read <em>tokens</em>: chunks of text drawn from a fixed vocabulary of roughly 50&ndash;100k entries. Common words survive as one token; rarer words get split into sub-word pieces.</p>
+
+      <div class="tokenizer" id="tokenizer">
+        <div class="input" id="tokenizer-input"></div>
+        <div class="legend-key">
+          <span class="swatch whole">the</span> whole word &nbsp;&middot;&nbsp;
+          <span class="swatch part">ization</span> sub-word piece
+        </div>
+        <div class="hint">Click any token to inspect it.</div>
+        <div class="inspect empty" id="tokenizer-inspect">Pick a token above to inspect.</div>
+        <div class="meta">
+          <div>tokens: <span class="value" id="token-count">0</span></div>
+          <div>characters: <span class="value" id="char-count">0</span></div>
+          <div>model cost: roughly <span class="value" id="token-cost">$0.000000</span> per call (at GPT-class rates)</div>
+        </div>
+      </div>
+
+      <p>Why this matters: <strong>context window size is measured in tokens, not characters or words</strong>. A 200k-token context is roughly 150k English words. Every system prompt, every tool result, every file you <code>@</code>-mention &mdash; it all eats the same budget.</p>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — What an LLM actually does</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="2" data-section-label="LLM basics" data-title="LLM basics" data-toc="What an LLM actually does">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>What an LLM actually does</h2>
+      <p class="lead">One job. Repeated billions of times.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="next-token prediction diagram">
+          <defs>
+            <style>
+              .box { fill: var(--bg-elevated); stroke: var(--border); }
+              .arrow { stroke: var(--fg-muted); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+              .tt { fill: var(--accent); }
+              .tt-faded { fill: var(--fg-subtle); }
+              .label { fill: var(--fg); font: 14px var(--font-sans); }
+              .small-label { fill: var(--fg-muted); font: 11px var(--font-mono); }
+              .model { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+            </style>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 9 3, 0 6" fill="var(--fg-muted)" />
+            </marker>
+          </defs>
+          <!-- Input tokens -->
+          <g transform="translate(20, 30)">
+            <rect class="box" width="180" height="100" rx="6"/>
+            <text class="small-label" x="10" y="20">input (context)</text>
+            <text class="tt" x="10" y="50" font-family="ui-monospace" font-size="20">The cat sat</text>
+            <text class="tt-faded" x="10" y="78" font-family="ui-monospace" font-size="20">on the ___</text>
+          </g>
+          <!-- Arrow to model -->
+          <line class="arrow" x1="210" y1="80" x2="270" y2="80"/>
+          <!-- Model -->
+          <g transform="translate(280, 30)">
+            <rect class="model" width="80" height="100" rx="6"/>
+            <text class="label" x="40" y="58" text-anchor="middle">LLM</text>
+            <text class="small-label" x="40" y="78" text-anchor="middle">P(next token)</text>
+          </g>
+          <!-- Arrow to output -->
+          <line class="arrow" x1="370" y1="80" x2="430" y2="80"/>
+          <!-- Output -->
+          <g transform="translate(440, 30)">
+            <rect class="box" width="140" height="100" rx="6"/>
+            <text class="small-label" x="10" y="20">most likely</text>
+            <text class="tt" x="10" y="58" font-family="ui-monospace" font-size="22" font-weight="700">mat</text>
+            <text class="small-label" x="10" y="80">with some probability</text>
+          </g>
+        </svg>
+        <p class="diagram-caption">Given all the text so far, the model assigns a probability to every possible next token and samples one.</p>
+      </div>
+      <p>That's it. No retrieval, no reasoning engine, no planning module, no memory beyond the window. Everything else you see in an "agent" is added <em>around</em> the model.</p>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — /grill-me</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 4" data-title="Hands-on" data-toc="Step 4 &mdash; /grill-me">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 4 &mdash; <code>/grill-me</code> on a small change <span class="muted small" style="font-weight: 400;">(12 min)</span></h2>
+      <p class="lead">Before you ask the agent to build, the agent asks <em>you</em> questions. One at a time. Until the spec is sharp.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Pick a small change you actually want</h4>
+          <p>Something that has a real spec ambiguity in it. Good candidates on the sample app:</p>
+          <ul>
+            <li>Add a <strong>deadline</strong> field to todos, with overdue-highlighting in the frontend.</li>
+            <li>Add a <strong>tag</strong> field and a filter UI.</li>
+            <li>Replace the file-based storage with <strong>SQLite</strong> &mdash; without breaking the existing API contract.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Trigger the grilling</h4>
+<pre><span class="c"># inside opencode:</span>
+/grill-me I want to add a deadline field to todos with
+overdue-highlighting in the frontend.
+</pre>
+          <p>The skill will ask you between 5 and 15 questions. <strong>Answer honestly.</strong> If you don't know, say "I don't know, pick a sensible default and tell me what you chose."</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>What you get out</h4>
+          <p>A precise spec, written down, that you can hand to <code>/to-prd</code> or directly to a build agent. The interview <em>is</em> the deliverable &mdash; not the code.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

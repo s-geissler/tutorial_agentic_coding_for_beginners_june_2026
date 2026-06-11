@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — Why opencode for this lecture</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="6" data-section-label="Why opencode" data-title="Why opencode" data-toc="Why opencode for this lecture">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Why opencode for this lecture</h2>
+      <ul>
+        <li><strong>Open source.</strong> You can read every line, you can fork it, you can vendor a pinned version into a research group's internal infra. This matters in academia.</li>
+        <li><strong>Model-agnostic.</strong> Today we'll use Anthropic or OpenAI via API keys, but the same tool talks to local Ollama models next week. The harness is the asset, not the model.</li>
+        <li><strong>Terminal-native.</strong> PhD students live in terminals. opencode is a TUI; it works over SSH; it doesn't need a GUI.</li>
+        <li><strong>Real LSP integration.</strong> The model sees your type errors, your test failures, your linter complaints as first-class context &mdash; not as a paste.</li>
+        <li><strong>First-class skill support.</strong> Reads <code>SKILL.md</code> files, both user-level (~/.config/opencode/skills/) and project-level (.opencode/skills/).</li>
+      </ul>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

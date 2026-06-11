@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — /tdd</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 5" data-title="Hands-on" data-toc="Step 5 &mdash; /tdd">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 5 &mdash; <code>/tdd</code> on the missing API tests <span class="muted small" style="font-weight: 400;">(15 min)</span></h2>
+      <p class="lead">Sample app has zero tests for the API layer. The TDD skill forces a red-green-refactor loop on the agent.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Trigger</h4>
+<pre><span class="c"># inside opencode:</span>
+/tdd We need test coverage for the API layer in
+<span class="s">@app/main.py</span>. Use FastAPI's TestClient. Cover:
+list, create (valid + invalid), read (existing + 404),
+patch, and delete (existing + 404). The test file
+does not exist yet &mdash; create <span class="s">@tests/test_api.py</span>.
+</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Watch the loop</h4>
+          <p>The skill will:</p>
+          <ol>
+            <li>Write a <strong>failing</strong> test for the smallest behaviour (red).</li>
+            <li>Run it, confirm it fails for the right reason.</li>
+            <li>Write the <strong>minimum</strong> code to pass (green).</li>
+            <li>Refactor if there's duplication.</li>
+            <li>Repeat, one vertical slice at a time.</li>
+          </ol>
+          <p class="muted small">If the agent tries to skip a step or write all tests at once, the skill pushes back. <strong>Let it</strong> &mdash; that's the feedback the model needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

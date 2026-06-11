@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — Why the harness matters</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="3" data-section-label="The harness" data-title="The harness" data-toc="Why the harness matters">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Same model, different harness, different agent.</h2>
+      <p class="lead">Most people use a chat UI. The harness turns the same model into something else.</p>
+      <div class="cards cols-3" style="margin-top: 1.5rem;">
+        <div class="card">
+          <span class="tag">chat UI</span>
+          <h4>One-shot Q&amp;A</h4>
+          <p>You paste a snippet, it replies with text. No files, no execution, no memory between sessions. Most people's mental model of "AI".</p>
+        </div>
+        <div class="card">
+          <span class="tag">IDE extension</span>
+          <h4>Inline assist</h4>
+          <p>Tab-completion on the current line, or a side panel that sees the open files. Powerful for typing, weak for multi-step work.</p>
+        </div>
+        <div class="card">
+          <span class="tag">agent harness</span>
+          <h4>Loop + tools</h4>
+          <p>Read files, run shell, edit, test, iterate. Long-horizon. This is the mode we're talking about today &mdash; and the one that compounds.</p>
+        </div>
+      </div>
+
+      <div class="loop-demo" id="loop-demo">
+        <div class="loop-ring">
+          <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent loop diagram">
+            <defs>
+              <style>
+                .lr-track { fill: none; stroke: var(--border); stroke-width: 1.5; stroke-dasharray: 4 4; }
+                .lr-card { fill: var(--bg-elevated); stroke-width: 1.5; }
+                .lr-card.s0 { stroke: var(--accent); }
+                .lr-card.s1 { stroke: var(--code-fn); }
+                .lr-card.s2 { stroke: var(--warning); }
+                .lr-card.s3 { stroke: var(--success); }
+                .lr-label { font: 700 11px var(--font-mono); text-anchor: middle; dominant-baseline: middle; }
+                .lr-label.s0 { fill: var(--accent); }
+                .lr-label.s1 { fill: var(--code-fn); }
+                .lr-label.s2 { fill: var(--warning); }
+                .lr-label.s3 { fill: var(--success); }
+                .lr-arrow { fill: var(--fg-subtle); }
+              </style>
+            </defs>
+            <!-- The track (between stations and packet) -->
+            <circle class="lr-track" cx="140" cy="140" r="120"/>
+            <!-- Direction arrows at the 4 between-station positions -->
+            <g class="lr-arrow" transform="translate(224.85 55.15) rotate(135)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <g class="lr-arrow" transform="translate(224.85 224.85) rotate(225)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <g class="lr-arrow" transform="translate(55.15 224.85) rotate(315)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <g class="lr-arrow" transform="translate(55.15 55.15) rotate(45)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <!-- 4 stations at the cardinal points -->
+            <g class="station" data-station="0" transform="translate(140 30)">
+              <rect class="lr-card s0" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s0" y="1">CONTEXT</text>
+            </g>
+            <g class="station" data-station="1" transform="translate(250 140)">
+              <rect class="lr-card s1" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s1" y="1">MODEL</text>
+            </g>
+            <g class="station" data-station="2" transform="translate(140 250)">
+              <rect class="lr-card s2" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s2" y="1">TOOLS</text>
+            </g>
+            <g class="station" data-station="3" transform="translate(30 140)">
+              <rect class="lr-card s3" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s3" y="1">RESULT</text>
+            </g>
+          </svg>
+          <div class="loop-packet" aria-hidden="true"></div>
+        </div>
+        <div class="loop-status">
+          <div class="label">at</div>
+          <div class="station-name" id="loop-station">CONTEXT</div>
+          <pre class="snippet" id="loop-snippet">user: "fix the failing test in @tests/test_api.py"
+&rarr; prompt lands at the start of the context window</pre>
+          <div class="iter">
+            <span>iteration <strong id="loop-iter">1</strong></span>
+            <span id="loop-iter-detail">first turn</span>
+            <button class="pause-btn" id="loop-pause" type="button">play</button>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem;">An agent harness is a <em>loop</em>: the model produces output, the harness executes the tool calls in that output, feeds the results back, and asks for the next move. This loop is the entire magic. Everything else is polish.</p>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

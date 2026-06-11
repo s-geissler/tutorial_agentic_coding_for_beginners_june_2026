@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding — /to-issues</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 7" data-title="Hands-on" data-toc="Step 7 &mdash; /to-issues">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 7 &mdash; <code>/to-issues</code> decomposes the PRD <span class="muted small" style="font-weight: 400;">(5 min)</span></h2>
+      <p class="lead">A PRD is too big to be one task. This skill slices it into small, independently-grabbable issues &mdash; each one a vertical slice that ships value on its own.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Trigger</h4>
+<pre><span class="c"># inside opencode:</span>
+/to-issues
+</pre>
+          <p>It will read the PRD you just generated, quiz you briefly on what counts as a slice, and produce a list of issues. Each one has:</p>
+          <ul>
+            <li>a <strong>title</strong> in plain language</li>
+            <li>an <strong>acceptance criteria</strong> block</li>
+            <li>a <strong>label</strong> from your triage vocabulary</li>
+            <li>any <strong>dependencies</strong> on other issues</li>
+          </ul>
+          <p class="muted small">Since we picked "local markdown" for the tracker in step 4, the issues land as <code>docs/issues/NNN-slug.md</code> files. Commit them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>

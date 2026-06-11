@@ -1,0 +1,31 @@
+"""Frontend for the todo app.
+
+A single-page vanilla JS app. Deliberately minimal — it doesn't
+implement DELETE, and the styling is plain. The hands-on expects the
+agent to add a 'delete' button and improve the visual.
+"""
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lecture Todos</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <h1>Todos</h1>
+
+    <form id="new-todo">
+      <input id="title" placeholder="What needs doing?" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="todo-list"></ul>
+
+    <p id="empty" hidden>No todos yet.</p>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
