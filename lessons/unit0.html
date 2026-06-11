@@ -1327,48 +1327,59 @@ code:not(pre code) {
     <div class="slide-body">
       <h2>What an LLM actually does</h2>
       <p class="lead">One job. Repeated billions of times.</p>
-      <div class="diagram">
-        <svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="next-token prediction diagram">
+      <div class="diagram" id="predict-demo">
+        <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="next-token prediction animation">
           <defs>
             <style>
               .box { fill: var(--bg-elevated); stroke: var(--border); }
               .arrow { stroke: var(--fg-muted); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
-              .tt { fill: var(--accent); }
-              .tt-faded { fill: var(--fg-subtle); }
-              .label { fill: var(--fg); font: 14px var(--font-sans); }
+              .tt { fill: var(--accent); font-family: ui-monospace, monospace; }
+              .tt-output { fill: var(--accent); font-family: ui-monospace, monospace; font-weight: 700; }
+              .label { fill: var(--fg); font: 600 14px var(--font-sans); }
               .small-label { fill: var(--fg-muted); font: 11px var(--font-mono); }
-              .model { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+              .model-rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; transition: fill 0.25s ease, stroke-width 0.25s ease; }
+              .predict-model .label, .predict-model .small-label { transition: fill 0.25s ease; }
+              .predict-model.active .model-rect { fill: var(--accent); stroke-width: 2.5; }
+              .predict-model.active .label,
+              .predict-model.active .small-label { fill: var(--bg-elevated); }
+              .tt, .tt-output { transition: opacity 0.2s ease; }
             </style>
             <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
               <polygon points="0 0, 9 3, 0 6" fill="var(--fg-muted)" />
             </marker>
           </defs>
-          <!-- Input tokens -->
-          <g transform="translate(20, 30)">
-            <rect class="box" width="180" height="100" rx="6"/>
-            <text class="small-label" x="10" y="20">input (context)</text>
-            <text class="tt" x="10" y="50" font-family="ui-monospace" font-size="20">The cat sat</text>
-            <text class="tt-faded" x="10" y="78" font-family="ui-monospace" font-size="20">on the ___</text>
+          <!-- Input (context) box -->
+          <g transform="translate(20, 20)">
+            <rect class="box" width="180" height="180" rx="6"/>
+            <text class="small-label" x="10" y="22">input (context)</text>
+            <text id="predict-line-0" class="tt" x="10" y="56" font-size="16"></text>
+            <text id="predict-line-1" class="tt" x="10" y="82" font-size="16"></text>
+            <text id="predict-line-2" class="tt" x="10" y="108" font-size="16"></text>
           </g>
           <!-- Arrow to model -->
-          <line class="arrow" x1="210" y1="80" x2="270" y2="80"/>
-          <!-- Model -->
-          <g transform="translate(280, 30)">
-            <rect class="model" width="80" height="100" rx="6"/>
-            <text class="label" x="40" y="58" text-anchor="middle">LLM</text>
-            <text class="small-label" x="40" y="78" text-anchor="middle">P(next token)</text>
+          <line class="arrow" x1="210" y1="110" x2="270" y2="110"/>
+          <!-- Model box -->
+          <g class="predict-model" id="predict-model" transform="translate(280, 20)">
+            <rect class="model-rect" width="80" height="180" rx="6"/>
+            <text class="label" x="40" y="98" text-anchor="middle">LLM</text>
+            <text class="small-label" x="40" y="118" text-anchor="middle">P(next token)</text>
           </g>
           <!-- Arrow to output -->
-          <line class="arrow" x1="370" y1="80" x2="430" y2="80"/>
-          <!-- Output -->
-          <g transform="translate(440, 30)">
-            <rect class="box" width="140" height="100" rx="6"/>
-            <text class="small-label" x="10" y="20">most likely</text>
-            <text class="tt" x="10" y="58" font-family="ui-monospace" font-size="22" font-weight="700">mat</text>
-            <text class="small-label" x="10" y="80">with some probability</text>
+          <line class="arrow" x1="370" y1="110" x2="430" y2="110"/>
+          <!-- Output box -->
+          <g transform="translate(440, 20)">
+            <rect class="box" width="140" height="180" rx="6"/>
+            <text class="small-label" x="10" y="22">most likely</text>
+            <text id="predict-token" class="tt-output" x="70" y="120" text-anchor="middle" font-size="24"></text>
+            <text class="small-label" x="10" y="160">with some probability</text>
           </g>
         </svg>
-        <p class="diagram-caption">Given all the text so far, the model assigns a probability to every possible next token and samples one.</p>
+        <div class="loop-iter predict-iter" style="justify-content: center; margin-top: 0.5rem;">
+          <span>iteration <strong id="predict-iter">1</strong></span>
+          <span id="predict-phase" class="muted">&mdash; waiting</span>
+          <button class="pause-btn" id="predict-play" type="button">play</button>
+        </div>
+        <p class="diagram-caption">Given all the text so far, the model assigns a probability to every possible next token and samples one. The predicted token is appended to the context, and the loop continues &mdash; one token at a time.</p>
       </div>
       <p>That's it. No retrieval, no reasoning engine, no planning module, no memory beyond the window. Everything else you see in an "agent" is added <em>around</em> the model.</p>
     </div>
@@ -1629,6 +1640,106 @@ code:not(pre code) {
     </div>
   </section>
 
+    <section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="The system prompt">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>System prompt &mdash; the model's job description</h2>
+      <p class="lead">A static preamble, set by the harness or by an agent config. The first thing the model sees on every turn, and the only thing it sees verbatim. <em>Everything else is user-supplied or tool-returned.</em></p>
+
+      <p>A typical system prompt looks like this &mdash; truncated, but recognisable:</p>
+
+<pre><span class="c"># role</span>
+You are an expert software engineer working in a checked-out git repo.
+You prefer small, focused changes. You write tests before fixing bugs.
+
+<span class="c"># constraints</span>
+- Never run destructive commands (<span class="k">rm</span> -rf, force-push, drop table) without asking.
+- Never edit files outside the working directory.
+- Never invent file paths. If you have not read a file, say so.
+
+<span class="c"># output format</span>
+Reply in markdown. Use fenced code blocks for code. Cite file paths as
+`path/to/file.ts:42` so the user can jump.
+
+<span class="c"># tools</span>
+Use the <span class="f">bash</span>, <span class="f">read</span>, <span class="f">write</span>, and <span class="f">edit</span> tools. Prefer <span class="f">edit</span> over <span class="f">write</span>
+for existing files. One tool call per turn unless you genuinely need parallel.</pre>
+
+      <div class="cards cols-3" style="margin-top: 1.25rem;">
+        <div class="card">
+          <span class="tag">role</span>
+          <h4>Who the model is</h4>
+          <p>"You are a senior staff engineer." Sets defaults: what it pays attention to, what it skips, how cautious it is.</p>
+        </div>
+        <div class="card">
+          <span class="tag">rules</span>
+          <h4>What it must / must not do</h4>
+          <p>Hard constraints. Most of the time, the system prompt is mostly rules. This is where you put "ask before running migrations".</p>
+        </div>
+        <div class="card">
+          <span class="tag">format</span>
+          <h4>How it should reply</h4>
+          <p>Markdown, code-block conventions, citation style, length limits. Cheap to set, surprisingly large effect on output quality.</p>
+        </div>
+      </div>
+
+      <p class="muted">Whoever writes the system prompt writes the agent's personality. The harness ships a default; an agent definition in <code>opencode.json</code> can override it. Same model, different prompt, different agent.</p>
+    </div>
+  </section>
+
+    <section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="Tool schemas">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Tool schemas &mdash; the menu, written in JSON</h2>
+      <p class="lead">Every tool the model can use is described in text. The description is sent on every turn. The model "calls" a tool by emitting JSON that matches the schema &mdash; the harness parses it and runs the real thing.</p>
+
+      <p>A tool definition in JSON Schema:</p>
+
+<pre>{
+  <span class="h">"name"</span>: <span class="s">"read"</span>,
+  <span class="h">"description"</span>: <span class="s">"Read the contents of a file at the given path."</span>,
+  <span class="h">"parameters"</span>: {
+    <span class="h">"type"</span>: <span class="s">"object"</span>,
+    <span class="h">"properties"</span>: {
+      <span class="h">"filePath"</span>: {
+        <span class="h">"type"</span>: <span class="s">"string"</span>,
+        <span class="h">"description"</span>: <span class="s">"Absolute path to the file to read."</span>
+      },
+      <span class="h">"offset"</span>: { <span class="h">"type"</span>: <span class="s">"number"</span>, <span class="h">"description"</span>: <span class="s">"Line to start from."</span> },
+      <span class="h">"limit"</span>:  { <span class="h">"type"</span>: <span class="s">"number"</span>, <span class="h">"description"</span>: <span class="s">"Max lines to return."</span> }
+    },
+    <span class="h">"required"</span>: [<span class="s">"filePath"</span>]
+  }
+}</pre>
+
+      <div class="cards cols-3" style="margin-top: 1.25rem;">
+        <div class="card">
+          <span class="tag">cost</span>
+          <h4>You pay every turn</h4>
+          <p>Every tool description is re-sent on every turn. 20 tools &times; 200 tokens &asymp; 4k tokens of <em>overhead</em> before the user says a word. This is why "more tools" is not a feature.</p>
+        </div>
+        <div class="card">
+          <span class="tag">visibility</span>
+          <h4>The model picks from what's in the prompt</h4>
+          <p>If a tool isn't in the schema, the model cannot call it. Disable a tool, and that whole class of action is gone. No prompt injection can re-enable it.</p>
+        </div>
+        <div class="card">
+          <span class="tag">hallucination</span>
+          <h4>Models invent tool names</h4>
+          <p>Without a schema, the model will confidently call <code>run_tests</code> or <code>fix_bug</code> that don't exist. The schema is what grounds it in the real interface.</p>
+        </div>
+      </div>
+
+      <p class="muted">Good tool descriptions read like a tiny API doc. A vague <code>"do something useful"</code> description is a vague tool. The harness re-pays your writing effort on every single turn.</p>
+    </div>
+  </section>
+
     <section class="slide" data-section="5" data-section-label="Skills &amp; agents" data-title="Skills &amp; agents" data-toc="Skills &mdash; what they are">
     <div class="slide-header">
       <span class="section"></span>
@@ -1730,11 +1841,46 @@ code:not(pre code) {
           <tr><th>Harness</th><th>Host</th><th>Model</th><th>License</th></tr>
         </thead>
         <tbody>
-          <tr><td>Claude Code</td><td>terminal</td><td>Anthropic only</td><td>proprietary</td></tr>
-          <tr><td>Codex CLI</td><td>terminal</td><td>OpenAI</td><td>proprietary (open-source now)</td></tr>
-          <tr><td>Aider</td><td>terminal</td><td>any</td><td>open source</td></tr>
-          <tr><td>Cursor / Windsurf / Copilot</td><td>IDE</td><td>various</td><td>proprietary</td></tr>
-          <tr class="highlight"><td>opencode</td><td>terminal + IDE + web</td><td>75+ providers</td><td>open source</td></tr>
+          <tr>
+            <td><a href="https://claude.com/product/claude-code">Claude Code</a></td>
+            <td>terminal</td>
+            <td>Anthropic only</td>
+            <td>proprietary</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/openai/codex">Codex CLI</a></td>
+            <td>terminal</td>
+            <td>OpenAI</td>
+            <td>open source</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/Aider-AI/aider">Aider</a></td>
+            <td>terminal</td>
+            <td>any</td>
+            <td>open source</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="https://cursor.com">Cursor</a> /
+              <a href="https://codeium.com/windsurf">Windsurf</a> /
+              <a href="https://github.com/features/copilot">Copilot</a>
+            </td>
+            <td>IDE</td>
+            <td>various</td>
+            <td>proprietary</td>
+          </tr>
+          <tr>
+            <td><a href="https://pi.dev/">pi</a></td>
+            <td>terminal</td>
+            <td>any</td>
+            <td>open source</td>
+          </tr>
+          <tr class="highlight">
+            <td><a href="https://github.com/sst/opencode">opencode</a></td>
+            <td>terminal + IDE + web</td>
+            <td>75+ providers</td>
+            <td>open source</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -2675,6 +2821,92 @@ does not exist yet &mdash; create <span class="s">@tests/test_api.py</span>.
     }
 
     pauseBtn.addEventListener('click', () => {
+      if (timer) pause(); else play();
+    });
+
+    render();
+  })();
+
+  /* ======================================================
+     Widget: Predict demo (slide 5)
+     Cycles through a sequence of states that show the LLM
+     predicting the next token one step at a time. Each
+     predicted token is appended to the context for the next
+     round, illustrating the autoregressive loop. Starts
+     paused on the first state.
+     ====================================================== */
+  (function () {
+    const root = document.getElementById('predict-demo');
+    if (!root) return;
+
+    const STEP_MS = 1200;
+    const lines = [
+      document.getElementById('predict-line-0'),
+      document.getElementById('predict-line-1'),
+      document.getElementById('predict-line-2')
+    ];
+    const tokenEl = document.getElementById('predict-token');
+    const modelEl = document.getElementById('predict-model');
+    const iterEl  = document.getElementById('predict-iter');
+    const phaseEl = document.getElementById('predict-phase');
+    const playBtn = document.getElementById('predict-play');
+
+    // One state = one snapshot of (input lines, output token, llm
+    // active, phase label). "|" at the end of a line marks the
+    // cursor where the next token will be appended. We start blank
+    // (waiting), predict, then consume and repeat.
+    const states = [
+      { lines: ['The cat sat', 'on the ___',  ''         ], token: '',        llmActive: false, phase: 'waiting for next token'    },
+      { lines: ['The cat sat', 'on the ___',  ''         ], token: 'mat',     llmActive: true,  phase: 'predicting: "mat"'         },
+      { lines: ['The cat sat', 'on the mat|', ''          ], token: '',        llmActive: false, phase: 'appended "mat" to context' },
+      { lines: ['The cat sat', 'on the mat|', ''          ], token: '.',       llmActive: true,  phase: 'predicting: "."'           },
+      { lines: ['The cat sat', 'on the mat.|',''          ], token: '',        llmActive: false, phase: 'appended "." to context'   },
+      { lines: ['The cat sat', 'on the mat.|',''          ], token: ' The',    llmActive: true,  phase: 'predicting: " The"'        },
+      { lines: ['The cat sat', 'on the mat.', 'The |'     ], token: '',        llmActive: false, phase: 'appended " The" to context' },
+      { lines: ['The cat sat', 'on the mat.', 'The |'     ], token: ' dog',    llmActive: true,  phase: 'predicting: " dog"'        },
+      { lines: ['The cat sat', 'on the mat.', 'The dog |' ], token: '',        llmActive: false, phase: 'appended " dog" to context' },
+      { lines: ['The cat sat', 'on the mat.', 'The dog |' ], token: ' barked', llmActive: true,  phase: 'predicting: " barked"'     },
+      { lines: ['The cat sat', 'on the mat. The', 'dog barked|' ], token: '',   llmActive: false, phase: 'appended " barked" to context' },
+      { lines: ['The cat sat', 'on the mat. The', 'dog barked|' ], token: '',   llmActive: false, phase: 'and again\u2026'           }
+    ];
+
+    let idx = 0;
+    let iter = 1;
+    let timer = null;
+
+    function render() {
+      const s = states[idx];
+      for (let i = 0; i < lines.length; i++) lines[i].textContent = s.lines[i] || '';
+      tokenEl.textContent = s.token;
+      tokenEl.style.opacity = s.token ? '1' : '0.15';
+      modelEl.classList.toggle('active', s.llmActive);
+      phaseEl.textContent = '\u2014 ' + s.phase;
+      iterEl.textContent = iter;
+    }
+
+    function advance() {
+      idx++;
+      if (idx >= states.length) {
+        idx = 0;
+        iter++;
+      }
+      render();
+    }
+
+    function play() {
+      if (timer) return;
+      playBtn.textContent = 'pause';
+      timer = setInterval(advance, STEP_MS);
+    }
+
+    function pause() {
+      if (!timer) return;
+      clearInterval(timer);
+      timer = null;
+      playBtn.textContent = 'play';
+    }
+
+    playBtn.addEventListener('click', () => {
       if (timer) pause(); else play();
     });
 

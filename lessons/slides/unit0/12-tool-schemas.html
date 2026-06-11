@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding &mdash; Tool schemas</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="Tool schemas">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Tool schemas &mdash; the menu, written in JSON</h2>
+      <p class="lead">Every tool the model can use is described in text. The description is sent on every turn. The model "calls" a tool by emitting JSON that matches the schema &mdash; the harness parses it and runs the real thing.</p>
+
+      <p>A tool definition in JSON Schema:</p>
+
+<pre>{
+  <span class="h">"name"</span>: <span class="s">"read"</span>,
+  <span class="h">"description"</span>: <span class="s">"Read the contents of a file at the given path."</span>,
+  <span class="h">"parameters"</span>: {
+    <span class="h">"type"</span>: <span class="s">"object"</span>,
+    <span class="h">"properties"</span>: {
+      <span class="h">"filePath"</span>: {
+        <span class="h">"type"</span>: <span class="s">"string"</span>,
+        <span class="h">"description"</span>: <span class="s">"Absolute path to the file to read."</span>
+      },
+      <span class="h">"offset"</span>: { <span class="h">"type"</span>: <span class="s">"number"</span>, <span class="h">"description"</span>: <span class="s">"Line to start from."</span> },
+      <span class="h">"limit"</span>:  { <span class="h">"type"</span>: <span class="s">"number"</span>, <span class="h">"description"</span>: <span class="s">"Max lines to return."</span> }
+    },
+    <span class="h">"required"</span>: [<span class="s">"filePath"</span>]
+  }
+}</pre>
+
+      <div class="cards cols-3" style="margin-top: 1.25rem;">
+        <div class="card">
+          <span class="tag">cost</span>
+          <h4>You pay every turn</h4>
+          <p>Every tool description is re-sent on every turn. 20 tools &times; 200 tokens &asymp; 4k tokens of <em>overhead</em> before the user says a word. This is why "more tools" is not a feature.</p>
+        </div>
+        <div class="card">
+          <span class="tag">visibility</span>
+          <h4>The model picks from what's in the prompt</h4>
+          <p>If a tool isn't in the schema, the model cannot call it. Disable a tool, and that whole class of action is gone. No prompt injection can re-enable it.</p>
+        </div>
+        <div class="card">
+          <span class="tag">hallucination</span>
+          <h4>Models invent tool names</h4>
+          <p>Without a schema, the model will confidently call <code>run_tests</code> or <code>fix_bug</code> that don't exist. The schema is what grounds it in the real interface.</p>
+        </div>
+      </div>
+
+      <p class="muted">Good tool descriptions read like a tiny API doc. A vague <code>"do something useful"</code> description is a vague tool. The harness re-pays your writing effort on every single turn.</p>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>
