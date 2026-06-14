@@ -5,7 +5,10 @@
    Bundles _template.html + shared/slide.css +
    shared/slide-widgets.js + slides/0001/*.html into the
    single self-contained 0001-agentic-coding-fundamentals.html
-   the user opens in a browser.
+   the user opens in a browser. <img> references inside slides
+   are resolved, the image files are copied next to the output
+   deck, and the src is rewritten to a flat basename so the
+   deck is fully self-contained (works under file://).
 
    Run after editing a slide (or any of the shared files):
 
@@ -89,13 +92,35 @@ function read(p) {
 
 // Pull the <section class="slide" ...>...</section> block out
 // of a slide file. We control the slide file format, so a
-// greedy-to-</section> regex is reliable.
-function extractSection(slideHtml) {
+// greedy-to-</section> regex is reliable. Also collects any
+// <img src="..."> references inside the section, resolves them
+// against the slide's directory, and rewrites each src to a
+// flat basename so the bundled deck can sit next to the image
+// file (the caller is responsible for actually copying the
+// images). Absolute URLs and data: URIs are left untouched.
+function extractSection(slideHtml, slidePath) {
   const m = slideHtml.match(/<section class="slide"[\s\S]*?<\/section>/);
   if (!m) {
     throw new Error('no <section class="slide"> found in slide file');
   }
-  return m[0];
+  const slideDir = path.dirname(slidePath);
+  const images = [];
+  const section = m[0].replace(
+    /<img\b[^>]*?\bsrc=["']([^"']+)["'][^>]*>/g,
+    (match, src) => {
+      if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(src) || src.startsWith('data:')) {
+        return match;
+      }
+      const abs = path.resolve(slideDir, src);
+      if (!fs.existsSync(abs)) {
+        throw new Error(`image not found: ${abs} (referenced in ${slidePath})`);
+      }
+      const basename = path.basename(abs);
+      images.push({ src: abs, basename });
+      return match.replace(/src=["'][^"']+["']/, `src="${basename}"`);
+    }
+  );
+  return { section, images };
 }
 
 function build() {
@@ -124,12 +149,13 @@ function build() {
     .sort();
 
   const slideBlocks = slideFiles.map(f => {
-    const html = read(path.join(SLIDES_DIR, f));
-    return extractSection(html);
+    const slidePath = path.join(SLIDES_DIR, f);
+    const html = read(slidePath);
+    return extractSection(html, slidePath);
   });
 
   const slidesBlock = slideBlocks
-    .map((s, i) => `\n    ${s}`)
+    .map(b => `\n    ${b.section}`)
     .join('\n');
 
   // Use replacement functions, not strings, so the inserted
@@ -140,10 +166,26 @@ function build() {
     .replace('<!-- ===SLIDES=== -->', () => slidesBlock)
     .replace('/* ===WIDGETS_JS=== */', () => widgetsJs);
 
+  fs.mkdirSync(path.dirname(OUTPUT), { recursive: true });
   fs.writeFileSync(OUTPUT, output);
 
+  // Copy any images referenced by slides next to the output
+  // deck, deduped by basename. The src in the inlined HTML was
+  // already rewritten to that basename by extractSection.
+  const outDir = path.dirname(OUTPUT);
+  const seenImages = new Set();
+  let imageCount = 0;
+  for (const b of slideBlocks) {
+    for (const img of b.images) {
+      if (seenImages.has(img.basename)) continue;
+      seenImages.add(img.basename);
+      fs.copyFileSync(img.src, path.join(outDir, img.basename));
+      imageCount++;
+    }
+  }
+
   const sizeKb = (fs.statSync(OUTPUT).size / 1024).toFixed(1);
-  console.log(`Built ${path.relative(process.cwd(), OUTPUT)} (${sizeKb} KB) with ${slideFiles.length} slides`);
+  console.log(`Built ${path.relative(process.cwd(), OUTPUT)} (${sizeKb} KB) with ${slideFiles.length} slides${imageCount ? ' and ' + imageCount + ' image' + (imageCount === 1 ? '' : 's') : ''}`);
   if (slideFiles.length === 0) {
     console.warn('  WARNING: no slide files found in', SLIDES_DIR);
   }
