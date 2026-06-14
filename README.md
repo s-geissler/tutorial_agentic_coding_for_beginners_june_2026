@@ -119,7 +119,7 @@ are not — by design.
 | 00:33–00:38 | Skills & agents      | Skills (interactive), agents, subagents     |
 | 00:38–00:43 | Why opencode         | Harness landscape, why this one             |
 | 00:43–00:45 | mattpocock/skills    | The four failure modes                      |
-| 00:45–01:30 | Hands-on             | 9 steps; see lessons/0001-…html for detail |
+| 00:45–01:30 | Hands-on             | 10 steps; see lessons/0001-…html for detail |
 | 01:30–01:35 | Wrap-up              | What to try next, resources                 |
 
 ## Adapting it for your own audience

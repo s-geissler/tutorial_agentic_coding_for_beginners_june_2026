@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding &mdash; A small change, just a prompt</title>
+  <link rel="stylesheet" href="../../shared/slide.css">
+</head>
+<body>
+  <section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 4" data-title="Hands-on" data-toc="Step 4 &mdash; a small change, just a prompt">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 4 &mdash; a small change, just a prompt <span class="muted small" style="font-weight: 400;">(3 min)</span></h2>
+      <p class="lead">You don't always need a skill. For a change this small, a plain prompt at the bottom of the TUI is enough &mdash; no special setup, no checklist. Just ask.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Pick a small, unambiguous change</h4>
+          <p>One endpoint, one file, one obvious &ldquo;done&rdquo; signal. If you'd have to ask yourself questions first, that's what the rest of the hands-on is for &mdash; you'll see how in a minute.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Type the prompt and press Enter</h4>
+<pre><span class="c"># at the bottom of the opencode TUI:</span>
+Add a <span class="s">`?done=true`</span> filter to <span class="s">GET /todos</span> so I can
+fetch only completed todos (and <span class="s">`?done=false`</span> for only
+pending). Nothing else.
+</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Watch it land, then verify</h4>
+          <p>The agent reads <code>app/main.py</code>, adds the query parameter, and probably runs the existing tests. When it's done, sanity-check the new endpoint yourself:</p>
+<pre><span class="f">$</span> curl 'http://localhost:8000/todos?done=true'
+[{"id":3,"title":"write slides","done":true,...}]</pre>
+          <p class="muted small">That's the &ldquo;done&rdquo; signal. The rest of the hands-on shows you what to reach for when a change is bigger &mdash; or has real ambiguity you can't shake by hand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="../../shared/slide-widgets.js"></script>
+</body>
+</html>
