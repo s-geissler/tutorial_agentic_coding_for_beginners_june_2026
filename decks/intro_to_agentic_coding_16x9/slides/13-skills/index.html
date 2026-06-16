@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agentic Coding &mdash; Skills</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="5" data-section-label="Skills &amp; agents" data-title="Skills &amp; agents" data-toc="Skills &mdash; what they are">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Skills &mdash; packaged instructions, loaded on demand</h2>
+      <p class="lead">A skill is a small bundle: instructions for the model, plus sometimes scripts. The agent loads it when you invoke the name.</p>
+
+      <h3>What's in a skill</h3>
+      <ul>
+        <li><strong>A short name</strong> &mdash; the command you type to invoke it.</li>
+        <li><strong>Instructions</strong> &mdash; markdown the model reads when the skill loads. The whole point of the skill.</li>
+        <li><strong>Optional scripts</strong> &mdash; helpers the model can call (rare; most skills are just text).</li>
+      </ul>
+
+      <p>opencode looks for skills in two places:</p>
+      <ul>
+        <li><code>~/.agents/skills/</code> &mdash; <strong>user-level</strong>. This is where the Matt Pocock skills land after the installer runs.</li>
+        <li><code>.opencode/skills/</code> &mdash; <strong>project-level</strong>, committed to the repo so the team shares the same skills.</li>
+      </ul>
+
+      <p class="muted small">Skills are how you teach the agent your preferences once and never explain them again.</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

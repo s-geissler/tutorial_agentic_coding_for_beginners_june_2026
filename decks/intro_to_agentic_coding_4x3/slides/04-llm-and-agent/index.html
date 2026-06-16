@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agentic Coding &mdash; The LLM and the agent</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="Welcome" data-title="Welcome" data-toc="The LLM and the agent">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The LLM and the agent</h2>
+      <p class="lead">Two terms, two things. The LLM is the <em>driver</em>. The <em>agent</em> is what you get when you wrap an LLM in a harness.</p>
+      <div class="cards cols-2" style="margin-top: 1.5rem;">
+        <div class="card">
+          <span class="tag">LLM</span>
+          <h4>The model itself</h4>
+          <p>A next-token predictor. Nothing more. The same LLM powers ChatGPT, Claude Code, opencode, and your <code>curl</code> call to the API. The "brain in a box".</p>
+        </div>
+        <div class="card">
+          <span class="tag">agent</span>
+          <h4>LLM &nbsp;+&nbsp; harness</h4>
+          <p>An LLM, plus the loop that feeds it context, the tools it can call, the memory it accumulates, and the UI you type into. The thing you actually interact with.</p>
+        </div>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LLM inside an agent diagram">
+          <defs>
+            <style>
+              .agent-box { fill: var(--bg); stroke: var(--accent); stroke-width: 2; }
+              .llm-box { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+              .llm-label { fill: var(--fg); font: 600 14px var(--font-sans); }
+              .agent-label { fill: var(--accent); font: 600 14px var(--font-sans); }
+              .small { fill: var(--fg-muted); font: 11px var(--font-mono); }
+            </style>
+          </defs>
+          <!-- Agent (harness) outer box -->
+          <rect class="agent-box" x="10" y="10" width="580" height="160" rx="10"/>
+          <text class="agent-label" x="30" y="35">AGENT</text>
+          <text class="small" x="30" y="52">harness: loop &middot; tools &middot; memory &middot; UI</text>
+          <!-- LLM box inside -->
+          <rect class="llm-box" x="220" y="80" width="160" height="60" rx="6"/>
+          <text class="llm-label" x="300" y="108" text-anchor="middle">LLM</text>
+          <text class="small" x="300" y="125" text-anchor="middle">next-token sampler</text>
+        </svg>
+        <p class="diagram-caption">The LLM sits inside the agent. The harness is everything wrapped around it.</p>
+      </div>
+      <p class="muted" style="margin-top: 1rem;">The next 30 minutes unpack one of those two things at a time &mdash; first the LLM, then the harness, then the loop that ties them together. By the end, you should be able to point at any agentic tool and say: "that's the LLM, and that's the harness".</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+/* Section heading slide. The center utility is from base.css. */
+.slide[data-toc^="Section"] .center { text-align: center; }

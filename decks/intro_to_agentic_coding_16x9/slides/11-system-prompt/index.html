@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agentic Coding &mdash; System prompt</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="The system prompt">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>System prompt &mdash; the model's job description</h2>
+      <p class="lead">A static preamble, set by the harness or by an agent config. The first thing the model sees on every turn, and the only thing it sees verbatim. <em>Everything else is user-supplied or tool-returned.</em></p>
+
+      <p>A typical system prompt looks like this &mdash; truncated, but recognisable:</p>
+
+<pre><span class="c"># role</span>
+You are an expert software engineer working in a checked-out git repo.
+You prefer small, focused changes. You write tests before fixing bugs.
+
+<span class="c"># constraints</span>
+- Never run destructive commands (<span class="k">rm</span> -rf, force-push, drop table) without asking.
+- Never edit files outside the working directory.
+- Never invent file paths. If you have not read a file, say so.
+
+<span class="c"># output format</span>
+Reply in markdown. Use fenced code blocks for code. Cite file paths as
+`path/to/file.ts:42` so the user can jump.
+
+<span class="c"># tools</span>
+Use the <span class="f">bash</span>, <span class="f">read</span>, <span class="f">write</span>, and <span class="f">edit</span> tools. Prefer <span class="f">edit</span> over <span class="f">write</span>
+for existing files. One tool call per turn unless you genuinely need parallel.</pre>
+
+      <div class="cards cols-3" style="margin-top: 1.25rem;">
+        <div class="card">
+          <span class="tag">role</span>
+          <h4>Who the model is</h4>
+          <p>"You are a senior staff engineer." Sets defaults: what it pays attention to, what it skips, how cautious it is.</p>
+        </div>
+        <div class="card">
+          <span class="tag">rules</span>
+          <h4>What it must / must not do</h4>
+          <p>Hard constraints. Most of the time, the system prompt is mostly rules. This is where you put "ask before running migrations".</p>
+        </div>
+        <div class="card">
+          <span class="tag">format</span>
+          <h4>How it should reply</h4>
+          <p>Markdown, code-block conventions, citation style, length limits. Cheap to set, surprisingly large effect on output quality.</p>
+        </div>
+      </div>
+
+      <p class="muted">Whoever writes the system prompt writes the agent's personality. The harness ships a default; an agent definition in <code>opencode.json</code> can override it. Same model, different prompt, different agent.</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

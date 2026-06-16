@@ -1,0 +1,15 @@
+/* ============================================================
+   Default theme: print styles
+   ============================================================ */
+
+@media print {
+  body { overflow: visible; }
+  .slide {
+    position: relative;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    page-break-after: always;
+    min-height: 100vh;
+  }
+}

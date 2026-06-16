@@ -1,0 +1,230 @@
+/* ============================================================
+   Default theme: base styles
+   ------------------------------------------------------------
+   Element styling that depends on tokens but is shared by all
+   decks. Slide chrome, typography, code blocks, lists, links,
+   small helpers. Widget-specific styling lives in widgets.css.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.35;
+  font-size: 26px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  height: 100vh;
+}
+
+a { color: var(--accent); font-weight: 700; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color var(--transition); }
+a:hover { border-bottom-color: var(--accent); }
+
+/* ============================================================
+   Slides
+   ============================================================ */
+.slide {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--slide-pad-y) var(--slide-pad-x) calc(var(--footer-h) + 1rem);
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  overflow-y: auto;
+  z-index: 1;
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   Slide header (the footer band) is owned by the template, not
+   the theme. See templates/default/nav.css for the structure.
+   ============================================================ */
+
+/* ============================================================
+   Slide body: the main content area
+   ============================================================ */
+.slide-body {
+  flex: 1;
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 0;
+}
+
+.slide-body > h1:first-child,
+.slide-body > h2:first-child {
+  flex: 0 0 auto;
+}
+.slide-body > h1:first-child + *,
+.slide-body > h2:first-child + * {
+  margin-top: auto !important;
+}
+.slide-body > :last-child {
+  margin-bottom: auto !important;
+}
+.slide-body > :not(h1):not(h2) {
+  width: 100%;
+  max-width: 86rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.slide-body > p,
+.slide-body > .cards,
+.slide-body > .step,
+.slide-body > pre,
+.slide-body > .diagram,
+.slide-body > .loop-demo,
+.slide-body > .layer-stack,
+.slide-body > .tokenizer,
+.slide-body > .context-window,
+.slide-body > .skills-grid,
+.slide-body > .ralph-loop,
+.slide-body > .compare,
+.slide-body > .takeaways,
+.slide-body > .resources,
+.slide-body > .failure,
+.slide-body > .tui-tour {
+  width: 100%;
+  max-width: 86rem;
+}
+.slide-body > .cards { max-width: 78rem; }
+.slide-body > .diagram,
+.slide-body > .loop-demo,
+.slide-body > .tokenizer,
+.slide-body > .context-window,
+.slide-body > .ralph-loop,
+.slide-body > .tui-tour { max-width: 88rem; }
+
+/* ============================================================
+   Typography
+   ============================================================ */
+.slide-body h1 {
+  font-size: clamp(3.4rem, 6.2vw, 5.2rem);
+  line-height: 1.08;
+  margin: 0 0 2rem;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--jmu-blue);
+}
+.slide-body h2 {
+  font-size: clamp(2.35rem, 3.4vw, 3.35rem);
+  line-height: 1.08;
+  margin: 0 0 1.45rem;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--jmu-blue);
+}
+.slide-body h3 {
+  font-size: 1.55rem;
+  line-height: 1.2;
+  margin: 0 0 0.8rem;
+  font-weight: 700;
+  color: var(--jmu-blue);
+}
+.slide-body p { margin: 0 0 0.95rem; }
+.slide-body .lead { font-size: 1.55rem; color: var(--fg-muted); margin-bottom: 1.7rem; }
+.slide-body ul, .slide-body ol { margin: 0 0 1rem; }
+.slide-body ul { list-style: none; padding-left: 0; }
+.slide-body ol { padding-left: 1.4rem; }
+.slide-body li { margin-bottom: 0.7rem; }
+.slide-body ul > li { position: relative; padding-left: 1.6rem; }
+.slide-body ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  width: 0;
+  height: 0;
+  border-top: 0.34em solid transparent;
+  border-bottom: 0.34em solid transparent;
+  border-left: 0.55em solid var(--jmu-blue);
+}
+.slide-body ul ul { margin-top: 0.35rem; padding-left: 1rem; }
+.slide-body ul ul > li { font-size: 0.9em; padding-left: 1rem; }
+.slide-body ul ul > li::before {
+  top: 0.52em;
+  width: 0.28em;
+  height: 0.28em;
+  border: 0;
+  background: var(--jmu-blue);
+}
+.slide-body strong { color: var(--fg); font-weight: 600; }
+.slide-body em { color: var(--accent); font-style: normal; font-weight: 700; }
+
+.center { text-align: center; }
+.muted { color: var(--fg-muted); }
+.small { font-size: 0.875rem; }
+
+/* ============================================================
+   Code blocks
+   ============================================================ */
+pre, code { font-family: var(--font-mono); }
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 1.15rem;
+  border: 0;
+  border-left: 0.35rem solid var(--jmu-blue);
+}
+pre .c { color: var(--code-comment); font-style: italic; }
+pre .s { color: var(--code-string); }
+pre .k { color: var(--code-keyword); }
+pre .f { color: var(--code-fn); }
+pre .n { color: var(--code-num); }
+pre .h { color: var(--fg-subtle); }
+
+code:not(pre code) {
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.4em;
+  border-radius: 0;
+  font-size: 0.875em;
+  color: var(--accent);
+}
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+.kbd {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.4em;
+  border-radius: 0;
+  color: var(--fg);
+  box-shadow: 0 1px 0 var(--border-strong);
+}
+.divider { height: 1px; background: var(--border); margin: 1.5rem 0; border: 0; }
+
+/* ============================================================
+   Responsive (mobile)
+   ============================================================ */
+@media (max-width: 700px) {
+  :root { --slide-pad-x: 1.25rem; --slide-pad-y: 2rem; --footer-h: 2.8rem; }
+  .slide-body h1 { font-size: 2.5rem; }
+  .slide-body h2 { font-size: 1.75rem; }
+  .slide-header { padding-left: 4rem; padding-right: 1rem; font-size: 0.68rem; }
+}

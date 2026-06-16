@@ -1,0 +1,299 @@
+/* ============================================================
+   Default template: nav UI styles
+   ------------------------------------------------------------
+   The persistent navigation chrome (progress bar, section
+   label, counter, theme toggle, TOC overlay, prev/next arrows,
+   TOC button, and the slide-header footer band). Sits in front
+   of every slide. The colors come from the theme's tokens;
+   this file owns the layout and the brand-mark slot.
+   ============================================================ */
+
+/* ============================================================
+   Slide header: the bottom band of every slide.
+   - The ::before pseudo-element is a slot for the deck's brand
+     mark. The default URL points at the deck's assets/brand.png
+     (the build copies it to dist/assets/brand/brand.png; this
+     CSS file sits at dist/assets/template/nav.css; the relative
+     path ../brand/brand.png resolves correctly).
+   - Color, border, and text styling come from theme tokens
+     (var(--bg), var(--border), etc.).
+   ============================================================ */
+.slide-header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--footer-h);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  color: var(--fg-muted);
+  margin: 0;
+  padding: 0 4.2rem 0 4.2rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  max-width: none;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  z-index: 3;
+}
+.slide-header::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--footer-h);
+  height: var(--footer-h);
+  background-color: var(--bg);
+  background-image: url("brand/brand.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide-header .section { color: var(--fg-muted); }
+.slide-header .number {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-size: 1em;
+  font-weight: 500;
+  color: var(--fg-muted);
+}
+[data-theme="dark"] .slide-header::before {
+  /* The brand mark is usually a logo; keep it readable in dark mode
+     by ensuring its background plate is light even when the page is dark. */
+  background-color: #ffffff;
+}
+
+.nav-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: rgba(0, 84, 159, 0.12);
+  z-index: 100;
+}
+.nav-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width var(--transition);
+}
+
+.nav-section {
+  position: fixed;
+  /* Sits in the top band, well above the slide title (which starts at
+     var(--slide-pad-y) from the top). Aligned to the left at the same
+     var(--slide-pad-x) as the title so the two read as a single unit
+     once you drop your eye from eyebrow to title. */
+  top: 1rem;
+  left: var(--slide-pad-x);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  z-index: 100;
+  max-width: calc(100% - 2 * var(--slide-pad-x) - 18rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nav-section .accent { color: var(--accent); font-weight: 600; }
+
+.nav-menu {
+  position: fixed;
+  top: 0.85rem; right: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 100;
+}
+
+.nav-counter {
+  font-family: var(--font-sans);
+  font-size: 0.64rem;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 84, 159, 0.2);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.35;
+  transition: opacity var(--transition), background var(--transition);
+}
+.nav-counter:hover { opacity: 1; background: #fff; }
+.nav-counter kbd {
+  font-family: var(--font-mono);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0 0.3em;
+  border-radius: 3px;
+  font-size: 0.7rem;
+}
+
+.nav-arrows {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0.25;
+  transition: opacity var(--transition);
+}
+.nav-arrows:hover { opacity: 1; }
+.nav-arrows button {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 84, 159, 0.2);
+  color: var(--accent);
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  font-family: var(--font-sans);
+}
+.nav-arrows button:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.nav-arrows button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.nav-button {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 84, 159, 0.2);
+  color: var(--accent);
+  padding: 0 0.55rem;
+  height: 1.65rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.62rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition);
+  font-family: var(--font-sans);
+  opacity: 0.25;
+}
+.nav-button:hover {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+  opacity: 1;
+}
+.nav-button kbd {
+  font-family: var(--font-mono);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0 0.3em;
+  border-radius: 3px;
+  font-size: 0.7rem;
+}
+.nav-button:hover kbd { background: rgba(255,255,255,0.2); border-color: transparent; color: var(--accent-fg); }
+
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 84, 159, 0.2);
+  color: var(--accent);
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  opacity: 0.25;
+}
+.theme-toggle:hover {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+  opacity: 1;
+}
+
+.toc {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 30, 60, 0.72);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+.toc.open { display: flex; }
+.toc-content {
+  background: var(--bg-elevated);
+  border: 0;
+  border-top: 4px solid var(--jmu-blue);
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 56rem;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+.toc h3 { margin: 0 0 1.5rem; }
+.toc ol { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 2rem; }
+.toc li { margin-bottom: 0.4rem; break-inside: avoid; }
+.toc a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.875rem;
+  border: 0;
+  transition: background var(--transition);
+}
+.toc a:hover { background: var(--accent); color: var(--accent-fg); }
+.toc a .num { font-family: var(--font-mono); font-size: 0.75rem; color: var(--fg-subtle); min-width: 2rem; }
+.toc a:hover .num { color: var(--accent-fg); }
+.toc .hint { color: var(--fg-muted); font-size: 0.8rem; margin-top: 1.25rem; text-align: center; }
+
+[data-theme="dark"] .nav-progress { background: rgba(125, 183, 232, 0.16); }
+[data-theme="dark"] .nav-counter,
+[data-theme="dark"] .nav-arrows button,
+[data-theme="dark"] .nav-button,
+[data-theme="dark"] .theme-toggle {
+  background: rgba(11, 22, 36, 0.9);
+  border-color: rgba(125, 183, 232, 0.32);
+  color: var(--accent);
+}
+[data-theme="dark"] .nav-counter:hover { background: #0b1624; }
+[data-theme="dark"] .nav-arrows button:hover:not(:disabled),
+[data-theme="dark"] .nav-button:hover,
+[data-theme="dark"] .theme-toggle:hover,
+[data-theme="dark"] .toc a:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #06101b;
+}
+[data-theme="dark"] .nav-button:hover kbd,
+[data-theme="dark"] .toc a:hover .num {
+  color: #06101b;
+}
+[data-theme="dark"] .toc {
+  background: rgba(1, 8, 16, 0.78);
+}
+
+@media (max-width: 700px) {
+  .nav-section, .nav-menu { display: none; }
+}
+
+@media print {
+  .nav-progress, .nav-menu, .nav-section, .toc { display: none; }
+}

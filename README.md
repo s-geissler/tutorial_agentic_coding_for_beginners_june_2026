@@ -13,17 +13,17 @@ sample app, using [opencode](https://opencode.ai) and Matt Pocock's
 ├── MISSION.md                                   ← the why of this unit
 ├── RESOURCES.md                                 ← cited sources
 ├── lessons/
-│   ├── 0001-agentic-coding-fundamentals.html    ← the deck (open this in a browser; built from the parts below)
+│   ├── unit0.html                                ← the deck (open this in a browser; built from the parts below)
 │   ├── _template.html                           ← the source template; the build inlines everything into the deck
 │   ├── build.js                                 ← rebuilds the deck from the source parts (see "Editing slides" below)
 │   ├── shared/
 │   │   ├── slide.css                            ← slide styles (design tokens, widgets, layout)
 │   │   └── slide-widgets.js                     ← widget initializers (tokenizer, context window, etc.)
 │   └── slides/
-│       └── 0001/                                ← one HTML file per slide
+│       └── unit0/                               ← one HTML file per slide
 │           ├── 01-title.html
 │           ├── 02-what-this-is.html
-│           └── ... 26 files total
+│           └── ... 32 files total
 └── sample-app/                                  ← the FastAPI todo app for the hands-on
     ├── app/
     ├── static/
@@ -42,25 +42,25 @@ into the output file when you run it.
 
 ### 1. Open the deck
 
-Double-click `lessons/0001-agentic-coding-fundamentals.html` in any
+Double-click `lessons/unit0.html` in any
 modern browser. That's it. No install, no internet, no server.
 
-**Editing slides:** change the file in `slides/0001/`, then run
+**Editing slides:** change the file in `lessons/slides/unit0/`, then run
 
 ```bash
-node lessons/build.js --slides lessons/slides/0001 --output lessons/0001-agentic-coding-fundamentals.html
+node lessons/build.js --slides lessons/slides/unit0 --output lessons/unit0.html
 ```
 
 to regenerate the deck. Reopen the deck in the browser. That's the
 whole loop.
 
-**Adding a new slide:** copy any existing file in `slides/0001/`,
+**Adding a new slide:** copy any existing file in `lessons/slides/unit0/`,
 change its content and the `data-section` / `data-toc` attributes,
 and pick a filename that sorts into the position you want (e.g.
 `04.5-new-topic.html` to slot between 4 and 5). Then rebuild with
 
 ```bash
-node lessons/build.js --slides lessons/slides/0001 --output lessons/0001-agentic-coding-fundamentals.html
+node lessons/build.js --slides lessons/slides/unit0 --output lessons/unit0.html
 ```
 
 Nothing in `_template.html` or `shared/` needs to change.
@@ -119,7 +119,7 @@ are not — by design.
 | 00:33–00:38 | Skills & agents      | Skills (interactive), agents, subagents     |
 | 00:38–00:43 | Why opencode         | Harness landscape, why this one             |
 | 00:43–00:45 | mattpocock/skills    | The four failure modes                      |
-| 00:45–01:30 | Hands-on             | 10 steps; see lessons/0001-…html for detail |
+| 00:45–01:30 | Hands-on             | 10 steps; see lessons/unit0.html for detail |
 | 01:30–01:35 | Wrap-up              | What to try next, resources                 |
 
 ## Adapting it for your own audience

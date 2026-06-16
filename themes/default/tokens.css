@@ -1,0 +1,120 @@
+/* ============================================================
+   Default theme: design tokens (light + dark variants)
+   ------------------------------------------------------------
+   Pure design variables. No element styling here — this file
+   is consumed by the rest of the theme and by the template's
+   widgets, but it never styles anything itself.
+   ============================================================ */
+
+:root {
+  /* Brand */
+  --jmu-blue: #00549f;
+  --jmu-blue-dark: #003f7d;
+  --jmu-blue-light: #5a9bd3;
+  --jmu-blue-soft: #e9f1f8;
+
+  /* Surfaces */
+  --bg: #ffffff;
+  --bg-elevated: #f7f9fb;
+  --jmu-gray: #f1f3f5;
+  --jmu-gray-strong: #cfd5da;
+
+  /* Text */
+  --fg: #333333;
+  --fg-muted: #555555;
+  --fg-subtle: #777777;
+
+  /* Lines */
+  --border: #d9e1e8;
+  --border-strong: #b8c8d8;
+
+  /* Accent (theme-overridable) */
+  --accent: var(--jmu-blue);
+  --accent-strong: var(--jmu-blue-dark);
+  --accent-soft: var(--jmu-blue-soft);
+  --accent-fg: #ffffff;
+
+  /* Code */
+  --code-bg: #263238;
+  --code-fg: #edf2f7;
+  --code-comment: #aeb8c2;
+  --code-string: #8bd3ff;
+  --code-keyword: #c7a3ff;
+  --code-fn: #9bd2ff;
+  --code-num: #ffd38b;
+
+  /* Compaction (used by context-window widget) */
+  --compacted: #6f2da8;
+  --compacted-soft: #efe6f6;
+
+  /* Status */
+  --success: #238443;
+  --success-soft: #e3f2e8;
+  --warning: #c77c02;
+  --warning-soft: #fff3d6;
+  --danger: #c71f2d;
+  --danger-soft: #fae2e5;
+
+  /* Effects */
+  --shadow: 0 1px 0 rgba(0, 84, 159, 0.12), 0 8px 20px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 1px 0 rgba(0, 84, 159, 0.14), 0 18px 48px rgba(0, 0, 0, 0.12);
+  --radius: 0;
+  --radius-sm: 0;
+  --transition: 180ms ease;
+  --transition-slow: 320ms ease;
+
+  /* Typography */
+  --font-sans: Arial, Helvetica, "Liberation Sans", sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "Fira Code", "SF Mono", Menlo, Consolas, monospace;
+
+  /* Slide layout (template-overridable) */
+  --max-w: 100%;
+  --slide-pad-y: 2.4rem;
+  --slide-pad-x: 4.2rem;
+  --footer-h: 3.7rem;
+}
+
+[data-theme="dark"] {
+  --jmu-blue: #7db7e8;
+  --jmu-blue-dark: #a9d0f2;
+  --jmu-blue-light: #1f5e98;
+  --jmu-blue-soft: #142f4a;
+
+  --bg: #08111d;
+  --bg-elevated: #101b2a;
+  --jmu-gray: #101b2a;
+  --jmu-gray-strong: #2b4057;
+
+  --fg: #e8eef5;
+  --fg-muted: #c4ced9;
+  --fg-subtle: #91a4b8;
+
+  --border: #2b4057;
+  --border-strong: #46627f;
+
+  --accent: var(--jmu-blue);
+  --accent-strong: var(--jmu-blue-dark);
+  --accent-soft: var(--jmu-blue-soft);
+  --accent-fg: #06101b;
+
+  --code-bg: #020812;
+  --code-fg: #edf5ff;
+  --code-comment: #95a6ba;
+  --code-string: #88d8ff;
+  --code-keyword: #d2b0ff;
+  --code-fn: #9bd4ff;
+  --code-num: #ffd992;
+
+  --compacted: #c6a1ff;
+  --compacted-soft: #2a1d3f;
+
+  --success: #6fd08c;
+  --success-soft: #153523;
+  --warning: #f2b84b;
+  --warning-soft: #3d2b12;
+  --danger: #ff7b87;
+  --danger-soft: #401a20;
+
+  --shadow: 0 1px 0 rgba(125, 183, 232, 0.16), 0 12px 28px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 1px 0 rgba(125, 183, 232, 0.18), 0 24px 56px rgba(0, 0, 0, 0.5);
+}

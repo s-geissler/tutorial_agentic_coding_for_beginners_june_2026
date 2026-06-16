@@ -1,0 +1,8 @@
+{
+  "title": "Agentic Coding for Beginners",
+  "author": "Stefan Geißler",
+  "description": "A 90-minute hands-on introduction to agentic coding tools for CS PhD students.",
+  "template": "../../templates/jmu_16x9",
+  "theme": "../../themes/jmu_16x9",
+  "output": "./dist"
+}

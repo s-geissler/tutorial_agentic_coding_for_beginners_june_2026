@@ -1,0 +1,10 @@
+/* Picture slide. The hero class sizes the image nicely. The data-lightbox
+   attribute on the <img> makes it open in the lightbox overlay. */
+.slide .hero {
+  display: block;
+  max-width: 100%;
+  max-height: 58vh;
+  margin: 1.5rem auto 0.5rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}

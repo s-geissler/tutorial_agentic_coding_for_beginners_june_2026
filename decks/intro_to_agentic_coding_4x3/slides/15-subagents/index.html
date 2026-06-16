@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agentic Coding &mdash; Subagents</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="5" data-section-label="Skills &amp; agents" data-title="Skills &amp; agents" data-toc="Subagents &mdash; agents spawning agents">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Subagents &mdash; agents that spawn other agents</h2>
+      <p class="lead">When the work decomposes, the parent agent can delegate.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="subagent delegation tree">
+          <defs>
+            <style>
+              .node { fill: var(--bg-elevated); stroke: var(--border); cursor: pointer; }
+              .node-parent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; cursor: pointer; }
+              .node-child { fill: var(--bg-elevated); stroke: var(--border); cursor: pointer; }
+              .node-child:hover { stroke: var(--accent); }
+              .node-parent:hover { stroke: var(--accent-strong); }
+              .label { fill: var(--fg); font: 600 12px var(--font-sans); pointer-events: none; }
+              .sub { fill: var(--fg-muted); font: 10px var(--font-mono); pointer-events: none; }
+              .line { stroke: var(--fg-muted); stroke-width: 1.5; fill: none; }
+            </style>
+          </defs>
+          <!-- Parent -->
+          <g class="agent-node" data-agent="Dev">
+            <rect class="node-parent" x="270" y="20" width="120" height="50" rx="6"/>
+            <text class="label" x="330" y="42" text-anchor="middle">Dev (parent)</text>
+            <text class="sub" x="330" y="58" text-anchor="middle">full tool access</text>
+          </g>
+
+          <!-- Children -->
+          <line class="line" x1="330" y1="70" x2="110" y2="110"/>
+          <line class="line" x1="330" y1="70" x2="330" y2="110"/>
+          <line class="line" x1="330" y1="70" x2="550" y2="110"/>
+
+          <g class="agent-node" data-agent="deepseek-review">
+            <rect class="node-child" x="30" y="110" width="160" height="70" rx="6"/>
+            <text class="label" x="110" y="135" text-anchor="middle">deepseek-review</text>
+            <text class="sub" x="110" y="155" text-anchor="middle">deepseek-v4-pro &middot; edit: deny</text>
+          </g>
+
+          <g class="agent-node" data-agent="kimi-review">
+            <rect class="node-child" x="250" y="110" width="160" height="70" rx="6"/>
+            <text class="label" x="330" y="135" text-anchor="middle">kimi-review</text>
+            <text class="sub" x="330" y="155" text-anchor="middle">kimi-k2.6 &middot; edit: deny</text>
+          </g>
+
+          <g class="agent-node" data-agent="minimax-review">
+            <rect class="node-child" x="470" y="110" width="160" height="70" rx="6"/>
+            <text class="label" x="550" y="135" text-anchor="middle">minimax-review</text>
+            <text class="sub" x="550" y="155" text-anchor="middle">minimax-m2.7 &middot; edit: deny</text>
+          </g>
+        </svg>
+        <p class="diagram-caption">Click any agent to see its full instructions. The parent delegates and merges results.</p>
+      </div>
+      <p>Why bother: <strong>context isolation</strong>. Each subagent has its own clean window, so a long task doesn't pollute the parent's history with thousands of tokens of intermediate work. The parent only sees the final reports.</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

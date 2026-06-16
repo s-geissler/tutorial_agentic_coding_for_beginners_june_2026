@@ -1,0 +1,81 @@
+/* ============================================================
+   Default template: cover slide styling
+   ------------------------------------------------------------
+   The cover slide is identified by data-toc="Title slide"
+   (the convention set up by the title scaffold). It uses
+   a large centered title and a header band from the deck's
+   brand assets. The cover hides the normal slide header
+   footer; the template uses the brand header image directly.
+   ============================================================ */
+
+.slide[data-toc="Title slide"] {
+  justify-content: center;
+  padding: 22vh 7vw 8vh;
+}
+.slide[data-toc="Title slide"]::before {
+  content: "";
+  position: absolute;
+  top: 7.2vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1600px;
+  /* The brand header is 3615 x 282 px (aspect 12.82 : 1). aspect-ratio
+     keeps the container at the image's natural proportions so the
+     background can fill it with background-size: 100% 100% without
+     stretching, and the image never gets upscaled beyond its natural
+     width because the container is capped at max-width. */
+  aspect-ratio: 3615 / 282;
+  height: auto;
+  background-color: var(--jmu-gray-strong);
+  background-image: url("brand/header.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 100% 100%;
+  z-index: 0;
+}
+.slide[data-toc="Title slide"] .slide-header { display: none; }
+.slide[data-toc="Title slide"] .slide-body {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 58vh;
+  position: relative;
+  z-index: 1;
+}
+.slide[data-toc="Title slide"] .slide-body h1 {
+  max-width: 12.5em;
+  margin: 0 auto 2.7rem;
+  font-size: clamp(3.4rem, 5.6vw, 6rem) !important;
+  line-height: 1.08;
+  color: var(--jmu-blue) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  padding-bottom: 0 !important;
+}
+.slide[data-toc="Title slide"] .slide-body > :last-child {
+  margin-bottom: 0 !important;
+}
+.slide[data-toc="Title slide"] .lead {
+  max-width: 48rem !important;
+  margin: 0 auto 1rem !important;
+  color: var(--fg);
+  font-size: clamp(1.45rem, 2.2vw, 2.1rem);
+}
+.slide[data-toc="Title slide"] .muted.small {
+  color: var(--fg-muted);
+  font-size: 1.15rem;
+}
+
+[data-theme="dark"] .slide[data-toc="Title slide"]::before {
+  filter: brightness(0.82) contrast(1.08);
+}
+
+/* Narrow screens: shrink the header band proportionally */
+@media (max-width: 700px) {
+  .slide[data-toc="Title slide"] { padding: 20vh 1.5rem 4vh; }
+  .slide[data-toc="Title slide"]::before { top: 6vh; height: 12vh; }
+  .slide[data-toc="Title slide"] .slide-body h1 { font-size: 2.8rem !important; }
+}
