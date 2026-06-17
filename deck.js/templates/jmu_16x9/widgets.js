@@ -363,6 +363,55 @@
   })();
 
   /* ==========================================================
+     Exercise grid + modal (hands-on use case slides)
+     Finds ALL .exercise-grid containers. Each .exercise-card has
+     data-skill and data-content (markdown). Click opens a shared
+     modal with the detail rendered from the markdown.
+     ========================================================== */
+  (function exerciseGrid() {
+    const grids = document.querySelectorAll('.exercise-grid');
+    if (grids.length === 0) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'exercise-modal-overlay';
+    overlay.innerHTML = `
+      <div class="exercise-modal">
+        <button class="exercise-modal-close" title="Close (Esc)">&times;</button>
+        <div class="exercise-modal-skill"></div>
+        <div class="exercise-modal-title"></div>
+        <div class="exercise-modal-content"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    const skillEl   = overlay.querySelector('.exercise-modal-skill');
+    const titleEl   = overlay.querySelector('.exercise-modal-title');
+    const contentEl = overlay.querySelector('.exercise-modal-content');
+    const closeBtn  = overlay.querySelector('.exercise-modal-close');
+
+    function open(card) {
+      const skill   = card.dataset.skill || '';
+      const title   = card.querySelector('.exercise-title')?.textContent || '';
+      const content = card.dataset.content || '';
+      skillEl.textContent = skill;
+      titleEl.textContent = title;
+      contentEl.innerHTML = renderMarkdown(content);
+      overlay.classList.add('active');
+    }
+    function close() { overlay.classList.remove('active'); }
+
+    grids.forEach((grid) => {
+      grid.querySelectorAll('.exercise-card').forEach((card) => {
+        card.addEventListener('click', () => open(card));
+      });
+    });
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) close();
+    });
+  })();
+
+  /* ==========================================================
      Ralph loop (3-column issue tracker)
      Reads issues from <div class="ralph-loop" data-issues="...">
      where data-issues is JSON: [{title, column: "todo"|"done"}].

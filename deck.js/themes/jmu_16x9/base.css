@@ -113,7 +113,9 @@ a:hover { border-bottom-color: var(--accent); }
 .slide-body > .takeaways,
 .slide-body > .resources,
 .slide-body > .failure,
-.slide-body > .tui-tour {
+.slide-body > .tui-tour,
+.slide-body > .exercise-grid,
+.slide-body > .exercise-pitfalls {
   width: 100%;
   max-width: 86rem;
 }
