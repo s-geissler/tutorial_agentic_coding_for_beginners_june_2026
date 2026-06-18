@@ -1,0 +1,203 @@
+/* Slide 13 — live demo: dropping points to estimate pi */
+.mc-demo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: 1.75rem;
+  align-items: stretch;
+  margin-top: 0.3rem;
+}
+@media (max-width: 900px) {
+  .mc-demo { grid-template-columns: 1fr; }
+}
+
+/* Stage (canvas) */
+.mc-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mc-canvas {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  background: var(--bg-elevated);
+  border-top: 3px solid var(--jmu-blue);
+  display: block;
+}
+.mc-stage-cap {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.mc-stage-cap .swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.mc-stage-cap .swatch.in { background: var(--jmu-blue); }
+.mc-stage-cap .swatch.out { background: var(--warning); }
+
+/* Panel (stats + controls) */
+.mc-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  justify-content: center;
+}
+
+.mc-estimate {
+  background: var(--bg-elevated);
+  border-top: 3px solid var(--jmu-blue);
+  padding: 0.9rem 1.1rem;
+  text-align: center;
+}
+.mc-est-label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.mc-est-value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 2.7rem;
+  font-weight: 700;
+  color: var(--jmu-blue);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.mc-est-true {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--fg-subtle);
+  margin-top: 0.15rem;
+}
+
+/* Convergence bar */
+.mc-bar { padding: 0 0.2rem; }
+.mc-bar-track {
+  position: relative;
+  height: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.mc-bar-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 0%;
+  background: var(--jmu-blue);
+  transition: width 120ms linear;
+}
+.mc-bar-ref {
+  position: absolute;
+  top: -3px; bottom: -3px;
+  left: 47.2%; /* (pi - 3.0) / 0.3 */
+  width: 2px;
+  background: var(--danger);
+}
+.mc-bar-scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--fg-subtle);
+  margin-top: 0.2rem;
+}
+
+/* Stats grid */
+.mc-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+.mc-stat {
+  background: var(--bg-elevated);
+  border-left: 0.18rem solid var(--jmu-blue);
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.mc-stat .k {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+.mc-stat .v {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Controls */
+.mc-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mc-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: 0.45rem 1rem;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.mc-btn:hover { border-color: var(--fg-muted); color: var(--fg); }
+.mc-btn.primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+.mc-btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+
+.mc-speed {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+.mc-speed-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+  font-weight: 600;
+  margin-right: 0.2rem;
+}
+.mc-chip {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  padding: 0.3rem 0.6rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.mc-chip:hover { color: var(--fg); border-color: var(--fg-muted); }
+.mc-chip.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.mc-hint { margin: 0.2rem 0 0; }

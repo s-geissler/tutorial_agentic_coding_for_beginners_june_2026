@@ -1,0 +1,509 @@
+<!doctype html>
+<!--
+  templates/default/_template.html
+  ------------------------------------------------------------
+  The default template. Placeholders use the syntax
+  LBRACE LBRACE key RBRACE RBRACE  (the literal braces are
+  written as entities to avoid being treated as placeholders).
+  The build replaces:
+    deck.title, deck.author, deck.description  -- deck metadata
+    theme.css                                  -- theme CSS files
+    template.css                               -- template CSS files
+    template.js                                -- template JS files
+    slides                                      -- concatenated slide sections
+-->
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monte Carlo Simulations: Estimating the Unknown by Random Sampling</title>
+  <meta name="description" content="A visual introduction to Monte Carlo methods, using the estimation of pi by random point sampling as the running example.">
+
+    <link rel="stylesheet" href="assets/theme/tokens.css">
+  <link rel="stylesheet" href="assets/theme/base.css">
+  <link rel="stylesheet" href="assets/theme/widgets.css">
+  <link rel="stylesheet" href="assets/theme/print.css">
+    <link rel="stylesheet" href="assets/template/cover.css">
+  <link rel="stylesheet" href="assets/template/nav.css">
+</head>
+<body>
+
+  <!-- Nav UI: progress bar, section label, and a single right-side menu
+       holding the TOC button, theme toggle, prev/next arrows, and counter. -->
+  <div class="nav-progress"><div class="nav-progress-bar" id="progress"></div></div>
+  <div class="nav-section" id="nav-section"><span class="accent"></span></div>
+  <div class="nav-menu" id="nav-menu">
+    <button class="nav-button" id="toc-button" title="Open table of contents (Esc)"><kbd>Esc</kbd> Overview</button>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle theme"></button>
+    <div class="nav-arrows">
+      <button id="prev" title="Previous slide (left arrow)">&#8592;</button>
+      <button id="next" title="Next slide (right arrow)">&#8594;</button>
+    </div>
+    <div class="nav-counter" id="nav-counter"></div>
+  </div>
+
+  <!-- TOC overlay -->
+  <div class="toc" id="toc">
+    <div class="toc-content">
+      <h3>Table of contents</h3>
+      <ol id="toc-list"></ol>
+      <p class="hint">Click anywhere outside this panel, or press <span class="kbd">Esc</span> to close.</p>
+    </div>
+  </div>
+
+  <!-- Slides -->
+  <section class="slide" data-section="1" data-section-label=""
+           data-title="Title slide" data-toc="Title slide">
+  <link rel="stylesheet" href="assets/01-title/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h1>Monte Carlo Simulations</h1>
+      <p class="lead">Estimating the unknown by random sampling.</p>
+      <p class="muted small">A visual introduction &middot; Approximating &pi; by throwing darts</p>
+    </div>
+  
+  <script src="assets/01-title/script.js" defer></script></section>
+
+<section class="slide" data-section="1" data-section-label="The core idea"
+           data-title="What is a Monte Carlo simulation?" data-toc="What is a Monte Carlo simulation?">
+  <link rel="stylesheet" href="assets/02-what-is-mc/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Random sampling estimates quantities that resist exact calculation</h2>
+      <p class="lead">A Monte Carlo simulation swaps a hard deterministic problem for a probabilistic experiment you can repeat thousands of times &mdash; then averages the results.</p>
+
+      <div class="cards cols-3">
+        <div class="card">
+          <span class="tag">The problem</span>
+          <h4>Some answers are out of reach</h4>
+          <p>Areas, integrals, and probabilities can lack a closed form or be too high-dimensional to compute directly.</p>
+        </div>
+        <div class="card">
+          <span class="tag">The trick</span>
+          <h4>Build a repeatable random experiment</h4>
+          <p>Design a trial whose outcome relates to the target quantity, then run it many, many times under the same rules.</p>
+        </div>
+        <div class="card">
+          <span class="tag">The payoff</span>
+          <h4>The average converges to the answer</h4>
+          <p>More trials tighten the estimate, and the error is quantifiable &mdash; it shrinks predictably as samples accumulate.</p>
+        </div>
+      </div>
+
+      <p class="muted small" style="margin-top: 1.1rem;">Named after the Monte Carlo casino &mdash; the method's inventors likened the randomness of neutron diffusion to a game of chance.</p>
+    </div>
+  
+  <script src="assets/02-what-is-mc/script.js" defer></script></section>
+
+<section class="slide" data-section="1" data-section-label="The core idea"
+           data-title="The four-step recipe" data-toc="The four-step recipe">
+  <link rel="stylesheet" href="assets/03-recipe/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Every Monte Carlo method follows the same four steps</h2>
+      <p class="lead">Whether you estimate an area, an integral, or a rare-event probability, the recipe is identical &mdash; only the domain and the &ldquo;hit&rdquo; test change.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Define the domain</h4>
+          <p>Specify the region you sample from and the exact rule that decides whether a sample is a <em>hit</em>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Sample randomly</h4>
+          <p>Draw <em>N</em> independent points from a known distribution (usually uniform) over that domain.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Evaluate each sample</h4>
+          <p>Apply the hit test to every point and record the outcome &mdash; a count, a value, or a yes/no flag.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Aggregate the results</h4>
+          <p>Form the estimate from the average or ratio of outcomes. The error falls as <em>1/&radic;N</em> &mdash; quadruple the samples to halve the uncertainty.</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/03-recipe/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Estimating &pi; by throwing darts" data-toc="Section 2 &mdash; Estimating &pi;">
+  <link rel="stylesheet" href="assets/10-section-pi/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body center">
+      <p class="muted small" style="margin: 0 0 1.5rem; letter-spacing: 0.08em; text-transform: uppercase;">Part 2</p>
+      <h1 style="font-size: clamp(3.4rem, 7vw, 6rem); margin: 0 0 1rem;">Estimating &pi; by throwing darts</h1>
+      <p class="lead" style="max-width: 52rem; margin: 0 auto;">Drop random points onto a square, count those that land inside an inscribed circle, and let the ratio reveal &pi;.</p>
+    </div>
+  
+  <script src="assets/10-section-pi/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="A quarter circle in a unit square" data-toc="The geometry: quarter circle in a unit square">
+  <link rel="stylesheet" href="assets/11-geometry/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The area ratio of a quarter circle to its square is &pi;&nbsp;/&nbsp;4</h2>
+      <p class="lead">Inscribe a quarter circle of radius&nbsp;1 inside a unit square. The fraction of the square covered by the circle is exactly &pi;&nbsp;/&nbsp;4 &mdash; so a random point falls inside the circle with that probability.</p>
+
+      <div class="geo">
+        <div class="diagram geo-fig">
+          <svg viewBox="0 0 340 340" role="img" aria-label="A unit square with a quarter circle of radius one inscribed at the bottom-left corner.">
+            <!-- unit square -->
+            <rect x="40" y="40" width="260" height="260" fill="var(--bg)" stroke="var(--border-strong)" stroke-width="2"/>
+            <!-- quarter-circle region (center at bottom-left corner (40,300), radius 260) -->
+            <path d="M 40 300 L 40 40 A 260 260 0 0 1 300 300 Z" fill="var(--accent-soft)" stroke="none"/>
+            <!-- quarter-circle arc -->
+            <path d="M 40 40 A 260 260 0 0 1 300 300" fill="none" stroke="var(--jmu-blue)" stroke-width="2.5"/>
+            <!-- radius line from center to a point on the arc (45 degrees) -->
+            <line x1="40" y1="300" x2="223.8" y2="116.2" stroke="var(--jmu-blue-dark)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <!-- center dot -->
+            <circle cx="40" cy="300" r="3.5" fill="var(--jmu-blue-dark)"/>
+            <!-- corner labels -->
+            <text x="40" y="322" text-anchor="middle" font-size="13" fill="var(--fg-muted)">(0, 0)</text>
+            <text x="312" y="304" text-anchor="start" font-size="13" fill="var(--fg-muted)">(1, 0)</text>
+            <text x="40" y="30" text-anchor="middle" font-size="13" fill="var(--fg-muted)">(0, 1)</text>
+            <text x="300" y="30" text-anchor="middle" font-size="13" fill="var(--fg-muted)">(1, 1)</text>
+            <!-- side label -->
+            <text x="170" y="320" text-anchor="middle" font-size="15" fill="var(--fg)" font-weight="600">side = 1</text>
+            <!-- radius label -->
+            <text x="150" y="200" text-anchor="middle" font-size="15" fill="var(--jmu-blue-dark)" font-weight="600" transform="rotate(-45 150 200)">r = 1</text>
+            <!-- area labels -->
+            <text x="80" y="270" text-anchor="start" font-size="15" fill="var(--jmu-blue)" font-weight="700">Area = &pi;/4</text>
+            <text x="225" y="70" text-anchor="start" font-size="14" fill="var(--fg-muted)">Area = 1</text>
+          </svg>
+          <p class="diagram-caption">A point (x, y) is <em>inside</em> the circle when x&sup2; + y&sup2; &le; 1.</p>
+        </div>
+
+        <div class="geo-eq">
+          <div class="eq">
+            <span class="eq-label">Square area</span>
+            <span class="eq-expr">1 &times; 1 = 1</span>
+          </div>
+          <div class="eq">
+            <span class="eq-label">Quarter-circle area</span>
+            <span class="eq-expr">&frac14; &pi; r&sup2; = &pi;&nbsp;/&nbsp;4</span>
+          </div>
+          <div class="eq">
+            <span class="eq-label">Ratio</span>
+            <span class="eq-expr">(&pi;&nbsp;/&nbsp;4) &divide; 1 = &pi;&nbsp;/&nbsp;4</span>
+          </div>
+          <div class="geo-insight">
+            <span class="tag">Key insight</span>
+            <p>Probability a random point lands inside &asymp; <strong>&pi;&nbsp;/&nbsp;4</strong>, so</p>
+            <p class="geo-formula">&pi; &asymp; 4 &times; <span class="frac"><span>hits</span><span>N</span></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/11-geometry/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Count the hits, estimate &pi;" data-toc="The algorithm: count the hits">
+  <link rel="stylesheet" href="assets/12-algorithm/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Count the hits, multiply by&nbsp;4, and you have &pi;</h2>
+      <p class="lead">The whole method is a short loop: throw a dart, test whether it lands inside the quarter circle, and tally the hits.</p>
+
+      <div class="algo">
+        <pre class="algo-code"><span class="k">import</span> random
+
+N     = <span class="n">100_000</span>          <span class="c"># number of darts to throw</span>
+hits  = <span class="n">0</span>
+
+<span class="k">for</span> _ <span class="k">in</span> <span class="f">range</span>(N):
+    x = random.<span class="f">random</span>()   <span class="c"># uniform in [0, 1)</span>
+    y = random.<span class="f">random</span>()
+    <span class="k">if</span> x*x + y*y &lt;= <span class="n">1</span>:    <span class="c"># inside the quarter circle?</span>
+        hits += <span class="n">1</span>
+
+pi_hat = <span class="n">4</span> * hits / N      <span class="c"># estimate of pi</span></pre>
+
+        <div class="algo-notes">
+          <div class="step">
+            <div class="num">1</div>
+            <div class="body">
+              <h4>Sample</h4>
+              <p>Draw <em>x</em> and <em>y</em> independently and uniformly from <code>[0,&nbsp;1)</code> &mdash; a random point in the unit square.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div class="body">
+              <h4>Test</h4>
+              <p>A point is a <em>hit</em> when <code>x&sup2;&nbsp;+&nbsp;y&sup2;&nbsp;&le;&nbsp;1</code> &mdash; the squared distance from the origin is at most&nbsp;1.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div class="body">
+              <h4>Estimate</h4>
+              <p>The hit ratio <code>hits&nbsp;/&nbsp;N</code> approximates <em>&pi;&nbsp;/&nbsp;4</em>, so multiply by&nbsp;4. Error scales as <em>1/&radic;N</em>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/12-algorithm/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Watch &pi; emerge from random points" data-toc="Live demo: dropping points">
+  <link rel="stylesheet" href="assets/13-live-demo/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Watch &pi; emerge from random points</h2>
+      <p class="lead">Each frame drops more darts onto the unit square. The hit ratio times four is the running estimate of &pi;.</p>
+
+      <div class="mc-demo">
+        <div class="mc-stage">
+          <canvas id="mc13-canvas" class="mc-canvas" aria-label="Animated unit square receiving random points; blue points fall inside the quarter circle, orange points outside."></canvas>
+          <p class="mc-stage-cap"><span class="swatch in"></span> inside the circle &nbsp;&middot;&nbsp; <span class="swatch out"></span> outside</p>
+        </div>
+
+        <div class="mc-panel">
+          <div class="mc-estimate">
+            <span class="mc-est-label">running estimate of &pi;</span>
+            <span class="mc-est-value" id="mc13-pi">&mdash;</span>
+            <span class="mc-est-true">true &pi; &asymp; 3.14159</span>
+          </div>
+
+          <div class="mc-bar" aria-hidden="true">
+            <div class="mc-bar-track">
+              <div class="mc-bar-fill" id="mc13-bar"></div>
+              <div class="mc-bar-ref" title="&pi;"></div>
+            </div>
+            <div class="mc-bar-scale"><span>3.0</span><span>&pi;</span><span>3.3</span></div>
+          </div>
+
+          <div class="mc-stats">
+            <div class="mc-stat"><span class="k">points&nbsp;N</span><span class="v" id="mc13-n">0</span></div>
+            <div class="mc-stat"><span class="k">hits</span><span class="v" id="mc13-hits">0</span></div>
+            <div class="mc-stat"><span class="k">|error|</span><span class="v" id="mc13-err">&mdash;</span></div>
+          </div>
+
+          <div class="mc-controls">
+            <button id="mc13-play" class="mc-btn primary">Play</button>
+            <button id="mc13-reset" class="mc-btn">Reset</button>
+            <div class="mc-speed">
+              <span class="mc-speed-label">speed</span>
+              <button class="mc-chip" data-mc13-speed="0.1">slow</button>
+              <button class="mc-chip active" data-mc13-speed="25">med</button>
+              <button class="mc-chip" data-mc13-speed="160">fast</button>
+            </div>
+          </div>
+          <p class="mc-hint muted small">Auto-plays when you reach this slide. Pause anytime.</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/13-live-demo/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Error shrinks as 1/&radic;N" data-toc="Convergence: error vs 1/&radic;N">
+  <link rel="stylesheet" href="assets/14-convergence/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The error shrinks as 1&thinsp;/&nbsp;&radic;N</h2>
+      <p class="lead">On log-log axes the error traces a straight line of slope &minus;&frac12;. To halve the uncertainty, quadruple the samples &mdash; no matter what you are estimating.</p>
+
+      <div class="mc-conv">
+        <div class="mc-chart">
+          <svg id="mc14-svg" viewBox="0 0 600 360" role="img"
+               aria-label="Log-log plot of absolute error in the pi estimate versus number of samples, with a reference line proportional to 1 over root N.">
+            <!-- gridlines -->
+            <g class="grid">
+              <line x1="60"  y1="20"    x2="60"  y2="310"/>
+              <line x1="190" y1="20"    x2="190" y2="310"/>
+              <line x1="320" y1="20"    x2="320" y2="310"/>
+              <line x1="450" y1="20"    x2="450" y2="310"/>
+              <line x1="580" y1="20"    x2="580" y2="310"/>
+              <line x1="60"  y1="20"    x2="580" y2="20"/>
+              <line x1="60"  y1="92.5"  x2="580" y2="92.5"/>
+              <line x1="60"  y1="165"   x2="580" y2="165"/>
+              <line x1="60"  y1="237.5" x2="580" y2="237.5"/>
+              <line x1="60"  y1="310"   x2="580" y2="310"/>
+            </g>
+            <!-- axes -->
+            <g class="axis">
+              <line x1="60" y1="20"  x2="60"  y2="310"/>
+              <line x1="60" y1="310" x2="580" y2="310"/>
+            </g>
+            <!-- x tick labels -->
+            <g class="tick">
+              <text x="60"  y="328" text-anchor="middle">10</text>
+              <text x="190" y="328" text-anchor="middle">100</text>
+              <text x="320" y="328" text-anchor="middle">1k</text>
+              <text x="450" y="328" text-anchor="middle">10k</text>
+              <text x="580" y="328" text-anchor="middle">100k</text>
+            </g>
+            <!-- y tick labels -->
+            <g class="tick">
+              <text x="52" y="23"    text-anchor="end">1</text>
+              <text x="52" y="95.5"  text-anchor="end">0.1</text>
+              <text x="52" y="168"   text-anchor="end">0.01</text>
+              <text x="52" y="240.5" text-anchor="end">0.001</text>
+              <text x="52" y="313"   text-anchor="end">0.0001</text>
+            </g>
+            <!-- axis titles -->
+            <text class="axtitle" x="320" y="350" text-anchor="middle">number of points&nbsp;N</text>
+            <text class="axtitle" x="16" y="165" text-anchor="middle" transform="rotate(-90 16 165)">|estimate &minus; &pi;|</text>
+
+            <!-- reference line 1.64/sqrt(N) -->
+            <line class="ref" x1="60" y1="40.7" x2="580" y2="185.7"/>
+            <text class="ref-label" x="575" y="178" text-anchor="end">1.64&thinsp;/&nbsp;&radic;N &nbsp;(typical)</text>
+
+            <!-- dynamic curve + marker -->
+            <path id="mc14-curve" class="curve" d=""/>
+            <circle id="mc14-marker" class="marker" cx="580" cy="185.7" r="4.5"/>
+          </svg>
+          <p class="mc-chart-cap">Blue: observed |error| of one run. Dashed: theoretical 1&thinsp;/&nbsp;&radic;N trend &mdash; same slope.</p>
+        </div>
+
+        <div class="mc-conv-panel">
+          <div class="mc-conv-readout">
+            <div class="mc-conv-stat"><span class="k">N</span><span class="v" id="mc14-n">100,000</span></div>
+            <div class="mc-conv-stat"><span class="k">|error|</span><span class="v" id="mc14-err">&mdash;</span></div>
+            <div class="mc-conv-stat"><span class="k">1.64&thinsp;/&nbsp;&radic;N</span><span class="v" id="mc14-ref">&mdash;</span></div>
+          </div>
+
+          <div class="mc-slider">
+            <label for="mc14-slider">reveal samples&nbsp;N</label>
+            <input type="range" id="mc14-slider" min="0" max="1000" value="1000" aria-label="Number of samples to reveal">
+            <div class="mc-slider-scale"><span>10</span><span>1,000</span><span>100,000</span></div>
+          </div>
+
+          <button id="mc14-rerun" class="mc-btn">New random run</button>
+          <p class="muted small">Drag to replay the estimate's history. Every fresh run is different &mdash; but the slope is always &minus;&frac12;.</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/14-convergence/script.js" defer></script></section>
+
+<section class="slide" data-section="3" data-section-label="In practice"
+           data-title="Where Monte Carlo shines" data-toc="Where Monte Carlo shines">
+  <link rel="stylesheet" href="assets/20-applications/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Monte Carlo powers far more than party-trick &pi; estimates</h2>
+      <p class="lead">Whenever a problem is too high-dimensional, too noisy, or too complex for an exact solve, the same four-step recipe applies &mdash; only the domain and the hit test change.</p>
+
+      <div class="cards cols-3">
+        <div class="card">
+          <span class="tag">Numerical integration</span>
+          <h4>Integrals grids can&rsquo;t reach</h4>
+          <p>In many dimensions, grid quadrature collapses under the curse of dimensionality; random sampling scales gracefully.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Physics &amp; transport</span>
+          <h4>Neutrons, fluids, particles</h4>
+          <p>Born from neutron-diffusion problems in WWII, the method still drives statistical mechanics, radiation transport, and fluid flow.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Finance &amp; risk</span>
+          <h4>Price and stress-test</h4>
+          <p>Option pricing, portfolio value-at-risk, and scenario analysis all rely on simulating thousands of possible futures.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Optimization</span>
+          <h4>Search by simulated annealing</h4>
+          <p>Random jumps with a cooling schedule escape local minima; MCMC samples from distributions no direct sampler can reach.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Operations research</span>
+          <h4>Queues, reliability, schedules</h4>
+          <p>When arrivals, failures, and durations are uncertain, simulation estimates wait times, system reliability, and slippage.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Machine learning</span>
+          <h4>Bayesian inference &amp; RL</h4>
+          <p>MCMC and Hamiltonian Monte Carlo approximate posteriors; reinforcement learning estimates returns by sampled trajectories.</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/20-applications/script.js" defer></script></section>
+
+<section class="slide" data-section="3" data-section-label="In practice"
+           data-title="Key takeaways" data-toc="Key takeaways">
+  <link rel="stylesheet" href="assets/21-takeaways/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Three things to remember about Monte Carlo</h2>
+      <p class="lead">The dartboard estimate of &pi; is a toy, but the principles it illustrates are exactly what scale to research and industry.</p>
+
+      <div class="takeaways">
+        <div class="takeaway">
+          <div class="icon">1</div>
+          <div>
+            <h5>Randomness solves hard deterministic problems</h5>
+            <p>Swap an exact computation for a repeatable random experiment. The average of the outcomes converges to the quantity you want &mdash; no closed form required.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">2</div>
+          <div>
+            <h5>Convergence is universal, but slow</h5>
+            <p>The error falls as <em>1&thinsp;/&nbsp;&radic;N</em> no matter the problem: halve the uncertainty and you quadruple the work. The trade for that slowness is dimension-independent cost.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">3</div>
+          <div>
+            <h5>One recipe, many domains</h5>
+            <p>Define a domain, sample, evaluate, aggregate. From &pi; to neutron transport to option pricing, only the &ldquo;hit test&rdquo; changes &mdash; the method stays the same.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted small" style="margin-top: 1.2rem; text-align: center;">&pi; &asymp; 4 &times; <span style="font-family: var(--font-mono);">hits&nbsp;/&nbsp;N</span> &nbsp;&mdash;&nbsp; ten lines of code, one powerful idea.</p>
+    </div>
+  
+  <script src="assets/21-takeaways/script.js" defer></script></section>
+
+    <script src="assets/template/nav.js" defer></script>
+  <script src="assets/template/widgets.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+/* Predict-demo: small inline layout for the iteration counter row
+   shared with the loop-demo widget. The diagram itself is styled
+   inline inside the SVG <defs>. */
+
+.loop-iter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+}
+.loop-iter strong { color: var(--fg); }
+.loop-iter .pause-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  margin-left: auto;
+  transition: all var(--transition);
+}
+.loop-iter .pause-btn:hover { color: var(--fg); border-color: var(--fg-muted); }

@@ -1,5 +1,5 @@
 # Build output (uncomment if you want to commit it)
-dist/
+# dist/
 
 # OS / editor cruft
 .DS_Store

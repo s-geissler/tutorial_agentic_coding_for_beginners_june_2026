@@ -1,0 +1,1176 @@
+<!doctype html>
+<!--
+  templates/default/_template.html
+  ------------------------------------------------------------
+  The default template. Placeholders use the syntax
+  LBRACE LBRACE key RBRACE RBRACE  (the literal braces are
+  written as entities to avoid being treated as placeholders).
+  The build replaces:
+    deck.title, deck.author, deck.description  -- deck metadata
+    theme.css                                  -- theme CSS files
+    template.css                               -- template CSS files
+    template.js                                -- template JS files
+    slides                                      -- concatenated slide sections
+-->
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Coding for Beginners</title>
+  <meta name="description" content="A 90-minute hands-on introduction to agentic coding tools for CS PhD students.">
+
+    <link rel="stylesheet" href="assets/theme/tokens.css">
+  <link rel="stylesheet" href="assets/theme/base.css">
+  <link rel="stylesheet" href="assets/theme/widgets.css">
+  <link rel="stylesheet" href="assets/theme/print.css">
+    <link rel="stylesheet" href="assets/template/cover.css">
+  <link rel="stylesheet" href="assets/template/nav.css">
+</head>
+<body>
+
+  <!-- Nav UI: progress bar, section label, and a single right-side menu
+       holding the TOC button, theme toggle, prev/next arrows, and counter. -->
+  <div class="nav-progress"><div class="nav-progress-bar" id="progress"></div></div>
+  <div class="nav-section" id="nav-section"><span class="accent"></span></div>
+  <div class="nav-menu" id="nav-menu">
+    <button class="nav-button" id="toc-button" title="Open table of contents (Esc)"><kbd>Esc</kbd> Overview</button>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle theme"></button>
+    <div class="nav-arrows">
+      <button id="prev" title="Previous slide (left arrow)">&#8592;</button>
+      <button id="next" title="Next slide (right arrow)">&#8594;</button>
+    </div>
+    <div class="nav-counter" id="nav-counter"></div>
+  </div>
+
+  <!-- TOC overlay -->
+  <div class="toc" id="toc">
+    <div class="toc-content">
+      <h3>Table of contents</h3>
+      <ol id="toc-list"></ol>
+      <p class="hint">Click anywhere outside this panel, or press <span class="kbd">Esc</span> to close.</p>
+    </div>
+  </div>
+
+  <!-- Slides -->
+  <section class="slide" data-section="1" data-section-label="Welcome" data-title="Title slide" data-toc="Title slide">
+  <link rel="stylesheet" href="assets/01-title/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h1>Agentic Coding<br>for Beginners</h1>
+      <p class="lead">A 90-minute hands-on introduction.</p>
+      <p class="muted small">Stefan Gei&szlig;ler</p>
+    </div>
+  
+  <script src="assets/01-title/script.js" defer></script></section>
+
+<section class="slide" data-section="1" data-section-label="Welcome" data-title="Welcome" data-toc="What this talk is">
+  <link rel="stylesheet" href="assets/02-what-this-is/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>What this is, and what it isn't</h2>
+      <div class="cards cols-2" style="margin-top: 2rem;">
+        <div class="card">
+          <h4 style="color: var(--success);">&#10003; This is</h4>
+          <p>
+            A snapshot of how agentic coding tools work as of June 2026: a brief background and a hands-on tour of <em>opencode</em> + <em>Matt Pocock's skill collection</em>. The goal is to provide enough information so you can decide for yourself what's worth your time.
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="color: var(--danger);">&#10007; This is not</h4>
+          <p>
+            A vibe-coding tutorial.<br>
+            A "use ChatGPT for everything" pitch.<br>
+            A survey of every agentic tool on the market.<br>
+            A model-finetuning lecture.<br>
+          </p>
+        </div>
+        <div class="card agenda-card">
+          <h4>Agenda</h4>
+          <ul class="agenda-list">
+            <li><strong>LLM basics:</strong> tokens, context windows, and why models only see text</li>
+            <li><strong>Harness anatomy:</strong> prompts, tool schemas, files, history, and feedback loops</li>
+            <li><strong>Agentic concepts:</strong> skills, agents, subagents, and when each helps</li>
+            <li><strong>Tool landscape:</strong> why opencode, and how its terminal workflow feels</li>
+            <li><strong>Setup path:</strong> install opencode, add skills, and inspect the TUI</li>
+            <li><strong>Use cases:</strong> applying skills to code, text, and slides</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/02-what-this-is/script.js" defer></script></section>
+
+<section class="slide" data-section="1" data-section-label="Welcome" data-title="Welcome" data-toc="The 90-minute plan">
+  <link rel="stylesheet" href="assets/03-the-90-minute-plan/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The 90-minute plan</h2>
+      <p class="lead">Theory first &mdash; about 30 minutes. Then hands-on for the rest.</p>
+      <div class="cards cols-2" style="margin-top: 1.5rem;">
+        <div class="card">
+          <span class="tag">00:00 &rarr; 00:30 &middot; theory</span>
+          <h4>Background</h4>
+          <p>LLM basics, the model vs harness distinction, context, skills / agents / subagents, why the harness matters, why opencode, why Matt Pocock's skills.</p>
+        </div>
+        <div class="card">
+          <span class="tag">00:30 &rarr; 01:30 &middot; hands-on</span>
+          <h4>Workshop</h4>
+          <p>Install opencode, chat with the sample app, install Matt Pocock's skills, then work through three hands-on use cases: code generation, a measurement-study outline, and a deck built with deck.js &mdash; each progressing from plain prompts to the full skill stack (<code>/grill-me</code>, <code>/tdd</code>, <code>/to-prd</code>, <code>/to-issues</code>).</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/03-the-90-minute-plan/script.js" defer></script></section>
+
+<section class="slide" data-section="1" data-section-label="Welcome" data-title="Welcome" data-toc="The LLM and the agent">
+  <link rel="stylesheet" href="assets/04-llm-and-agent/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The LLM and the agent</h2>
+      <p class="lead">Two terms, two things. The LLM is the <em>driver</em>. The <em>agent</em> is what you get when you wrap an LLM in a harness.</p>
+      <div class="cards cols-2" style="margin-top: 1.5rem;">
+        <div class="card">
+          <span class="tag">LLM</span>
+          <h4>The model itself</h4>
+          <p>A next-token predictor. Nothing more. The same LLM powers ChatGPT, Claude Code, opencode, and your <code>curl</code> call to the API. The "brain in a box".</p>
+        </div>
+        <div class="card">
+          <span class="tag">agent</span>
+          <h4>LLM &nbsp;+&nbsp; harness</h4>
+          <p>An LLM, plus the loop that feeds it context, the tools it can call, the memory it accumulates, and the UI you type into. The thing you actually interact with.</p>
+        </div>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LLM inside an agent diagram">
+          <defs>
+            <style>
+              .agent-box { fill: var(--bg); stroke: var(--accent); stroke-width: 2; }
+              .llm-box { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+              .llm-label { fill: var(--fg); font: 600 14px var(--font-sans); }
+              .agent-label { fill: var(--accent); font: 600 14px var(--font-sans); }
+              .small { fill: var(--fg-muted); font: 11px var(--font-mono); }
+            </style>
+          </defs>
+          <!-- Agent (harness) outer box -->
+          <rect class="agent-box" x="10" y="10" width="580" height="160" rx="10"/>
+          <text class="agent-label" x="30" y="35">AGENT</text>
+          <text class="small" x="30" y="52">harness: loop &middot; tools &middot; memory &middot; UI</text>
+          <!-- LLM box inside -->
+          <rect class="llm-box" x="220" y="80" width="160" height="60" rx="6"/>
+          <text class="llm-label" x="300" y="108" text-anchor="middle">LLM</text>
+          <text class="small" x="300" y="125" text-anchor="middle">next-token sampler</text>
+        </svg>
+        <p class="diagram-caption">The LLM sits inside the agent. The harness is everything wrapped around it.</p>
+      </div>
+      <p class="muted" style="margin-top: 1rem;">The next 30 minutes unpack one of those two things at a time &mdash; first the LLM, then the harness, then the loop that ties them together. By the end, you should be able to point at any agentic tool and say: "that's the LLM, and that's the harness".</p>
+    </div>
+  
+  <script src="assets/04-llm-and-agent/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="LLM basics" data-title="LLM basics" data-toc="What an LLM actually does">
+  <link rel="stylesheet" href="assets/05-what-an-llm-does/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>What an LLM actually does</h2>
+      <p class="lead">One job. Repeated billions of times.</p>
+      <div class="diagram" id="predict-demo">
+        <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="next-token prediction animation">
+          <defs>
+            <style>
+              .box { fill: var(--bg-elevated); stroke: var(--border); }
+              .arrow { stroke: var(--fg-muted); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+              .tt { fill: var(--accent); font-family: ui-monospace, monospace; }
+              .tt-output { fill: var(--accent); font-family: ui-monospace, monospace; font-weight: 700; }
+              .label { fill: var(--fg); font: 600 14px var(--font-sans); }
+              .small-label { fill: var(--fg-muted); font: 11px var(--font-mono); }
+              .model-rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; transition: fill 0.25s ease, stroke-width 0.25s ease; }
+              .predict-model .label, .predict-model .small-label { transition: fill 0.25s ease; }
+              .predict-model.active .model-rect { fill: var(--accent); stroke-width: 2.5; }
+              .predict-model.active .label,
+              .predict-model.active .small-label { fill: var(--bg-elevated); }
+              .tt, .tt-output { transition: opacity 0.2s ease; }
+            </style>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 9 3, 0 6" fill="var(--fg-muted)" />
+            </marker>
+          </defs>
+          <!-- Input (context) box -->
+          <g transform="translate(20, 20)">
+            <rect class="box" width="180" height="180" rx="6"/>
+            <text class="small-label" x="10" y="22">input (context)</text>
+            <text id="predict-line-0" class="tt" x="10" y="56" font-size="16"></text>
+            <text id="predict-line-1" class="tt" x="10" y="82" font-size="16"></text>
+            <text id="predict-line-2" class="tt" x="10" y="108" font-size="16"></text>
+          </g>
+          <!-- Arrow to model -->
+          <line class="arrow" x1="210" y1="110" x2="270" y2="110"/>
+          <!-- Model box -->
+          <g class="predict-model" id="predict-model" transform="translate(280, 20)">
+            <rect class="model-rect" width="80" height="180" rx="6"/>
+            <text class="label" x="40" y="98" text-anchor="middle">LLM</text>
+            <text class="small-label" x="40" y="118" text-anchor="middle">P(next token)</text>
+          </g>
+          <!-- Arrow to output -->
+          <line class="arrow" x1="370" y1="110" x2="430" y2="110"/>
+          <!-- Output box -->
+          <g transform="translate(440, 20)">
+            <rect class="box" width="140" height="180" rx="6"/>
+            <text class="small-label" x="10" y="22">most likely</text>
+            <text id="predict-token" class="tt-output" x="70" y="120" text-anchor="middle" font-size="24"></text>
+            <text class="small-label" x="10" y="160">with some probability</text>
+          </g>
+        </svg>
+        <div class="loop-iter predict-iter" style="justify-content: center; margin-top: 0.5rem;">
+          <span>iteration <strong id="predict-iter">1</strong></span>
+          <span id="predict-phase" class="muted">&mdash; waiting</span>
+          <button class="pause-btn" id="predict-play" type="button">play</button>
+        </div>
+        <p class="diagram-caption">Given all the text so far, the model assigns a probability to every possible next token and samples one. The predicted token is appended to the context, and the loop continues &mdash; one token at a time.</p>
+      </div>
+      <p>That's it. No retrieval, no reasoning engine, no planning module, no memory beyond the window. Everything else you see in an "agent" is added <em>around</em> the model.</p>
+    </div>
+  
+  <script src="assets/05-what-an-llm-does/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="LLM basics" data-title="LLM basics" data-toc="Tokens &mdash; click to inspect">
+  <link rel="stylesheet" href="assets/06-tokens/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Tokens &mdash; the unit the model sees</h2>
+      <p class="lead">Models don't read characters or words. They read <em>tokens</em>: chunks of text drawn from a fixed vocabulary of roughly 50&ndash;100k entries. Common words survive as one token; rarer words get split into sub-word pieces.</p>
+
+      <div class="tokenizer" id="tokenizer">
+        <div class="input" id="tokenizer-input" data-tokens='[{"t":"The","sub":false,"parent":null},{"t":" agent","sub":false,"parent":null},{"t":" token","sub":false,"parent":null},{"t":"izes","sub":true,"parent":"tokenize"},{"t":" Anth","sub":true,"parent":"Anthropic"},{"t":"rop","sub":true,"parent":"Anthropic"},{"t":"ic","sub":true,"parent":"Anthropic"},{"t":"&apos;s","sub":false,"parent":null},{"t":" doc","sub":false,"parent":null},{"t":"ument","sub":true,"parent":"documentation"},{"t":"ation","sub":true,"parent":"documentation"},{"t":" care","sub":false,"parent":null},{"t":"fully","sub":true,"parent":"carefully"},{"t":".","sub":false,"parent":null}]'></div>
+        <div class="legend-key">
+          <span class="swatch whole">the</span> whole word &nbsp;&middot;&nbsp;
+          <span class="swatch part">ization</span> sub-word piece
+        </div>
+        <div class="hint">Click any token to inspect it.</div>
+        <div class="inspect empty" id="tokenizer-inspect">Pick a token above to inspect.</div>
+        <div class="meta">
+          <div>tokens: <span class="value" id="token-count">0</span></div>
+          <div>characters: <span class="value" id="char-count">0</span></div>
+          <div>model cost: roughly <span class="value" id="token-cost">$0.000000</span> per call (at GPT-class rates)</div>
+        </div>
+      </div>
+
+      <p>Why this matters: <strong>context window size is measured in tokens, not characters or words</strong>. A 200k-token context is roughly 150k English words. Every system prompt, every tool result, every file you <code>@</code>-mention &mdash; it all eats the same budget.</p>
+    </div>
+  
+  <script src="assets/06-tokens/script.js" defer></script></section>
+
+<section class="slide" data-section="2" data-section-label="LLM basics" data-title="LLM basics" data-toc="The context window">
+  <link rel="stylesheet" href="assets/07-context-window/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The context window</h2>
+      <p class="lead">The model's working memory. It is <em>finite</em>, it is <em>shared</em>, and it is the single most important constraint to design around.</p>
+
+      <div class="context-window">
+        <div class="context-bar" id="context-bar" data-max="200000" data-compaction="0.2" data-items='[{"label":"+ System prompt","tokens":3000},{"label":"+ Tool schemas","tokens":4000},{"label":"+ @README.md","tokens":1500},{"label":"+ @app/main.py","tokens":1800},{"label":"+ Past 10 turns","tokens":12000},{"label":"+ Skill: /tdd","tokens":2000},{"label":"+ 50 most-recent errors","tokens":8000},{"label":"+ @src/ (whole module)","tokens":45000},{"label":"+ Past 200 turns","tokens":80000},{"label":"+ Vendor dependency tree","tokens":95000}]'>
+          <div class="fill" id="context-fill"></div>
+          <div class="fill-compacted" id="context-fill-compacted"></div>
+        </div>
+        <div class="meta">
+          <span><span class="value" id="context-used">0</span> / <span class="value" id="context-max">200,000</span> tokens</span>
+          <span><button class="reset" id="context-reset">Reset</button></span>
+        </div>
+        <div class="breakdown">
+          <span><span class="swatch raw"></span>raw: <strong id="context-raw" style="color: var(--fg); font-weight: 600;">0</strong></span>
+          <span><span class="swatch compacted"></span>compacted: <strong id="context-compacted-total" style="color: var(--fg); font-weight: 600;">0</strong></span>
+          <span class="muted" id="context-ratio"></span>
+        </div>
+        <div class="notice" id="context-notice">
+          <strong>&#9889; Compaction triggered</strong> &mdash; context exceeded the window. The harness summarized the oldest items (at ~20% of original size). Detail is lost; the model can still see what was there, just not verbatim.
+          <div class="compacted-list" id="context-compacted-list"></div>
+        </div>
+        <p class="muted small" style="margin-top: 0.75rem;">Click things to add them to the context:</p>
+        <div class="legend" id="context-legend"></div>
+      </div>
+
+      <p>When the window fills up, the harness doesn't panic &mdash; it <em>compacts</em>: the oldest content gets summarized down to a fraction of its original size. Modern harnesses manage this for you, but the principle holds: <strong>everything the model knows in this turn is what's in the window right now</strong>.</p>
+    </div>
+  
+  <script src="assets/07-context-window/script.js" defer></script></section>
+
+<section class="slide" data-section="3" data-section-label="The harness" data-title="The harness" data-toc="Model vs harness">
+  <link rel="stylesheet" href="assets/08-model-vs-harness/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The model is the brain. The harness is the hands.</h2>
+      <p class="lead">This is the single most important distinction in this whole lecture.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="model and harness diagram">
+          <defs>
+            <style>
+              .harness-box { fill: var(--bg-elevated); stroke: var(--accent); stroke-width: 2; }
+              .model-box { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+              .label { fill: var(--fg); font: 600 14px var(--font-sans); }
+              .small { fill: var(--fg-muted); font: 11px var(--font-mono); }
+              .arrow { stroke: var(--fg-muted); stroke-width: 1.5; fill: none; }
+              .arrow-accent { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+            </style>
+          </defs>
+          <!-- Harness outer box -->
+          <rect class="harness-box" x="10" y="10" width="580" height="200" rx="10"/>
+          <text class="label" x="30" y="35" fill="var(--accent)">HARNESS</text>
+          <text class="small" x="30" y="52">the loop, the tools, the memory, the UI</text>
+
+          <!-- Model inside -->
+          <rect class="model-box" x="220" y="80" width="160" height="60" rx="6"/>
+          <text class="label" x="300" y="108" text-anchor="middle">MODEL</text>
+          <text class="small" x="300" y="125" text-anchor="middle">next-token sampler</text>
+
+          <!-- Tools on left -->
+          <rect fill="var(--bg)" stroke="var(--border)" x="30" y="80" width="160" height="60" rx="6"/>
+          <text class="label" x="110" y="105" text-anchor="middle">tools</text>
+          <text class="small" x="110" y="125" text-anchor="middle">files &middot; shell &middot; git &middot; web</text>
+
+          <!-- Memory on right -->
+          <rect fill="var(--bg)" stroke="var(--border)" x="430" y="80" width="130" height="60" rx="6"/>
+          <text class="label" x="495" y="105" text-anchor="middle">memory</text>
+          <text class="small" x="495" y="125" text-anchor="middle">history &middot; compaction</text>
+
+          <!-- Loop on bottom -->
+          <rect fill="var(--bg)" stroke="var(--border)" x="220" y="160" width="160" height="36" rx="6"/>
+          <text class="label" x="300" y="183" text-anchor="middle">loop</text>
+
+          <!-- Arrows -->
+          <line class="arrow-accent" x1="190" y1="110" x2="220" y2="110" marker-end="url(#a1)"/>
+          <line class="arrow-accent" x1="380" y1="110" x2="430" y2="110" marker-end="url(#a1)"/>
+          <defs>
+            <marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 7 3, 0 6" fill="var(--accent)" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <p>The <strong>model</strong> is the same model whether you talk to it via ChatGPT, Claude Code, opencode, or a curl call to the API. The <strong>harness</strong> is everything else: the tool loop, the file access, the memory, the command palette, the user interface.</p>
+      <p class="muted">Swap the harness, keep the model &mdash; and the capability changes dramatically. Swap the model, keep the harness &mdash; and the output style changes, but the structural capability stays roughly the same.</p>
+    </div>
+  
+  <script src="assets/08-model-vs-harness/script.js" defer></script></section>
+
+<section class="slide" data-section="3" data-section-label="The harness" data-title="The harness" data-toc="Why the harness matters">
+  <link rel="stylesheet" href="assets/09-why-the-harness-matters/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Same model, different harness, different agent.</h2>
+      <p class="lead">Most people use a chat UI. The harness turns the same model into something else.</p>
+      <div class="cards cols-3" style="margin-top: 1.5rem;">
+        <div class="card">
+          <span class="tag">chat UI</span>
+          <h4>One-shot Q&amp;A</h4>
+          <p>You paste a snippet, it replies with text. No files, no execution, no memory between sessions. Most people's mental model of "AI".</p>
+        </div>
+        <div class="card">
+          <span class="tag">IDE extension</span>
+          <h4>Inline assist</h4>
+          <p>Tab-completion on the current line, or a side panel that sees the open files. Powerful for typing, weak for multi-step work.</p>
+        </div>
+        <div class="card card-highlight">
+          <span class="tag">agent harness</span>
+          <h4>Loop + tools</h4>
+          <p>Read files, run shell, edit, test, iterate. Long-horizon. This is the mode we're talking about today &mdash; and the one that compounds.</p>
+        </div>
+      </div>
+
+      <div class="loop-demo" id="loop-demo">
+        <div class="loop-ring">
+          <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent loop diagram">
+            <defs>
+              <style>
+                .lr-track { fill: none; stroke: var(--border); stroke-width: 1.5; stroke-dasharray: 4 4; }
+                .lr-card { fill: var(--bg-elevated); stroke-width: 1.5; }
+                .lr-card.s0 { stroke: var(--accent); }
+                .lr-card.s1 { stroke: var(--code-fn); }
+                .lr-card.s2 { stroke: var(--warning); }
+                .lr-card.s3 { stroke: var(--success); }
+                .lr-label { font: 700 11px var(--font-mono); text-anchor: middle; dominant-baseline: middle; }
+                .lr-label.s0 { fill: var(--accent); }
+                .lr-label.s1 { fill: var(--code-fn); }
+                .lr-label.s2 { fill: var(--warning); }
+                .lr-label.s3 { fill: var(--success); }
+                .lr-arrow { fill: var(--fg-subtle); }
+              </style>
+            </defs>
+            <!-- The track (between stations and packet) -->
+            <circle class="lr-track" cx="140" cy="140" r="120"/>
+            <!-- Direction arrows at the 4 between-station positions -->
+            <g class="lr-arrow" transform="translate(224.85 55.15) rotate(135)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <g class="lr-arrow" transform="translate(224.85 224.85) rotate(225)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <g class="lr-arrow" transform="translate(55.15 224.85) rotate(315)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <g class="lr-arrow" transform="translate(55.15 55.15) rotate(45)"><polygon points="-4,-4 4,0 -4,4"/></g>
+            <!-- 4 stations at the cardinal points -->
+            <g class="station" data-station="0" transform="translate(140 30)">
+              <rect class="lr-card s0" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s0" y="1">CONTEXT</text>
+            </g>
+            <g class="station" data-station="1" transform="translate(250 140)">
+              <rect class="lr-card s1" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s1" y="1">MODEL</text>
+            </g>
+            <g class="station" data-station="2" transform="translate(140 250)">
+              <rect class="lr-card s2" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s2" y="1">TOOLS</text>
+            </g>
+            <g class="station" data-station="3" transform="translate(30 140)">
+              <rect class="lr-card s3" x="-42" y="-13" width="84" height="26" rx="5"/>
+              <text class="lr-label s3" y="1">RESULT</text>
+            </g>
+          </svg>
+          <div class="loop-packet" aria-hidden="true"></div>
+        </div>
+        <div class="loop-status">
+          <div class="label">at</div>
+          <div class="station-name" id="loop-station">CONTEXT</div>
+          <pre class="snippet" id="loop-snippet">user: "fix the failing test in @tests/test_api.py"
+&rarr; prompt lands at the start of the context window</pre>
+          <div class="iter">
+            <span>iteration <strong id="loop-iter">1</strong></span>
+            <span id="loop-iter-detail">first turn</span>
+            <button class="pause-btn" id="loop-pause" type="button">play</button>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem;">An agent harness is a <em>loop</em>: the model produces output, the harness executes the tool calls in that output, feeds the results back, and asks for the next move. This loop is the entire magic. Everything else is polish.</p>
+    </div>
+  
+  <script src="assets/09-why-the-harness-matters/script.js" defer></script></section>
+
+<section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="What goes into context">
+  <link rel="stylesheet" href="assets/10-what-goes-into-context/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>What goes into the context window</h2>
+      <p class="lead">The model knows only what is currently in the window. You decide what goes in.</p>
+      <div class="layer-stack">
+        <div class="layer system">
+          <span class="badge">system</span>
+          <span class="label">System prompt &mdash; the model's role, constraints, tone</span>
+          <span class="size">~1&ndash;4k tokens</span>
+        </div>
+        <div class="layer skills">
+          <span class="badge">skills</span>
+          <span class="label">Loaded skill instructions (we'll come back to this)</span>
+          <span class="size">~0.5&ndash;2k tokens each</span>
+        </div>
+        <div class="layer history">
+          <span class="badge">history</span>
+          <span class="label">Past messages, tool calls, tool results</span>
+          <span class="size">grows over time</span>
+        </div>
+        <div class="layer tools">
+          <span class="badge">tools</span>
+          <span class="label">Tool schemas &mdash; what the model is allowed to call</span>
+          <span class="size">~1&ndash;5k tokens</span>
+        </div>
+        <div class="layer files">
+          <span class="badge">@files</span>
+          <span class="label">Files you've @-mentioned or that the agent has read</span>
+          <span class="size">whatever they need</span>
+        </div>
+        <div class="layer user">
+          <span class="badge">user</span>
+          <span class="label">Your most recent message</span>
+          <span class="size">~tens&ndash;hundreds of tokens</span>
+        </div>
+      </div>
+      <p class="muted">An agent harness composes all of these for you, on every turn. Skills, files, history, tool schemas &mdash; they're not magic. They're literally text being prepended to your prompt.</p>
+    </div>
+  
+  <script src="assets/10-what-goes-into-context/script.js" defer></script></section>
+
+<section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="The system prompt">
+  <link rel="stylesheet" href="assets/11-system-prompt/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>System prompt &mdash; the model's job description</h2>
+      <p class="lead">A static preamble, set by the harness or by an agent config. The first thing the model sees on every turn, and the only thing it sees verbatim. <em>Everything else is user-supplied or tool-returned.</em></p>
+
+      <p>A typical system prompt looks like this &mdash; truncated, but recognisable:</p>
+
+<pre><span class="c"># role</span>
+You are an expert software engineer working in a checked-out git repo.
+You prefer small, focused changes. You write tests before fixing bugs.
+
+<span class="c"># constraints</span>
+- Never run destructive commands (<span class="k">rm</span> -rf, force-push, drop table) without asking.
+- Never edit files outside the working directory.
+- Never invent file paths. If you have not read a file, say so.
+
+<span class="c"># output format</span>
+Reply in markdown. Use fenced code blocks for code. Cite file paths as
+`path/to/file.ts:42` so the user can jump.
+
+<span class="c"># tools</span>
+Use the <span class="f">bash</span>, <span class="f">read</span>, <span class="f">write</span>, and <span class="f">edit</span> tools. Prefer <span class="f">edit</span> over <span class="f">write</span>
+for existing files. One tool call per turn unless you genuinely need parallel.</pre>
+
+      <div class="cards cols-3" style="margin-top: 1.25rem;">
+        <div class="card">
+          <span class="tag">role</span>
+          <h4>Who the model is</h4>
+          <p>"You are a senior staff engineer." Sets defaults: what it pays attention to, what it skips, how cautious it is.</p>
+        </div>
+        <div class="card">
+          <span class="tag">rules</span>
+          <h4>What it must / must not do</h4>
+          <p>Hard constraints. Most of the time, the system prompt is mostly rules. This is where you put "ask before running migrations".</p>
+        </div>
+        <div class="card">
+          <span class="tag">format</span>
+          <h4>How it should reply</h4>
+          <p>Markdown, code-block conventions, citation style, length limits. Cheap to set, surprisingly large effect on output quality.</p>
+        </div>
+      </div>
+
+      <p class="muted">Whoever writes the system prompt writes the agent's personality. The harness ships a default; an agent definition in <code>opencode.json</code> can override it. Same model, different prompt, different agent.</p>
+    </div>
+  
+  <script src="assets/11-system-prompt/script.js" defer></script></section>
+
+<section class="slide" data-section="4" data-section-label="Context" data-title="Context" data-toc="Tool schemas">
+  <link rel="stylesheet" href="assets/12-tool-schemas/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Tool schemas &mdash; the menu, written in JSON</h2>
+      <p class="lead">Every tool the model can use is described in text. The description is sent on every turn. The model "calls" a tool by emitting JSON that matches the schema &mdash; the harness parses it and runs the real thing.</p>
+
+      <p>A tool definition in JSON Schema:</p>
+
+<pre>{
+  <span class="h">"name"</span>: <span class="s">"read"</span>,
+  <span class="h">"description"</span>: <span class="s">"Read the contents of a file at the given path."</span>,
+  <span class="h">"parameters"</span>: {
+    <span class="h">"type"</span>: <span class="s">"object"</span>,
+    <span class="h">"properties"</span>: {
+      <span class="h">"filePath"</span>: {
+        <span class="h">"type"</span>: <span class="s">"string"</span>,
+        <span class="h">"description"</span>: <span class="s">"Absolute path to the file to read."</span>
+      },
+      <span class="h">"offset"</span>: { <span class="h">"type"</span>: <span class="s">"number"</span>, <span class="h">"description"</span>: <span class="s">"Line to start from."</span> },
+      <span class="h">"limit"</span>:  { <span class="h">"type"</span>: <span class="s">"number"</span>, <span class="h">"description"</span>: <span class="s">"Max lines to return."</span> }
+    },
+    <span class="h">"required"</span>: [<span class="s">"filePath"</span>]
+  }
+}</pre>
+
+      <div class="cards cols-3" style="margin-top: 1.25rem;">
+        <div class="card">
+          <span class="tag">cost</span>
+          <h4>You pay every turn</h4>
+          <p>Every tool description is re-sent on every turn. 20 tools &times; 200 tokens &asymp; 4k tokens of <em>overhead</em> before the user says a word. This is why "more tools" is not a feature.</p>
+        </div>
+        <div class="card">
+          <span class="tag">visibility</span>
+          <h4>The model picks from what's in the prompt</h4>
+          <p>If a tool isn't in the schema, the model cannot call it. Disable a tool, and that whole class of action is gone. No prompt injection can re-enable it.</p>
+        </div>
+        <div class="card">
+          <span class="tag">hallucination</span>
+          <h4>Models invent tool names</h4>
+          <p>Without a schema, the model will confidently call <code>run_tests</code> or <code>fix_bug</code> that don't exist. The schema is what grounds it in the real interface.</p>
+        </div>
+      </div>
+
+      <p class="muted">Good tool descriptions read like a tiny API doc. A vague <code>"do something useful"</code> description is a vague tool. The harness re-pays your writing effort on every single turn.</p>
+    </div>
+  
+  <script src="assets/12-tool-schemas/script.js" defer></script></section>
+
+<section class="slide" data-section="5" data-section-label="Skills &amp; agents" data-title="Skills &amp; agents" data-toc="Skills &mdash; what they are">
+  <link rel="stylesheet" href="assets/13-skills/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Skills &mdash; packaged instructions, loaded on demand</h2>
+      <p class="lead">A skill is a small bundle: instructions for the model, plus sometimes scripts. The agent loads it when you invoke the name.</p>
+
+      <h3>What's in a skill</h3>
+      <ul>
+        <li><strong>A short name</strong> &mdash; the command you type to invoke it.</li>
+        <li><strong>Instructions</strong> &mdash; markdown the model reads when the skill loads. The whole point of the skill.</li>
+        <li><strong>Optional scripts</strong> &mdash; helpers the model can call (rare; most skills are just text).</li>
+      </ul>
+
+      <p>opencode looks for skills in two places:</p>
+      <ul>
+        <li><code>~/.agents/skills/</code> &mdash; <strong>user-level</strong>. This is where the Matt Pocock skills land after the installer runs.</li>
+        <li><code>.opencode/skills/</code> &mdash; <strong>project-level</strong>, committed to the repo so the team shares the same skills.</li>
+      </ul>
+
+      <p class="muted small">Skills are how you teach the agent your preferences once and never explain them again.</p>
+    </div>
+  
+  <script src="assets/13-skills/script.js" defer></script></section>
+
+<section class="slide" data-section="5" data-section-label="Skills &amp; agents" data-title="Skills &amp; agents" data-toc="Agents &mdash; persistent configurations">
+  <link rel="stylesheet" href="assets/14-agents/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Agents &mdash; persistent, named configurations</h2>
+      <p class="lead">A skill is a tip. An <em>agent</em> is a personality.</p>
+      <p>An agent is a named slot with its own system prompt, its own set of allowed tools, and its own model. opencode lets you define custom agents for specialist roles:</p>
+      <div class="skills-grid" id="agents-grid"></div>
+      <p style="margin-top: 1.5rem;">Each agent is a markdown file under <code>.config/opencode/agents/</code> with YAML frontmatter for permissions and model settings. You can <code>Tab</code> between them in the opencode TUI.</p>
+    </div>
+  
+  <script src="assets/14-agents/script.js" defer></script></section>
+
+<section class="slide" data-section="5" data-section-label="Skills &amp; agents" data-title="Skills &amp; agents" data-toc="Subagents &mdash; agents spawning agents">
+  <link rel="stylesheet" href="assets/15-subagents/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Subagents &mdash; agents that spawn other agents</h2>
+      <p class="lead">When the work decomposes, the parent agent can delegate.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="subagent delegation tree">
+          <defs>
+            <style>
+              .node { fill: var(--bg-elevated); stroke: var(--border); cursor: pointer; }
+              .node-parent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; cursor: pointer; }
+              .node-child { fill: var(--bg-elevated); stroke: var(--border); cursor: pointer; }
+              .node-child:hover { stroke: var(--accent); }
+              .node-parent:hover { stroke: var(--accent-strong); }
+              .label { fill: var(--fg); font: 600 12px var(--font-sans); pointer-events: none; }
+              .sub { fill: var(--fg-muted); font: 10px var(--font-mono); pointer-events: none; }
+              .line { stroke: var(--fg-muted); stroke-width: 1.5; fill: none; }
+            </style>
+          </defs>
+          <!-- Parent -->
+          <g class="agent-node" data-agent="Dev">
+            <rect class="node-parent" x="270" y="20" width="120" height="50" rx="6"/>
+            <text class="label" x="330" y="42" text-anchor="middle">Dev (parent)</text>
+            <text class="sub" x="330" y="58" text-anchor="middle">full tool access</text>
+          </g>
+
+          <!-- Children -->
+          <line class="line" x1="330" y1="70" x2="110" y2="110"/>
+          <line class="line" x1="330" y1="70" x2="330" y2="110"/>
+          <line class="line" x1="330" y1="70" x2="550" y2="110"/>
+
+          <g class="agent-node" data-agent="deepseek-review">
+            <rect class="node-child" x="30" y="110" width="160" height="70" rx="6"/>
+            <text class="label" x="110" y="135" text-anchor="middle">deepseek-review</text>
+            <text class="sub" x="110" y="155" text-anchor="middle">deepseek-v4-pro &middot; edit: deny</text>
+          </g>
+
+          <g class="agent-node" data-agent="kimi-review">
+            <rect class="node-child" x="250" y="110" width="160" height="70" rx="6"/>
+            <text class="label" x="330" y="135" text-anchor="middle">kimi-review</text>
+            <text class="sub" x="330" y="155" text-anchor="middle">kimi-k2.6 &middot; edit: deny</text>
+          </g>
+
+          <g class="agent-node" data-agent="minimax-review">
+            <rect class="node-child" x="470" y="110" width="160" height="70" rx="6"/>
+            <text class="label" x="550" y="135" text-anchor="middle">minimax-review</text>
+            <text class="sub" x="550" y="155" text-anchor="middle">minimax-m2.7 &middot; edit: deny</text>
+          </g>
+        </svg>
+        <p class="diagram-caption">Click any agent to see its full instructions. The parent delegates and merges results.</p>
+      </div>
+      <p>Why bother: <strong>context isolation</strong>. Each subagent has its own clean window, so a long task doesn't pollute the parent's history with thousands of tokens of intermediate work. The parent only sees the final reports.</p>
+    </div>
+  
+  <script src="assets/15-subagents/script.js" defer></script></section>
+
+<section class="slide" data-section="6" data-section-label="Why opencode" data-title="Why opencode" data-toc="The harness landscape">
+  <link rel="stylesheet" href="assets/16-harness-landscape/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The harness landscape</h2>
+      <p class="lead">You are not short on choices. They mostly differ on host environment and model lock-in.</p>
+      <table class="compare">
+        <thead>
+          <tr><th>Harness</th><th>Host</th><th>Model</th><th>License</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://claude.com/product/claude-code">Claude Code</a></td>
+            <td>terminal</td>
+            <td>Anthropic only</td>
+            <td>proprietary</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/openai/codex">Codex CLI</a></td>
+            <td>terminal</td>
+            <td>OpenAI</td>
+            <td>open source</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/Aider-AI/aider">Aider</a></td>
+            <td>terminal</td>
+            <td>any</td>
+            <td>open source</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="https://cursor.com">Cursor</a> /
+              <a href="https://codeium.com/windsurf">Windsurf</a> /
+              <a href="https://github.com/features/copilot">Copilot</a>
+            </td>
+            <td>IDE</td>
+            <td>various</td>
+            <td>proprietary</td>
+          </tr>
+          <tr>
+            <td><a href="https://pi.dev/">pi</a></td>
+            <td>terminal</td>
+            <td>any</td>
+            <td>open source</td>
+          </tr>
+          <tr class="highlight">
+            <td><a href="https://github.com/sst/opencode">opencode</a></td>
+            <td>terminal + IDE + web</td>
+            <td>75+ providers</td>
+            <td>open source</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  <script src="assets/16-harness-landscape/script.js" defer></script></section>
+
+<section class="slide" data-section="6" data-section-label="Why opencode" data-title="Why opencode" data-toc="Why opencode for this lecture">
+  <link rel="stylesheet" href="assets/17-why-opencode/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Why opencode for this lecture</h2>
+      <ul>
+        <li><strong>Open source.</strong> You can read every line, you can fork it, you can use a pinned version in a research work.</li>
+        <li><strong>Model-agnostic.</strong> opencode talks to basically every LLM provider out there. The harness is the asset, not the model. Today we are going to use the free models included with opencode.</li>
+        <li><strong>Terminal-native.</strong> opencode is designed as a TUI first; it works over SSH; it doesn't need a GUI; GUI and web versions are available.</li>
+        <li><strong>Real LSP integration.</strong> opencode comes with language server support out of the box.</li>
+        <li><strong>First-class skill support.</strong> Reads <code>SKILL.md</code> files, both user-level (~/.config/opencode/skills/) and project-level (.opencode/skills/).</li>
+      </ul>
+    </div>
+  
+  <script src="assets/17-why-opencode/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 1" data-title="Hands-on" data-toc="Step 1 &mdash; install opencode">
+  <link rel="stylesheet" href="assets/18-install-opencode/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 1 &mdash; install opencode <span class="muted small" style="font-weight: 400;">(5 min)</span></h2>
+      <p class="lead">You probably have it already. If not, this is all you need.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Run the install script</h4>
+          <p>One-liner, downloads a static binary. Works on macOS, Linux, and WSL.</p>
+<pre><span class="c"># macOS / Linux / WSL</span>
+<span class="f">curl</span> -fsSL https://opencode.ai/install | bash
+</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Or: install via your package manager</h4>
+<pre><span class="f">npm</span> install -g opencode-ai          <span class="c"># Node.js</span>
+<span class="f">brew</span> install anomalyco/tap/opencode <span class="c"># macOS / Linux</span>
+<span class="f">pacman</span> -S opencode                  <span class="c"># Arch</span>
+</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Configure a model provider</h4>
+          <p>opencode needs an API key for some model. Easiest path: <code>/connect</code> in the TUI and follow the prompts. Or set <code>ANTHROPIC_API_KEY</code> / <code>OPENAI_API_KEY</code> in your shell.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Verify</h4>
+<pre><span class="f">$</span> opencode --version
+<span class="h">1.x.x</span>
+</pre>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/18-install-opencode/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 2" data-title="Hands-on" data-toc="Step 2 &mdash; install skills">
+  <link rel="stylesheet" href="assets/19-install-skills/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 2 &mdash; install Matt Pocock's skills <span class="muted small" style="font-weight: 400;">(5 min)</span></h2>
+      <p class="lead">One command. The skills land in <code>~/.config/opencode/skills/</code>.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Run the universal installer</h4>
+          <p>Works for opencode, Claude Code, Cursor, Windsurf, Codex, and 15+ other agents &mdash; same syntax, different destination.</p>
+<pre><span class="f">$</span> npx skills@latest add mattpocock/skills
+</pre>
+          <p class="muted small">You'll be prompted to (1) pick which skills to install, and (2) which agents to install them on. <strong>Select opencode</strong>. You don't have to take all of them &mdash; for this lecture, the ones you actually need are <code>grill-me</code>, <code>tdd</code>, <code>to-prd</code>, <code>to-issues</code>, and <code>setup-matt-pocock-skills</code>.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>What just happened</h4>
+          <p>opencode now has access to those skills as commands. Type <code>/</code> in the TUI to see them &mdash; they'll show up as <code>/grill-me</code>, <code>/tdd</code>, etc.</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/19-install-skills/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 3" data-title="Hands-on" data-toc="Step 3 &mdash; one-time setup">
+  <link rel="stylesheet" href="assets/20-setup/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Step 3 &mdash; the one-time setup <span class="muted small" style="font-weight: 400;">(3 min)</span></h2>
+      <p class="lead">Some of the engineering skills need to know where you keep things. Run this once per repo.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Run <code>/setup-matt-pocock-skills</code> inside opencode</h4>
+          <p>It will quiz you &mdash; three or four short questions:</p>
+          <ul>
+            <li>Which <strong>issue tracker</strong> do you use? (GitHub Issues / Linear / local markdown / none)</li>
+            <li>Which <strong>labels</strong> do you apply when triaging? (e.g. <code>bug</code>, <code>enhancement</code>, <code>chore</code>)</li>
+            <li>Where do you want <strong>domain docs</strong> saved? (e.g. <code>docs/</code>)</li>
+          </ul>
+          <p class="muted small">For the lecture, pick <strong>local markdown</strong> for the tracker (we're not wiring up GitHub), and accept the default labels. The setup writes a small <code>AGENTS.md</code> section so the other skills know where to put things.</p>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/20-setup/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; mattpocock/skills" data-title="Hands-on" data-toc="Matt Pocock's skills &mdash; the 4 failure modes">
+  <link rel="stylesheet" href="assets/21-matt-pocock-failure-modes/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Matt Pocock's skills &mdash; the four failure modes</h2>
+      <p class="lead">The collection is structured around the four ways agents fail. Each skill is the fix.</p>
+
+      <div class="failure">
+        <div class="num">#1</div>
+        <div>
+          <h5>The agent didn't do what I want</h5>
+          <p>You think you told it. It thinks you told it something else. The misalignment problem.</p>
+          <div class="fix">Fix &rarr; /grill-me &middot; /grill-with-docs (interview you until the spec is sharp)</div>
+        </div>
+      </div>
+      <div class="failure">
+        <div class="num">#2</div>
+        <div>
+          <h5>The agent is way too verbose</h5>
+          <p>It uses 20 words where 1 will do. No shared vocabulary, no shared domain language.</p>
+          <div class="fix">Fix &rarr; CONTEXT.md (a shared-language file the agent reads on every turn)</div>
+        </div>
+      </div>
+      <div class="failure">
+        <div class="num">#3</div>
+        <div>
+          <h5>The code doesn't work</h5>
+          <p>No feedback loop, so the agent is flying blind. It can't tell working from broken.</p>
+          <div class="fix">Fix &rarr; /tdd (red-green-refactor) &middot; /diagnose (for hard bugs)</div>
+        </div>
+      </div>
+      <div class="failure">
+        <div class="num">#4</div>
+        <div>
+          <h5>We built a ball of mud</h5>
+          <p>Agents accelerate code production &mdash; and they accelerate entropy just as fast.</p>
+          <div class="fix">Fix &rarr; /zoom-out &middot; /to-prd &middot; /to-issues (deliberate architecture investment)</div>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/21-matt-pocock-failure-modes/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Skills" data-title="Hands-on" data-toc="Skills &mdash; the collection">
+  <link rel="stylesheet" href="assets/22-skills/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Skills &mdash; the collection</h2>
+      <p class="lead">A skill is a small bundle: instructions for the model, plus sometimes scripts. The agent loads it when you invoke the name. Click each card to see what it does.</p>
+
+      <div class="skills-grid" id="skills-grid"></div>
+
+      <p class="muted small" style="margin-top: 1rem;">Skills are how you teach the agent your preferences once and never explain them again. The mattpocock/skills collection is one curated set &mdash; a great default, forkable, and you can write your own.</p>
+    </div>
+  
+  <script src="assets/22-skills/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Step 3b" data-title="Hands-on" data-toc="Step 3b &mdash; a tour of the TUI">
+  <link rel="stylesheet" href="assets/23-tui-walkthrough/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>A tour of the opencode TUI <span class="muted small" style="font-weight: 400;">(1 min)</span></h2>
+      <p class="lead">A working session: the previous turn in the log, a fresh prompt waiting at the bottom. Four regions to know before you start typing.</p>
+
+      <div class="tui-tour">
+        <figure class="tui-shot">
+          <img src="assets/23-tui-walkthrough/assets/opencode_ui.png" alt="Screenshot of the opencode TUI mid-session, showing a previous turn with tool calls and a results table on the left, a sidebar with context and LSP status on the right, and an empty prompt input at the bottom." data-lightbox>
+          <figcaption>opencode TUI &mdash; a finished turn on top, prompt waiting at the bottom</figcaption>
+        </figure>
+
+        <ol class="tui-legend">
+          <li>
+            <strong>Conversation log</strong>
+            <p>The big panel on the left. One block per turn; the header is <em>agent &middot; model &middot; wall-clock duration</em>. Inside, <code>+ Thought:</code> marks the model's reasoning, <code>&oplus;</code> marks a tool call, and a final block summarises the result. Scroll up to revisit earlier turns.</p>
+          </li>
+          <li>
+            <strong>Sidebar &mdash; context &amp; LSP</strong>
+            <p>The narrow column on the right. <strong>Context</strong> is the live token budget for this session (141k / 200k &rarr; 28% used, $0.20 spent). <strong>LSP</strong> lights up language servers as files are read &mdash; that's the harness wiring real code intelligence into the model.</p>
+          </li>
+          <li>
+            <strong>Prompt input</strong>
+            <p>The single-line box at the bottom of the log &mdash; where you type. Prefix with <code>/</code> to invoke a skill (<code>/grill-me</code>, <code>/tdd</code>, <code>/setup-matt-pocock-skills</code>). The line below shows the active agent, the model, and a live <em>thinking</em> indicator while a turn is running.</p>
+          </li>
+          <li>
+            <strong>Status bar</strong>
+            <p>Token count, $ spent, <code>ctrl+p</code> for the command palette, and the opencode version. Everything you need to monitor cost or jump modes is one keystroke away.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  
+  <script src="assets/23-tui-walkthrough/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Use cases" data-title="Hands-on" data-toc="Use case 1 &mdash; code generation">
+  <link rel="stylesheet" href="assets/24-handson-code/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>From &ldquo;write me a function&rdquo; to test-driven agents</h2>
+      <p class="lead">The same task, four times. Each step adds a skill and removes one failure mode. Click an exercise for the detail.</p>
+
+      <div class="exercise-grid" id="exercise-grid-code"></div>
+
+      <div class="exercise-pitfalls">
+        <div class="pitfalls-label">Common pitfalls</div>
+        <ul>
+          <li><strong>Copy-paste the first answer</strong> &mdash; no /grill-me step, misalignment hidden.</li>
+          <li><strong>Skip the red step</strong> &mdash; no feedback loop, code <em>looks</em> right.</li>
+          <li><strong>One mega-PR</strong> &mdash; no /to-issues slicing, unreviewable diff.</li>
+        </ul>
+      </div>
+    </div>
+  
+  <script src="assets/24-handson-code/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Use cases" data-title="Hands-on" data-toc="Use case 2 &mdash; text generation for papers">
+  <link rel="stylesheet" href="assets/25-handson-text/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>From &ldquo;outline my paper&rdquo; to a measurement study with a shared vocabulary</h2>
+      <p class="lead">Scientific writing is the failure mode that hurts most &mdash; agents are fluent liars. We outline a measurement study on sustainability in data center networks, four times. Each step adds a skill and removes one failure mode. Click an exercise for the detail.</p>
+
+      <div class="exercise-grid" id="exercise-grid-text"></div>
+
+      <div class="exercise-pitfalls">
+        <div class="pitfalls-label">Common pitfalls</div>
+        <ul>
+          <li><strong>Agents invent datasets and testbeds</strong> &mdash; no /grill-me grounding in what you can actually measure.</li>
+          <li><strong>Agents conflate metrics</strong> &mdash; no glossary to keep &ldquo;energy efficiency&rdquo; and &ldquo;power consumption&rdquo; distinct.</li>
+          <li><strong>Agents smooth over methodology gaps</strong> &mdash; no ADR for what was <em>not</em> measured and why.</li>
+        </ul>
+      </div>
+    </div>
+  
+  <script src="assets/25-handson-text/script.js" defer></script></section>
+
+<section class="slide" data-section="8" data-section-label="Hands-on &middot; Use cases" data-title="Hands-on" data-toc="Use case 3 &mdash; slide generation with deck.js">
+  <link rel="stylesheet" href="assets/26-handson-slides/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>From &ldquo;make me 10 slides&rdquo; to a deck with a shared design language</h2>
+      <p class="lead">Building slides with an agent is meta &mdash; deck.js built this very deck. The same four-step progression, with one extra: learn the design language first. Click an exercise for the detail.</p>
+
+      <div class="exercise-grid" id="exercise-grid-slides"></div>
+
+      <div class="exercise-pitfalls">
+        <div class="pitfalls-label">Common pitfalls</div>
+        <ul>
+          <li><strong>Skip DESIGN.md</strong> &mdash; off-brand decks, every agent invents a new look.</li>
+          <li><strong>Skip the grill</strong> &mdash; doc-dump decks with no claims, no narrative.</li>
+          <li><strong>Skip the slice</strong> &mdash; one mega-HTML file, hand-edited, breaks the build.</li>
+        </ul>
+      </div>
+
+      <p class="muted small" style="margin-top: 0.8rem;">This deck &mdash; the one you&rsquo;re looking at &mdash; was built with the discipline on this slide. The first revision was one HTML file. The current revision is 26 folders, each a vertical slice.</p>
+    </div>
+  
+  <script src="assets/26-handson-slides/script.js" defer></script></section>
+
+<section class="slide" data-section="9" data-section-label="Wrap-up" data-title="Wrap-up" data-toc="What to try next">
+  <link rel="stylesheet" href="assets/27-what-to-try-next/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>What to try next</h2>
+      <p class="lead">You've used five skills. There are twenty more in the collection. Here are four worth pulling on next.</p>
+      <div class="takeaways">
+        <div class="takeaway">
+          <div class="icon">1</div>
+          <div>
+            <h5>Take a real bug to <code>/diagnose</code></h5>
+            <p>Find something broken in a project you actually care about. Run the diagnose skill. Notice the red-green discipline it imposes &mdash; the model is forbidden from guessing before reproducing.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">2</div>
+          <div>
+            <h5>Run <code>/zoom-out</code> on an unfamiliar file</h5>
+            <p>Open a project you didn't write. Pick a file that scares you. Ask the agent to explain it in the context of the whole system. Compare to reading the file cold &mdash; the framing is the value.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">3</div>
+          <div>
+            <h5>Write a <code>CONTEXT.md</code> for a project you own</h5>
+            <p>Pick a real codebase. Spend 30 minutes distilling its jargon into a one-page shared language. Watch the next session of opencode against that project become twice as productive.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">4</div>
+          <div>
+            <h5>Wire opencode against a local model</h5>
+            <p>Install Ollama, pull a small model, point opencode at it via <code>opencode.json</code>. Notice the capability drop &mdash; and notice that for narrow tasks, the drop is smaller than you expected.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <script src="assets/27-what-to-try-next/script.js" defer></script></section>
+
+<section class="slide" data-section="9" data-section-label="Wrap-up" data-title="Wrap-up" data-toc="Resources">
+  <link rel="stylesheet" href="assets/28-resources/style.css">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Resources</h2>
+      <p class="lead">Everything in this deck, cited and linked.</p>
+      <div class="resources">
+        <div class="resource">
+          <h5><a href="https://opencode.ai" target="_blank" rel="noopener">OpenCode &#8599;</a></h5>
+          <p>The harness. 75+ model providers, terminal-native, open source, LSP-aware.</p>
+        </div>
+        <div class="resource">
+          <h5><a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">mattpocock/skills &#8599;</a></h5>
+          <p>The skill collection. Twenty-plus skills covering the four common failure modes. MIT-licensed, forkable, designed to be hacked on.</p>
+        </div>
+        <div class="resource">
+          <h5><a href="https://skills.sh" target="_blank" rel="noopener">skills.sh &#8599;</a></h5>
+          <p>The skills directory. Where you find what other people have packaged. Browseable, ranked by install count.</p>
+        </div>
+        <div class="resource">
+          <h5><a href="https://www.aihero.dev" target="_blank" rel="noopener">AI Hero newsletter &#8599;</a></h5>
+          <p>Matt Pocock's newsletter. The cleanest signal in the agentic-coding space, in my experience.</p>
+        </div>
+        <div class="resource">
+          <h5><a href="https://opencode.ai/discord" target="_blank" rel="noopener">OpenCode Discord &#8599;</a></h5>
+          <p>Where to ask opencode-specific questions and talk to the maintainers.</p>
+        </div>
+        <div class="resource">
+          <h5><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic &mdash; Building effective agents &#8599;</a></h5>
+          <p>The original "workflows vs agents" framing. Worth the 20-minute read.</p>
+        </div>
+      </div>
+      <p class="muted center" style="margin-top: 2rem;"><strong>End of deck.</strong> Press <span class="kbd">Esc</span> for the table of contents, or <span class="kbd">&larr;</span> to go back.</p>
+    </div>
+  
+  <script src="assets/28-resources/script.js" defer></script></section>
+
+    <script src="assets/template/nav.js" defer></script>
+  <script src="assets/template/widgets.js" defer></script>
+</body>
+</html>
