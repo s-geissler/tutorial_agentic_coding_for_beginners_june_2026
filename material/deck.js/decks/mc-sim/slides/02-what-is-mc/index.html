@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — What is it?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="The core idea"
+           data-title="What is a Monte Carlo simulation?" data-toc="What is a Monte Carlo simulation?">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Random sampling estimates quantities that resist exact calculation</h2>
+      <p class="lead">A Monte Carlo simulation swaps a hard deterministic problem for a probabilistic experiment you can repeat thousands of times &mdash; then averages the results.</p>
+
+      <div class="cards cols-3">
+        <div class="card">
+          <span class="tag">The problem</span>
+          <h4>Some answers are out of reach</h4>
+          <p>Areas, integrals, and probabilities can lack a closed form or be too high-dimensional to compute directly.</p>
+        </div>
+        <div class="card">
+          <span class="tag">The trick</span>
+          <h4>Build a repeatable random experiment</h4>
+          <p>Design a trial whose outcome relates to the target quantity, then run it many, many times under the same rules.</p>
+        </div>
+        <div class="card">
+          <span class="tag">The payoff</span>
+          <h4>The average converges to the answer</h4>
+          <p>More trials tighten the estimate, and the error is quantifiable &mdash; it shrinks predictably as samples accumulate.</p>
+        </div>
+      </div>
+
+      <p class="muted small" style="margin-top: 1.1rem;">Named after the Monte Carlo casino &mdash; the method's inventors likened the randomness of neutron diffusion to a game of chance.</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

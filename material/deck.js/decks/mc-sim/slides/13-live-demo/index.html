@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — Live demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Watch &pi; emerge from random points" data-toc="Live demo: dropping points">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Watch &pi; emerge from random points</h2>
+      <p class="lead">Each frame drops more darts onto the unit square. The hit ratio times four is the running estimate of &pi;.</p>
+
+      <div class="mc-demo">
+        <div class="mc-stage">
+          <canvas id="mc13-canvas" class="mc-canvas" aria-label="Animated unit square receiving random points; blue points fall inside the quarter circle, orange points outside."></canvas>
+          <p class="mc-stage-cap"><span class="swatch in"></span> inside the circle &nbsp;&middot;&nbsp; <span class="swatch out"></span> outside</p>
+        </div>
+
+        <div class="mc-panel">
+          <div class="mc-estimate">
+            <span class="mc-est-label">running estimate of &pi;</span>
+            <span class="mc-est-value" id="mc13-pi">&mdash;</span>
+            <span class="mc-est-true">true &pi; &asymp; 3.14159</span>
+          </div>
+
+          <div class="mc-bar" aria-hidden="true">
+            <div class="mc-bar-track">
+              <div class="mc-bar-fill" id="mc13-bar"></div>
+              <div class="mc-bar-ref" title="&pi;"></div>
+            </div>
+            <div class="mc-bar-scale"><span>3.0</span><span>&pi;</span><span>3.3</span></div>
+          </div>
+
+          <div class="mc-stats">
+            <div class="mc-stat"><span class="k">points&nbsp;N</span><span class="v" id="mc13-n">0</span></div>
+            <div class="mc-stat"><span class="k">hits</span><span class="v" id="mc13-hits">0</span></div>
+            <div class="mc-stat"><span class="k">|error|</span><span class="v" id="mc13-err">&mdash;</span></div>
+          </div>
+
+          <div class="mc-controls">
+            <button id="mc13-play" class="mc-btn primary">Play</button>
+            <button id="mc13-reset" class="mc-btn">Reset</button>
+            <div class="mc-speed">
+              <span class="mc-speed-label">speed</span>
+              <button class="mc-chip" data-mc13-speed="0.1">slow</button>
+              <button class="mc-chip active" data-mc13-speed="25">med</button>
+              <button class="mc-chip" data-mc13-speed="160">fast</button>
+            </div>
+          </div>
+          <p class="mc-hint muted small">Auto-plays when you reach this slide. Pause anytime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

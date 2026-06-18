@@ -1,0 +1,76 @@
+/* Slide 11 — geometry: quarter circle in a unit square */
+.geo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+@media (max-width: 900px) {
+  .geo { grid-template-columns: 1fr; }
+}
+.geo-fig { margin: 0; padding: 0.9rem; }
+.geo-fig svg { width: 100%; max-width: 360px; height: auto; margin: 0 auto; }
+
+.geo-eq { display: flex; flex-direction: column; gap: 0.7rem; }
+.eq {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--bg-elevated);
+  border-left: 0.18rem solid var(--jmu-blue);
+}
+.eq-label {
+  font-size: 0.95rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.eq-expr {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.geo-insight {
+  margin-top: 0.4rem;
+  padding: 0.9rem 1rem;
+  background: var(--accent-soft);
+  border-left: 0.22rem solid var(--accent);
+}
+.geo-insight .tag {
+  display: block;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.geo-insight p { margin: 0 0 0.4rem; color: var(--fg); font-size: 1.02rem; }
+.geo-formula {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--jmu-blue);
+  margin: 0.2rem 0 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.1rem;
+  line-height: 1.1;
+}
+.frac > span:first-child {
+  border-bottom: 1.5px solid currentColor;
+  padding: 0 0.3rem;
+}
+.frac > span:last-child { padding: 0 0.3rem; }

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — Convergence</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Error shrinks as 1/&radic;N" data-toc="Convergence: error vs 1/&radic;N">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The error shrinks as 1&thinsp;/&nbsp;&radic;N</h2>
+      <p class="lead">On log-log axes the error traces a straight line of slope &minus;&frac12;. To halve the uncertainty, quadruple the samples &mdash; no matter what you are estimating.</p>
+
+      <div class="mc-conv">
+        <div class="mc-chart">
+          <svg id="mc14-svg" viewBox="0 0 600 360" role="img"
+               aria-label="Log-log plot of absolute error in the pi estimate versus number of samples, with a reference line proportional to 1 over root N.">
+            <!-- gridlines -->
+            <g class="grid">
+              <line x1="60"  y1="20"    x2="60"  y2="310"/>
+              <line x1="190" y1="20"    x2="190" y2="310"/>
+              <line x1="320" y1="20"    x2="320" y2="310"/>
+              <line x1="450" y1="20"    x2="450" y2="310"/>
+              <line x1="580" y1="20"    x2="580" y2="310"/>
+              <line x1="60"  y1="20"    x2="580" y2="20"/>
+              <line x1="60"  y1="92.5"  x2="580" y2="92.5"/>
+              <line x1="60"  y1="165"   x2="580" y2="165"/>
+              <line x1="60"  y1="237.5" x2="580" y2="237.5"/>
+              <line x1="60"  y1="310"   x2="580" y2="310"/>
+            </g>
+            <!-- axes -->
+            <g class="axis">
+              <line x1="60" y1="20"  x2="60"  y2="310"/>
+              <line x1="60" y1="310" x2="580" y2="310"/>
+            </g>
+            <!-- x tick labels -->
+            <g class="tick">
+              <text x="60"  y="328" text-anchor="middle">10</text>
+              <text x="190" y="328" text-anchor="middle">100</text>
+              <text x="320" y="328" text-anchor="middle">1k</text>
+              <text x="450" y="328" text-anchor="middle">10k</text>
+              <text x="580" y="328" text-anchor="middle">100k</text>
+            </g>
+            <!-- y tick labels -->
+            <g class="tick">
+              <text x="52" y="23"    text-anchor="end">1</text>
+              <text x="52" y="95.5"  text-anchor="end">0.1</text>
+              <text x="52" y="168"   text-anchor="end">0.01</text>
+              <text x="52" y="240.5" text-anchor="end">0.001</text>
+              <text x="52" y="313"   text-anchor="end">0.0001</text>
+            </g>
+            <!-- axis titles -->
+            <text class="axtitle" x="320" y="350" text-anchor="middle">number of points&nbsp;N</text>
+            <text class="axtitle" x="16" y="165" text-anchor="middle" transform="rotate(-90 16 165)">|estimate &minus; &pi;|</text>
+
+            <!-- reference line 1.64/sqrt(N) -->
+            <line class="ref" x1="60" y1="40.7" x2="580" y2="185.7"/>
+            <text class="ref-label" x="575" y="178" text-anchor="end">1.64&thinsp;/&nbsp;&radic;N &nbsp;(typical)</text>
+
+            <!-- dynamic curve + marker -->
+            <path id="mc14-curve" class="curve" d=""/>
+            <circle id="mc14-marker" class="marker" cx="580" cy="185.7" r="4.5"/>
+          </svg>
+          <p class="mc-chart-cap">Blue: observed |error| of one run. Dashed: theoretical 1&thinsp;/&nbsp;&radic;N trend &mdash; same slope.</p>
+        </div>
+
+        <div class="mc-conv-panel">
+          <div class="mc-conv-readout">
+            <div class="mc-conv-stat"><span class="k">N</span><span class="v" id="mc14-n">100,000</span></div>
+            <div class="mc-conv-stat"><span class="k">|error|</span><span class="v" id="mc14-err">&mdash;</span></div>
+            <div class="mc-conv-stat"><span class="k">1.64&thinsp;/&nbsp;&radic;N</span><span class="v" id="mc14-ref">&mdash;</span></div>
+          </div>
+
+          <div class="mc-slider">
+            <label for="mc14-slider">reveal samples&nbsp;N</label>
+            <input type="range" id="mc14-slider" min="0" max="1000" value="1000" aria-label="Number of samples to reveal">
+            <div class="mc-slider-scale"><span>10</span><span>1,000</span><span>100,000</span></div>
+          </div>
+
+          <button id="mc14-rerun" class="mc-btn">New random run</button>
+          <p class="muted small">Drag to replay the estimate's history. Every fresh run is different &mdash; but the slope is always &minus;&frac12;.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

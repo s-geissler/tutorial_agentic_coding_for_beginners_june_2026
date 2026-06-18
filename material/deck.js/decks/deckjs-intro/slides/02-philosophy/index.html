@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Philosophy — Slides are HTML, not a black box</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="Why deck.js"
+           data-title="Philosophy" data-toc="Philosophy">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Slides are authored in HTML, not locked in a black box</h2>
+      <p class="lead">deck.js treats presentations as what they are: structured documents with a visual layer.</p>
+
+      <div class="cards cols-2" style="margin-top: 1rem;">
+        <div class="card">
+          <h4>No dependencies</h4>
+          <p>A single <code>deck.js</code> file at the repo root. Zero npm packages, no <code>node_modules</code>, no build step required to preview slides.</p>
+        </div>
+        <div class="card">
+          <h4>Works anywhere</h4>
+          <p>Built decks open via <code>file://</code> &mdash; no HTTP server needed. Take them offline, email them, put them on a USB drive.</p>
+        </div>
+        <div class="card">
+          <h4>Open format</h4>
+          <p>Every slide is standalone HTML. You can open, edit, diff, and version-control slides like any other code. No proprietary editor.</p>
+        </div>
+        <div class="card">
+          <h4>Local-first</h4>
+          <p>Author on your machine, build locally, no cloud dependency. Assets are bundled into the output &mdash; no CDN required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

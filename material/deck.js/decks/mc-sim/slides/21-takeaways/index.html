@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — Takeaways</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="3" data-section-label="In practice"
+           data-title="Key takeaways" data-toc="Key takeaways">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Three things to remember about Monte Carlo</h2>
+      <p class="lead">The dartboard estimate of &pi; is a toy, but the principles it illustrates are exactly what scale to research and industry.</p>
+
+      <div class="takeaways">
+        <div class="takeaway">
+          <div class="icon">1</div>
+          <div>
+            <h5>Randomness solves hard deterministic problems</h5>
+            <p>Swap an exact computation for a repeatable random experiment. The average of the outcomes converges to the quantity you want &mdash; no closed form required.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">2</div>
+          <div>
+            <h5>Convergence is universal, but slow</h5>
+            <p>The error falls as <em>1&thinsp;/&nbsp;&radic;N</em> no matter the problem: halve the uncertainty and you quadruple the work. The trade for that slowness is dimension-independent cost.</p>
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="icon">3</div>
+          <div>
+            <h5>One recipe, many domains</h5>
+            <p>Define a domain, sample, evaluate, aggregate. From &pi; to neutron transport to option pricing, only the &ldquo;hit test&rdquo; changes &mdash; the method stays the same.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted small" style="margin-top: 1.2rem; text-align: center;">&pi; &asymp; 4 &times; <span style="font-family: var(--font-mono);">hits&nbsp;/&nbsp;N</span> &nbsp;&mdash;&nbsp; ten lines of code, one powerful idea.</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Slide Anatomy — One folder, one slide, one section</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="How it works"
+           data-title="Slide anatomy" data-toc="Slide anatomy">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>One folder = one slide = one <code>&lt;section&gt;</code></h2>
+      <p class="lead">Each slide lives in its own folder with self-contained HTML, CSS, and JavaScript.</p>
+
+      <div class="diagram" style="margin-bottom: 0.5rem;">
+<pre style="margin: 0; border-left: none; background: var(--bg); color: var(--fg); font-size: 0.9rem;"><span class="h">slides/</span>
+<span class="h">├── 01-title/</span>
+<span class="h">│   ├── index.html</span>      <span class="c">← one &lt;section class="slide"&gt;</span>
+<span class="h">│   ├── style.css</span>        <span class="c">← slide-local styles</span>
+<span class="h">│   └── script.js</span>         <span class="c">← slide-local behaviour</span>
+<span class="h">├── 02-philosophy/</span>
+<span class="h">├── …</span>
+<span class="h">└── 07-getting-started/</span></pre>
+      </div>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Data attributes drive navigation</h4>
+          <p><code>data-section</code>, <code>data-title</code>, and <code>data-toc</code> populate the TOC, progress bar, and section label.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>The build extracts only the section</h4>
+          <p>Your <code>index.html</code> is a full HTML document for standalone preview; the build extracts <code>&lt;section class="slide"&gt;</code> and inlines it into the bundle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

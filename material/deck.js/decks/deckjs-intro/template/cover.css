@@ -1,0 +1,49 @@
+/* ============================================================
+   Default template: cover slide styling
+   ------------------------------------------------------------
+   The cover slide is identified by data-toc="Title slide"
+   (the convention set up by the title scaffold). It uses
+   a large centered title and hides the normal slide footer.
+   ============================================================ */
+
+.slide[data-toc="Title slide"] {
+  justify-content: center;
+  padding: 12vh 7vw 8vh;
+}
+.slide[data-toc="Title slide"] .slide-header { display: none; }
+.slide[data-toc="Title slide"] .slide-body {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 58vh;
+}
+.slide[data-toc="Title slide"] .slide-body h1 {
+  max-width: 12.5em;
+  margin: 0 auto 2.7rem;
+  font-size: clamp(3.4rem, 5.6vw, 6rem) !important;
+  line-height: 1.08;
+  color: var(--jmu-blue) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  padding-bottom: 0 !important;
+}
+.slide[data-toc="Title slide"] .slide-body > :last-child {
+  margin-bottom: 0 !important;
+}
+.slide[data-toc="Title slide"] .lead {
+  max-width: 48rem !important;
+  margin: 0 auto 1rem !important;
+  color: var(--fg);
+  font-size: clamp(1.45rem, 2.2vw, 2.1rem);
+}
+.slide[data-toc="Title slide"] .muted.small {
+  color: var(--fg-muted);
+  font-size: 1.15rem;
+}
+
+/* Narrow screens */
+@media (max-width: 700px) {
+  .slide[data-toc="Title slide"] { padding: 10vh 1.5rem 4vh; }
+  .slide[data-toc="Title slide"] .slide-body h1 { font-size: 2.8rem !important; }
+}

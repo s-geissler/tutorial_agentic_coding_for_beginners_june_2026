@@ -1,0 +1,54 @@
+<!doctype html>
+<!--
+  templates/default/_template.html
+  ------------------------------------------------------------
+  The default template. Placeholders use the syntax
+  LBRACE LBRACE key RBRACE RBRACE  (the literal braces are
+  written as entities to avoid being treated as placeholders).
+  The build replaces:
+    deck.title, deck.author, deck.description  -- deck metadata
+    theme.css                                  -- theme CSS files
+    template.css                               -- template CSS files
+    template.js                                -- template JS files
+    slides                                      -- concatenated slide sections
+-->
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ deck.title }}</title>
+  <meta name="description" content="{{ deck.description }}">
+
+  {{ theme.css }}
+  {{ template.css }}
+</head>
+<body>
+
+  <!-- Nav UI: progress bar, section label (left), action bar (right), TOC overlay -->
+  <div class="nav-progress"><div class="nav-progress-bar" id="progress"></div></div>
+  <div class="nav-section" id="nav-section"><span class="accent"></span></div>
+  <div class="nav-bar-right">
+    <button class="nav-button" id="toc-button" title="Open table of contents (Esc)"><kbd>Esc</kbd> Overview</button>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle theme"></button>
+    <div class="nav-arrows">
+      <button id="prev" title="Previous slide (left arrow)">&#8592;</button>
+      <button id="next" title="Next slide (right arrow)">&#8594;</button>
+    </div>
+    <div class="nav-counter" id="nav-counter"></div>
+  </div>
+
+  <!-- TOC overlay -->
+  <div class="toc" id="toc">
+    <div class="toc-content">
+      <h3>Table of contents</h3>
+      <ol id="toc-list"></ol>
+      <p class="hint">Click anywhere outside this panel, or press <span class="kbd">Esc</span> to close.</p>
+    </div>
+  </div>
+
+  <!-- Slides -->
+  {{ slides }}
+
+  {{ template.js }}
+</body>
+</html>

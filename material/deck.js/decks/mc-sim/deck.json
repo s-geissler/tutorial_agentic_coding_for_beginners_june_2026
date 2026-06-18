@@ -1,0 +1,8 @@
+{
+  "title": "Monte Carlo Simulations: Estimating the Unknown by Random Sampling",
+  "author": "Scientific Slide Designer",
+  "description": "A visual introduction to Monte Carlo methods, using the estimation of pi by random point sampling as the running example.",
+  "template": "template",
+  "theme": "theme",
+  "output": "./dist"
+}

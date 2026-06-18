@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — The recipe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="The core idea"
+           data-title="The four-step recipe" data-toc="The four-step recipe">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Every Monte Carlo method follows the same four steps</h2>
+      <p class="lead">Whether you estimate an area, an integral, or a rare-event probability, the recipe is identical &mdash; only the domain and the &ldquo;hit&rdquo; test change.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Define the domain</h4>
+          <p>Specify the region you sample from and the exact rule that decides whether a sample is a <em>hit</em>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Sample randomly</h4>
+          <p>Draw <em>N</em> independent points from a known distribution (usually uniform) over that domain.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Evaluate each sample</h4>
+          <p>Apply the hit test to every point and record the outcome &mdash; a count, a value, or a yes/no flag.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Aggregate the results</h4>
+          <p>Form the estimate from the average or ratio of outcomes. The error falls as <em>1/&radic;N</em> &mdash; quadruple the samples to halve the uncertainty.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

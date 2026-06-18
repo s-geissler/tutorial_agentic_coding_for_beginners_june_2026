@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agentic Skill — AI-assisted slide authoring</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="AI-assisted authoring"
+           data-title="Agentic skill" data-toc="Agentic skill &amp; included agent">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The deck-authoring skill turns an AI agent into a slide collaborator</h2>
+      <p class="lead">This repo bundles a skill at <code>.opencode/skills/deck-authoring/</code> that guides the Scientific Slide Designer agent through a disciplined five-phase workflow.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Absorb — read the design language</h4>
+          <p>The agent reads <code>DESIGN.md</code>, inspects 2&ndash;3 existing slides, and skims the active <code>theme/</code> and <code>template/</code> before writing anything.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Plan — decide the narrative arc</h4>
+          <p>Map content to scaffolds. Leave numeric gaps for inserts. State the plan before generating.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Scaffold — use <code>deck.js add --scaffold</code></h4>
+          <p>Four archetypes: <code>title</code> (cover), <code>section</code> (divider), <code>default</code> (content), <code>picture</code> (figure-led).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Author — write the slides</h4>
+          <p>Prefer theme classes (<code>.cards</code>, <code>.step</code>, <code>.diagram</code>) over custom CSS. Never edit <code>dist/</code>. Use fractional prefixes for mid-deck inserts.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="body">
+          <h4>Build &amp; verify</h4>
+          <p>Run <code>node deck.js build</code>, open <code>dist/index.html</code>, check console and TOC. The agent does not hand-edit the bundle.</p>
+        </div>
+      </div>
+
+      <div class="cards cols-2" style="margin-top: 0.25rem;">
+        <div class="card">
+          <h4>Included agent</h4>
+          <p>The <strong>Scientific Slide Designer</strong> agent role is configured in this repo to enforce these rules. It produces publication-quality decks using the design tokens and scaffolds.</p>
+        </div>
+        <div class="card">
+          <h4>Key guardrails</h4>
+          <p>The skill prevents common mistakes: no hand-editing <code>dist/</code>, no <code>&lt;base&gt;</code> tags, no manual renumbering, no CDN dependencies without approval.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

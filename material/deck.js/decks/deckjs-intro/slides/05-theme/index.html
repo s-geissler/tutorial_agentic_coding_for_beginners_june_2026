@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Theme &amp; Design System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="Design system"
+           data-title="Theme & design" data-toc="Theme &amp; design system">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Tokens, scaffolds, and templates keep decks consistent</h2>
+      <p class="lead">A layered design system separates tokens from structure from content.</p>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div class="body">
+          <h4>Design tokens (<code>theme/tokens.css</code>)</h4>
+          <p>CSS custom properties for brand colors, surfaces, text, borders, code syntax, shadows, and typography. Light and dark variants included.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="body">
+          <h4>Base styles (<code>theme/base.css</code>)</h4>
+          <p>Slide layout, typography, code blocks, lists, links, and responsive helpers. Pre-built widget classes include <code>.cards</code>, <code>.step</code>, <code>.diagram</code>, <code>.compare</code>, <code>.takeaways</code>, and more.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="body">
+          <h4>Scaffolds (<code>template/scaffolds/{title,section,default,picture}/</code>)</h4>
+          <p>Pre-made slide starters that wire up the correct <code>data-*</code> attributes, header structure, and layout conventions. Use <code>node deck.js add --scaffold=&lt;name&gt;</code>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="body">
+          <h4>Template shell (<code>template/_template.html</code>)</h4>
+          <p>The outer HTML that wraps all slides: progress bar, TOC overlay, nav buttons, and theme toggle. Build replaces <code>{{ placeholders }}</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

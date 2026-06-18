@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — Applications</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="3" data-section-label="In practice"
+           data-title="Where Monte Carlo shines" data-toc="Where Monte Carlo shines">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Monte Carlo powers far more than party-trick &pi; estimates</h2>
+      <p class="lead">Whenever a problem is too high-dimensional, too noisy, or too complex for an exact solve, the same four-step recipe applies &mdash; only the domain and the hit test change.</p>
+
+      <div class="cards cols-3">
+        <div class="card">
+          <span class="tag">Numerical integration</span>
+          <h4>Integrals grids can&rsquo;t reach</h4>
+          <p>In many dimensions, grid quadrature collapses under the curse of dimensionality; random sampling scales gracefully.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Physics &amp; transport</span>
+          <h4>Neutrons, fluids, particles</h4>
+          <p>Born from neutron-diffusion problems in WWII, the method still drives statistical mechanics, radiation transport, and fluid flow.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Finance &amp; risk</span>
+          <h4>Price and stress-test</h4>
+          <p>Option pricing, portfolio value-at-risk, and scenario analysis all rely on simulating thousands of possible futures.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Optimization</span>
+          <h4>Search by simulated annealing</h4>
+          <p>Random jumps with a cooling schedule escape local minima; MCMC samples from distributions no direct sampler can reach.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Operations research</span>
+          <h4>Queues, reliability, schedules</h4>
+          <p>When arrivals, failures, and durations are uncertain, simulation estimates wait times, system reliability, and slippage.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Machine learning</span>
+          <h4>Bayesian inference &amp; RL</h4>
+          <p>MCMC and Hamiltonian Monte Carlo approximate posteriors; reinforcement learning estimates returns by sampled trajectories.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

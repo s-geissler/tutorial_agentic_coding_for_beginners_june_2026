@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Navigation &amp; Features</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="Features"
+           data-title="Navigation & features" data-toc="Navigation &amp; features">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Keyboard, TOC, dark mode, and progress &mdash; built in</h2>
+      <p class="lead">Navigation never gets in the way. Every feature is optional and unobtrusive.</p>
+
+      <div class="cards cols-2" style="margin-top: 0.5rem;">
+        <div class="card">
+          <h4><span class="kbd">→</span> <span class="kbd">←</span> Advance / retreat</h4>
+          <p>Arrow keys, Page Up/Down, and Space advance or retreat. The buttons in the top-right bar work too.</p>
+        </div>
+        <div class="card">
+          <h4><span class="kbd">Esc</span> Table of contents</h4>
+          <p>Opens an overlay listing all slides by their <code>data-toc</code> attribute. Click any entry to jump. Also works via the top-right button.</p>
+        </div>
+        <div class="card">
+          <h4><span class="kbd">T</span> Theme toggle</h4>
+          <p>Switches between light and dark mode. Preference is persisted to <code>localStorage</code> and respects <code>prefers-color-scheme</code> on first visit.</p>
+        </div>
+        <div class="card">
+          <h4><span class="kbd">Home</span> / <span class="kbd">End</span></h4>
+          <p>Jump to the first or last slide. The progress bar at the top shows your position. The section label keeps context visible.</p>
+        </div>
+        <div class="card">
+          <h4>Slide counter</h4>
+          <p>Top-right corner shows <code>03 / 14</code> format. Hover to see it more clearly.</p>
+        </div>
+        <div class="card">
+          <h4>Zero-config setup</h4>
+          <p>All navigation is driven by <code>data-*</code> attributes on each slide. The <code>nav.js</code> script fills headers and builds the TOC automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

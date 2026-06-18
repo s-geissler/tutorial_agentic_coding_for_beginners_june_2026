@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — The geometry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="A quarter circle in a unit square" data-toc="The geometry: quarter circle in a unit square">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>The area ratio of a quarter circle to its square is &pi;&nbsp;/&nbsp;4</h2>
+      <p class="lead">Inscribe a quarter circle of radius&nbsp;1 inside a unit square. The fraction of the square covered by the circle is exactly &pi;&nbsp;/&nbsp;4 &mdash; so a random point falls inside the circle with that probability.</p>
+
+      <div class="geo">
+        <div class="diagram geo-fig">
+          <svg viewBox="0 0 340 340" role="img" aria-label="A unit square with a quarter circle of radius one inscribed at the bottom-left corner.">
+            <!-- unit square -->
+            <rect x="40" y="40" width="260" height="260" fill="var(--bg)" stroke="var(--border-strong)" stroke-width="2"/>
+            <!-- quarter-circle region (center at bottom-left corner (40,300), radius 260) -->
+            <path d="M 40 300 L 40 40 A 260 260 0 0 1 300 300 Z" fill="var(--accent-soft)" stroke="none"/>
+            <!-- quarter-circle arc -->
+            <path d="M 40 40 A 260 260 0 0 1 300 300" fill="none" stroke="var(--jmu-blue)" stroke-width="2.5"/>
+            <!-- radius line from center to a point on the arc (45 degrees) -->
+            <line x1="40" y1="300" x2="223.8" y2="116.2" stroke="var(--jmu-blue-dark)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <!-- center dot -->
+            <circle cx="40" cy="300" r="3.5" fill="var(--jmu-blue-dark)"/>
+            <!-- corner labels -->
+            <text x="40" y="322" text-anchor="middle" font-size="13" fill="var(--fg-muted)">(0, 0)</text>
+            <text x="312" y="304" text-anchor="start" font-size="13" fill="var(--fg-muted)">(1, 0)</text>
+            <text x="40" y="30" text-anchor="middle" font-size="13" fill="var(--fg-muted)">(0, 1)</text>
+            <text x="300" y="30" text-anchor="middle" font-size="13" fill="var(--fg-muted)">(1, 1)</text>
+            <!-- side label -->
+            <text x="170" y="320" text-anchor="middle" font-size="15" fill="var(--fg)" font-weight="600">side = 1</text>
+            <!-- radius label -->
+            <text x="150" y="200" text-anchor="middle" font-size="15" fill="var(--jmu-blue-dark)" font-weight="600" transform="rotate(-45 150 200)">r = 1</text>
+            <!-- area labels -->
+            <text x="80" y="270" text-anchor="start" font-size="15" fill="var(--jmu-blue)" font-weight="700">Area = &pi;/4</text>
+            <text x="225" y="70" text-anchor="start" font-size="14" fill="var(--fg-muted)">Area = 1</text>
+          </svg>
+          <p class="diagram-caption">A point (x, y) is <em>inside</em> the circle when x&sup2; + y&sup2; &le; 1.</p>
+        </div>
+
+        <div class="geo-eq">
+          <div class="eq">
+            <span class="eq-label">Square area</span>
+            <span class="eq-expr">1 &times; 1 = 1</span>
+          </div>
+          <div class="eq">
+            <span class="eq-label">Quarter-circle area</span>
+            <span class="eq-expr">&frac14; &pi; r&sup2; = &pi;&nbsp;/&nbsp;4</span>
+          </div>
+          <div class="eq">
+            <span class="eq-label">Ratio</span>
+            <span class="eq-expr">(&pi;&nbsp;/&nbsp;4) &divide; 1 = &pi;&nbsp;/&nbsp;4</span>
+          </div>
+          <div class="geo-insight">
+            <span class="tag">Key insight</span>
+            <p>Probability a random point lands inside &asymp; <strong>&pi;&nbsp;/&nbsp;4</strong>, so</p>
+            <p class="geo-formula">&pi; &asymp; 4 &times; <span class="frac"><span>hits</span><span>N</span></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

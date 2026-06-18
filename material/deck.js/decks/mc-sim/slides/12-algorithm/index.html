@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Monte Carlo Simulations — The algorithm</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="2" data-section-label="Estimating &pi;"
+           data-title="Count the hits, estimate &pi;" data-toc="The algorithm: count the hits">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Count the hits, multiply by&nbsp;4, and you have &pi;</h2>
+      <p class="lead">The whole method is a short loop: throw a dart, test whether it lands inside the quarter circle, and tally the hits.</p>
+
+      <div class="algo">
+        <pre class="algo-code"><span class="k">import</span> random
+
+N     = <span class="n">100_000</span>          <span class="c"># number of darts to throw</span>
+hits  = <span class="n">0</span>
+
+<span class="k">for</span> _ <span class="k">in</span> <span class="f">range</span>(N):
+    x = random.<span class="f">random</span>()   <span class="c"># uniform in [0, 1)</span>
+    y = random.<span class="f">random</span>()
+    <span class="k">if</span> x*x + y*y &lt;= <span class="n">1</span>:    <span class="c"># inside the quarter circle?</span>
+        hits += <span class="n">1</span>
+
+pi_hat = <span class="n">4</span> * hits / N      <span class="c"># estimate of pi</span></pre>
+
+        <div class="algo-notes">
+          <div class="step">
+            <div class="num">1</div>
+            <div class="body">
+              <h4>Sample</h4>
+              <p>Draw <em>x</em> and <em>y</em> independently and uniformly from <code>[0,&nbsp;1)</code> &mdash; a random point in the unit square.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div class="body">
+              <h4>Test</h4>
+              <p>A point is a <em>hit</em> when <code>x&sup2;&nbsp;+&nbsp;y&sup2;&nbsp;&le;&nbsp;1</code> &mdash; the squared distance from the origin is at most&nbsp;1.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div class="body">
+              <h4>Estimate</h4>
+              <p>The hit ratio <code>hits&nbsp;/&nbsp;N</code> approximates <em>&pi;&nbsp;/&nbsp;4</em>, so multiply by&nbsp;4. Error scales as <em>1/&radic;N</em>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "title": "deck.js: HTML-native presentations, zero dependencies",
+  "author": "deck.js",
+  "description": "A short introduction to the philosophy and usage of deck.js",
+  "template": "template",
+  "theme": "theme",
+  "output": "./dist"
+}

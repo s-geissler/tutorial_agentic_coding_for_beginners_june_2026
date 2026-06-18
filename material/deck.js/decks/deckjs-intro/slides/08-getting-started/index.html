@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="slide" data-section="1" data-section-label="Start here"
+           data-title="Getting started" data-toc="Getting started">
+    <div class="slide-header">
+      <span class="section"></span>
+      <span class="number"></span>
+    </div>
+    <div class="slide-body">
+      <h2>Three commands to go from zero to a working deck</h2>
+      <p class="lead">deck.js has no package manager. Clone the repo and run:</p>
+
+      <div class="cards" style="margin-top: 0.5rem;">
+        <div class="card">
+          <h4>1. Create a new deck</h4>
+          <pre style="margin: 0.5rem 0 0;">node deck.js new my-talk</pre>
+          <p style="margin-top: 0.4rem;">Vendors the default template, theme, and scaffold files.</p>
+        </div>
+        <div class="card">
+          <h4>2. Add slides</h4>
+          <pre style="margin: 0.5rem 0 0;">node deck.js add 01-title --scaffold=title
+node deck.js add 02-overview --scaffold=default
+node deck.js add 03-architecture --scaffold=picture</pre>
+          <p style="margin-top: 0.4rem;">Each scaffold creates <code>slides/NN-name/index.html</code> plus <code>style.css</code> and <code>script.js</code>.</p>
+        </div>
+        <div class="card">
+          <h4>3. Build and open</h4>
+          <pre style="margin: 0.5rem 0 0;">node deck.js build</pre>
+          <p style="margin-top: 0.4rem;">Produces <code>dist/index.html</code>. Open it in any browser, or push it to GitHub Pages / a static host.</p>
+        </div>
+      </div>
+
+      <div class="step" style="margin-top: 0.75rem;">
+        <div class="num" style="background: var(--success);">&#10003;</div>
+        <div class="body">
+          <h4>That's it</h4>
+          <p>No npm install. No build server. No lockfile. Your slides are just HTML &mdash; and they'll still render in ten years.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

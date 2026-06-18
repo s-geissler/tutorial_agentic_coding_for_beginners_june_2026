@@ -1,0 +1,1 @@
+I want you to design a slide deck in decks/mc-sim with 10 slides that explains the concept of monte carlo simulations. Use interactive/animated widgets where it makes sense. Use the jmu_16x9 template and accompanying theme. As an example, I want to you to use the approximation of pi using the unit circle and dropping points into the coordinate system.
