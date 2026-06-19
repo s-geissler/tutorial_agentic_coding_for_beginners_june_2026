@@ -5,6 +5,11 @@
    predicted token is appended to the context for the next
    round, illustrating the autoregressive loop. Starts
    paused on the first state.
+
+   On predict steps, the matching probability distribution
+   in the output box (.dist[data-dist="<n>"]) is shown; the
+   highlighted row is the winner that gets sampled. On
+   waiting/appended steps, all distributions are hidden.
    ============================================================ */
 (function () {
   const root = document.getElementById('predict-demo');
@@ -16,29 +21,32 @@
     document.getElementById('predict-line-1'),
     document.getElementById('predict-line-2')
   ];
-  const tokenEl  = document.getElementById('predict-token');
   const modelEl  = document.getElementById('predict-model');
   const iterEl   = document.getElementById('predict-iter');
   const phaseEl  = document.getElementById('predict-phase');
   const playBtn  = document.getElementById('predict-play');
+  const dists    = Array.from(root.querySelectorAll('.dist'));
 
-  // One state = one snapshot of (input lines, output token, llm
-  // active, phase label). "|" at the end of a line marks the
-  // cursor where the next token will be appended. We start blank
-  // (waiting), predict, then consume and repeat.
+  // One state = one snapshot of (input lines, llm active, which
+  // distribution to show in the output box, phase label). distId
+  // 0 means "no distribution" (waiting/appended states). The "|"
+  // at the end of a line marks the cursor where the next token
+  // will be appended. The winning token in each distribution
+  // matches the token that gets appended to the context on the
+  // next state.
   const states = [
-    { lines: ['The cat sat', 'on the ___',  ''         ], token: '',        llmActive: false, phase: 'waiting for next token'    },
-    { lines: ['The cat sat', 'on the ___',  ''         ], token: 'mat',     llmActive: true,  phase: 'predicting: "mat"'         },
-    { lines: ['The cat sat', 'on the mat|', ''          ], token: '',        llmActive: false, phase: 'appended "mat" to context' },
-    { lines: ['The cat sat', 'on the mat|', ''          ], token: '.',       llmActive: true,  phase: 'predicting: "."'           },
-    { lines: ['The cat sat', 'on the mat.|',''          ], token: '',        llmActive: false, phase: 'appended "." to context'   },
-    { lines: ['The cat sat', 'on the mat.|',''          ], token: ' The',    llmActive: true,  phase: 'predicting: " The"'        },
-    { lines: ['The cat sat', 'on the mat.', 'The |'     ], token: '',        llmActive: false, phase: 'appended " The" to context' },
-    { lines: ['The cat sat', 'on the mat.', 'The |'     ], token: ' dog',    llmActive: true,  phase: 'predicting: " dog"'        },
-    { lines: ['The cat sat', 'on the mat.', 'The dog |' ], token: '',        llmActive: false, phase: 'appended " dog" to context' },
-    { lines: ['The cat sat', 'on the mat.', 'The dog |' ], token: ' barked', llmActive: true,  phase: 'predicting: " barked"'     },
-    { lines: ['The cat sat', 'on the mat. The', 'dog barked|' ], token: '',   llmActive: false, phase: 'appended " barked" to context' },
-    { lines: ['The cat sat', 'on the mat. The', 'dog barked|' ], token: '',   llmActive: false, phase: 'and again\u2026'           }
+    { lines: ['The cat sat', 'on the ___',  ''         ], llmActive: false, distId: 0, phase: 'waiting for next token'         },
+    { lines: ['The cat sat', 'on the ___',  ''         ], llmActive: true,  distId: 1, phase: 'predicting: " mat"'             },
+    { lines: ['The cat sat', 'on the mat|', ''          ], llmActive: false, distId: 0, phase: 'appended " mat" to context'     },
+    { lines: ['The cat sat', 'on the mat|', ''          ], llmActive: true,  distId: 2, phase: 'predicting: " ."'               },
+    { lines: ['The cat sat', 'on the mat.|',''          ], llmActive: false, distId: 0, phase: 'appended " ." to context'       },
+    { lines: ['The cat sat', 'on the mat.|',''          ], llmActive: true,  distId: 3, phase: 'predicting: " The"'             },
+    { lines: ['The cat sat', 'on the mat.', 'The |'     ], llmActive: false, distId: 0, phase: 'appended " The" to context'     },
+    { lines: ['The cat sat', 'on the mat.', 'The |'     ], llmActive: true,  distId: 4, phase: 'predicting: " dog"'             },
+    { lines: ['The cat sat', 'on the mat.', 'The dog |' ], llmActive: false, distId: 0, phase: 'appended " dog" to context'     },
+    { lines: ['The cat sat', 'on the mat.', 'The dog |' ], llmActive: true,  distId: 5, phase: 'predicting: " barked"'          },
+    { lines: ['The cat sat', 'on the mat. The', 'dog barked|' ], llmActive: false, distId: 0, phase: 'appended " barked" to context' },
+    { lines: ['The cat sat', 'on the mat. The', 'dog barked|' ], llmActive: false, distId: 0, phase: 'and again\u2026'                }
   ];
 
   let idx = 0;
@@ -48,11 +56,12 @@
   function render() {
     const s = states[idx];
     for (let i = 0; i < lines.length; i++) lines[i].textContent = s.lines[i] || '';
-    tokenEl.textContent = s.token;
-    tokenEl.style.opacity = s.token ? '1' : '0.15';
     modelEl.classList.toggle('active', s.llmActive);
     phaseEl.textContent = '\u2014 ' + s.phase;
     iterEl.textContent = iter;
+    for (const d of dists) {
+      d.classList.toggle('active', parseInt(d.dataset.dist, 10) === s.distId);
+    }
   }
 
   function advance() {

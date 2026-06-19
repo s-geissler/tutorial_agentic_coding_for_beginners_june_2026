@@ -15,50 +15,312 @@
       <h2>What an LLM actually does</h2>
       <p class="lead">One job. Repeated billions of times.</p>
       <div class="diagram" id="predict-demo">
-        <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="next-token prediction animation">
+        <svg viewBox="0 0 780 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="next-token prediction: deep neural network assigns a probability distribution to candidate tokens, samples one, appends it to the context">
           <defs>
             <style>
               .box { fill: var(--bg-elevated); stroke: var(--border); }
               .arrow { stroke: var(--fg-muted); stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
               .tt { fill: var(--accent); font-family: ui-monospace, monospace; }
-              .tt-output { fill: var(--accent); font-family: ui-monospace, monospace; font-weight: 700; }
               .label { fill: var(--fg); font: 600 14px var(--font-sans); }
               .small-label { fill: var(--fg-muted); font: 11px var(--font-mono); }
-              .model-rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; transition: fill 0.25s ease, stroke-width 0.25s ease; }
-              .predict-model .label, .predict-model .small-label { transition: fill 0.25s ease; }
-              .predict-model.active .model-rect { fill: var(--accent); stroke-width: 2.5; }
-              .predict-model.active .label,
-              .predict-model.active .small-label { fill: var(--bg-elevated); }
-              .tt, .tt-output { transition: opacity 0.2s ease; }
+              .llm-label { fill: var(--jmu-blue); font: 700 15px var(--font-sans); text-anchor: middle; }
+              .llm-sublabel { fill: var(--fg-muted); font: 10.5px var(--font-mono); text-anchor: middle; letter-spacing: 0.02em; }
+
+              /* Deep network: nodes, edges, and activation wave */
+              .node { fill: var(--border-strong); transition: fill 0.2s ease, r 0.2s ease; }
+              .edge { stroke: var(--border-strong); stroke-width: 0.8; fill: none; stroke-opacity: 0.4; transition: stroke 0.2s ease, stroke-opacity 0.2s ease; }
+
+              /* Probability distribution rows in the output box */
+              .dist { opacity: 0; transition: opacity 0.25s ease; }
+              .dist.active { opacity: 1; }
+              .dist-row .dist-token { fill: var(--fg-muted); font: 12px var(--font-mono); }
+              .dist-row .dist-pct   { fill: var(--fg-muted); font: 12px var(--font-mono); }
+              .dist-row .dist-bar  { fill: var(--border-strong); }
+              .dist-row.winner .dist-token { fill: var(--accent); font-weight: 700; }
+              .dist-row.winner .dist-pct   { fill: var(--accent); font-weight: 700; }
+              .dist-row.winner .dist-bar  { fill: var(--accent); }
+
+              /* When the LLM is "predicting" the existing JS toggles
+                 .active on #predict-model. We use that to run a
+                 left-to-right wave of activation through the layers
+                 and their connecting edges. Staggered animation-delay
+                 per layer produces the propagation effect. */
+              .predict-model.active .node {
+                animation: node-pulse 0.6s linear infinite;
+              }
+              .predict-model.active .layer-1 .node { animation-delay: 0.00s; }
+              .predict-model.active .layer-2 .node { animation-delay: 0.08s; }
+              .predict-model.active .layer-3 .node { animation-delay: 0.16s; }
+              .predict-model.active .layer-4 .node { animation-delay: 0.24s; }
+
+              .predict-model.active .edge {
+                animation: edge-pulse 0.6s linear infinite;
+              }
+              .predict-model.active .edges-1-2 .edge { animation-delay: 0.04s; }
+              .predict-model.active .edges-2-3 .edge { animation-delay: 0.12s; }
+              .predict-model.active .edges-3-4 .edge { animation-delay: 0.20s; }
+
+              @keyframes node-pulse {
+                0%   { fill: var(--border-strong); r: 7; }
+                7%   { fill: var(--accent);        r: 9; }
+                16%  { fill: var(--border-strong); r: 7; }
+                100% { fill: var(--border-strong); r: 7; }
+              }
+              @keyframes edge-pulse {
+                0%   { stroke-opacity: 0.4; stroke: var(--border-strong); }
+                7%   { stroke-opacity: 0.9; stroke: var(--accent); }
+                16%  { stroke-opacity: 0.4; stroke: var(--border-strong); }
+                100% { stroke-opacity: 0.4; stroke: var(--border-strong); }
+              }
+
+              @media (prefers-reduced-motion: reduce) {
+                .predict-model.active .node,
+                .predict-model.active .edge { animation: none; }
+                .predict-model.active .layer-1 .node { fill: var(--accent); }
+              }
             </style>
             <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
               <polygon points="0 0, 9 3, 0 6" fill="var(--fg-muted)" />
             </marker>
           </defs>
+
           <!-- Input (context) box -->
-          <g transform="translate(20, 20)">
-            <rect class="box" width="180" height="180" rx="6"/>
+          <g transform="translate(10, 30)">
+            <rect class="box" width="160" height="180" rx="6"/>
             <text class="small-label" x="10" y="22">input (context)</text>
             <text id="predict-line-0" class="tt" x="10" y="56" font-size="16"></text>
             <text id="predict-line-1" class="tt" x="10" y="82" font-size="16"></text>
             <text id="predict-line-2" class="tt" x="10" y="108" font-size="16"></text>
           </g>
+
           <!-- Arrow to model -->
-          <line class="arrow" x1="210" y1="110" x2="270" y2="110"/>
-          <!-- Model box -->
-          <g class="predict-model" id="predict-model" transform="translate(280, 20)">
-            <rect class="model-rect" width="80" height="180" rx="6"/>
-            <text class="label" x="40" y="98" text-anchor="middle">LLM</text>
-            <text class="small-label" x="40" y="118" text-anchor="middle">P(next token)</text>
+          <line class="arrow" x1="180" y1="120" x2="225" y2="120"/>
+
+          <!-- LLM as a deep neural network: 4 layers of 4 nodes,
+               fully connected between adjacent layers. The whole
+               group is the "LLM" — id="predict-model" is the
+               contract the existing JS uses to toggle .active. -->
+          <g class="predict-model" id="predict-model" transform="translate(230, 0)">
+            <text class="llm-label" x="170" y="22">LLM</text>
+            <text class="llm-sublabel" x="170" y="212">stacked transformer blocks</text>
+
+            <!-- Edges (drawn first so nodes render on top) -->
+            <g class="edges edges-1-2">
+              <path class="edge" d="M50,60 L130,60 M50,60 L130,100 M50,60 L130,140 M50,60 L130,180 M50,100 L130,60 M50,100 L130,100 M50,100 L130,140 M50,100 L130,180 M50,140 L130,60 M50,140 L130,100 M50,140 L130,140 M50,140 L130,180 M50,180 L130,60 M50,180 L130,100 M50,180 L130,140 M50,180 L130,180"/>
+            </g>
+            <g class="edges edges-2-3">
+              <path class="edge" d="M130,60 L210,60 M130,60 L210,100 M130,60 L210,140 M130,60 L210,180 M130,100 L210,60 M130,100 L210,100 M130,100 L210,140 M130,100 L210,180 M130,140 L210,60 M130,140 L210,100 M130,140 L210,140 M130,140 L210,180 M130,180 L210,60 M130,180 L210,100 M130,180 L210,140 M130,180 L210,180"/>
+            </g>
+            <g class="edges edges-3-4">
+              <path class="edge" d="M210,60 L290,60 M210,60 L290,100 M210,60 L290,140 M210,60 L290,180 M210,100 L290,60 M210,100 L290,100 M210,100 L290,140 M210,100 L290,180 M210,140 L290,60 M210,140 L290,100 M210,140 L290,140 M210,140 L290,180 M210,180 L290,60 M210,180 L290,100 M210,180 L290,140 M210,180 L290,180"/>
+            </g>
+
+            <!-- Nodes: 4 layers × 4 nodes -->
+            <g class="layer layer-1">
+              <circle class="node" cx="50" cy="60"  r="7"/>
+              <circle class="node" cx="50" cy="100" r="7"/>
+              <circle class="node" cx="50" cy="140" r="7"/>
+              <circle class="node" cx="50" cy="180" r="7"/>
+            </g>
+            <g class="layer layer-2">
+              <circle class="node" cx="130" cy="60"  r="7"/>
+              <circle class="node" cx="130" cy="100" r="7"/>
+              <circle class="node" cx="130" cy="140" r="7"/>
+              <circle class="node" cx="130" cy="180" r="7"/>
+            </g>
+            <g class="layer layer-3">
+              <circle class="node" cx="210" cy="60"  r="7"/>
+              <circle class="node" cx="210" cy="100" r="7"/>
+              <circle class="node" cx="210" cy="140" r="7"/>
+              <circle class="node" cx="210" cy="180" r="7"/>
+            </g>
+            <g class="layer layer-4">
+              <circle class="node" cx="290" cy="60"  r="7"/>
+              <circle class="node" cx="290" cy="100" r="7"/>
+              <circle class="node" cx="290" cy="140" r="7"/>
+              <circle class="node" cx="290" cy="180" r="7"/>
+            </g>
           </g>
+
           <!-- Arrow to output -->
-          <line class="arrow" x1="370" y1="110" x2="430" y2="110"/>
-          <!-- Output box -->
-          <g transform="translate(440, 20)">
-            <rect class="box" width="140" height="180" rx="6"/>
-            <text class="small-label" x="10" y="22">most likely</text>
-            <text id="predict-token" class="tt-output" x="70" y="120" text-anchor="middle" font-size="24"></text>
-            <text class="small-label" x="10" y="160">with some probability</text>
+          <line class="arrow" x1="570" y1="120" x2="610" y2="120"/>
+
+          <!-- Output: probability distribution over candidate tokens.
+               5 hard-coded distributions, one per predict step. The JS
+               toggles which is visible via data-dist + .active class. -->
+          <g transform="translate(615, 30)">
+            <rect class="box" width="160" height="180" rx="6"/>
+            <text class="small-label" x="8" y="22">P(next token)</text>
+
+            <!-- Distribution 1: predicting " mat" after "on the ___" -->
+            <g class="dist active" data-dist="1">
+              <g class="dist-row winner">
+                <text class="dist-token" x="8"   y="52"> mat</text>
+                <text class="dist-pct"   x="152" y="52" text-anchor="end">35%</text>
+                <rect class="dist-bar"   x="8"   y="56" width="50"  height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="74"> rug</text>
+                <text class="dist-pct"   x="152" y="74" text-anchor="end">16%</text>
+                <rect class="dist-bar"   x="8"   y="78" width="23"  height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="96"> floor</text>
+                <text class="dist-pct"   x="152" y="96" text-anchor="end">12%</text>
+                <rect class="dist-bar"   x="8"   y="100" width="17" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="118"> bed</text>
+                <text class="dist-pct"   x="152" y="118" text-anchor="end">10%</text>
+                <rect class="dist-bar"   x="8"   y="122" width="14" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="140"> ground</text>
+                <text class="dist-pct"   x="152" y="140" text-anchor="end">7%</text>
+                <rect class="dist-bar"   x="8"   y="144" width="10" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="162"> table</text>
+                <text class="dist-pct"   x="152" y="162" text-anchor="end">5%</text>
+                <rect class="dist-bar"   x="8"   y="166" width="7"  height="2"/>
+              </g>
+            </g>
+
+            <!-- Distribution 2: predicting "." after "on the mat" -->
+            <g class="dist" data-dist="2">
+              <g class="dist-row winner">
+                <text class="dist-token" x="8"   y="52"> .</text>
+                <text class="dist-pct"   x="152" y="52" text-anchor="end">28%</text>
+                <rect class="dist-bar"   x="8"   y="56" width="40" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="74"> then</text>
+                <text class="dist-pct"   x="152" y="74" text-anchor="end">18%</text>
+                <rect class="dist-bar"   x="8"   y="78" width="26" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="96"> and</text>
+                <text class="dist-pct"   x="152" y="96" text-anchor="end">14%</text>
+                <rect class="dist-bar"   x="8"   y="100" width="20" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="118"> when</text>
+                <text class="dist-pct"   x="152" y="118" text-anchor="end">9%</text>
+                <rect class="dist-bar"   x="8"   y="122" width="13" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="140"> ,</text>
+                <text class="dist-pct"   x="152" y="140" text-anchor="end">7%</text>
+                <rect class="dist-bar"   x="8"   y="144" width="10" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="162"> as</text>
+                <text class="dist-pct"   x="152" y="162" text-anchor="end">5%</text>
+                <rect class="dist-bar"   x="8"   y="166" width="7"  height="2"/>
+              </g>
+            </g>
+
+            <!-- Distribution 3: predicting " The" after "on the mat." -->
+            <g class="dist" data-dist="3">
+              <g class="dist-row winner">
+                <text class="dist-token" x="8"   y="52"> The</text>
+                <text class="dist-pct"   x="152" y="52" text-anchor="end">22%</text>
+                <rect class="dist-bar"   x="8"   y="56" width="31" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="74"> It</text>
+                <text class="dist-pct"   x="152" y="74" text-anchor="end">17%</text>
+                <rect class="dist-bar"   x="8"   y="78" width="24" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="96"> She</text>
+                <text class="dist-pct"   x="152" y="96" text-anchor="end">11%</text>
+                <rect class="dist-bar"   x="8"   y="100" width="16" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="118"> He</text>
+                <text class="dist-pct"   x="152" y="118" text-anchor="end">9%</text>
+                <rect class="dist-bar"   x="8"   y="122" width="13" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="140"> A</text>
+                <text class="dist-pct"   x="152" y="140" text-anchor="end">7%</text>
+                <rect class="dist-bar"   x="8"   y="144" width="10" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="162"> Suddenly</text>
+                <text class="dist-pct"   x="152" y="162" text-anchor="end">5%</text>
+                <rect class="dist-bar"   x="8"   y="166" width="7"  height="2"/>
+              </g>
+            </g>
+
+            <!-- Distribution 4: predicting " dog" after "on the mat. The" -->
+            <g class="dist" data-dist="4">
+              <g class="dist-row winner">
+                <text class="dist-token" x="8"   y="52"> dog</text>
+                <text class="dist-pct"   x="152" y="52" text-anchor="end">19%</text>
+                <rect class="dist-bar"   x="8"   y="56" width="27" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="74"> cat</text>
+                <text class="dist-pct"   x="152" y="74" text-anchor="end">16%</text>
+                <rect class="dist-bar"   x="8"   y="78" width="23" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="96"> man</text>
+                <text class="dist-pct"   x="152" y="96" text-anchor="end">12%</text>
+                <rect class="dist-bar"   x="8"   y="100" width="17" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="118"> woman</text>
+                <text class="dist-pct"   x="152" y="118" text-anchor="end">10%</text>
+                <rect class="dist-bar"   x="8"   y="122" width="14" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="140"> bird</text>
+                <text class="dist-pct"   x="152" y="140" text-anchor="end">8%</text>
+                <rect class="dist-bar"   x="8"   y="144" width="11" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="162"> child</text>
+                <text class="dist-pct"   x="152" y="162" text-anchor="end">5%</text>
+                <rect class="dist-bar"   x="8"   y="166" width="7"  height="2"/>
+              </g>
+            </g>
+
+            <!-- Distribution 5: predicting " barked" after "The dog" -->
+            <g class="dist" data-dist="5">
+              <g class="dist-row winner">
+                <text class="dist-token" x="8"   y="52"> barked</text>
+                <text class="dist-pct"   x="152" y="52" text-anchor="end">28%</text>
+                <rect class="dist-bar"   x="8"   y="56" width="40" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="74"> sat</text>
+                <text class="dist-pct"   x="152" y="74" text-anchor="end">15%</text>
+                <rect class="dist-bar"   x="8"   y="78" width="21" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="96"> ran</text>
+                <text class="dist-pct"   x="152" y="96" text-anchor="end">12%</text>
+                <rect class="dist-bar"   x="8"   y="100" width="17" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="118"> jumped</text>
+                <text class="dist-pct"   x="152" y="118" text-anchor="end">9%</text>
+                <rect class="dist-bar"   x="8"   y="122" width="13" height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="140"> slept</text>
+                <text class="dist-pct"   x="152" y="140" text-anchor="end">6%</text>
+                <rect class="dist-bar"   x="8"   y="144" width="9"  height="2"/>
+              </g>
+              <g class="dist-row">
+                <text class="dist-token" x="8"   y="162"> lied</text>
+                <text class="dist-pct"   x="152" y="162" text-anchor="end">5%</text>
+                <rect class="dist-bar"   x="8"   y="166" width="7"  height="2"/>
+              </g>
+            </g>
           </g>
         </svg>
         <div class="loop-iter predict-iter" style="justify-content: center; margin-top: 0.5rem;">
@@ -66,7 +328,7 @@
           <span id="predict-phase" class="muted">&mdash; waiting</span>
           <button class="pause-btn" id="predict-play" type="button">play</button>
         </div>
-        <p class="diagram-caption">Given all the text so far, the model assigns a probability to every possible next token and samples one. The predicted token is appended to the context, and the loop continues &mdash; one token at a time.</p>
+        <p class="diagram-caption">A deep neural network of transformer blocks. Given all the text so far, the model assigns a probability to every possible next token and samples one (the highlighted row). The predicted token is appended to the context, and the loop continues &mdash; one token at a time.</p>
       </div>
       <p>That's it. No retrieval, no reasoning engine, no planning module, no memory beyond the window. Everything else you see in an "agent" is added <em>around</em> the model.</p>
     </div>
