@@ -40,6 +40,26 @@
               .dist-row.winner .dist-pct   { fill: var(--accent); font-weight: 700; }
               .dist-row.winner .dist-bar  { fill: var(--accent); }
 
+              /* Input feed: the current token being fed into layer 1.
+                 Visible only while the model is "predicting" (i.e. when
+                 .predict-model has the .active class). The dashed arrow
+                 makes the "tokens applied to input neurons" link
+                 explicit; the wave animation already shows propagation
+                 through the rest of the network. */
+              .input-feed { opacity: 0; transition: opacity 0.2s ease; }
+              .predict-model.active .input-feed { opacity: 1; }
+              .input-feed-box   { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+              .input-feed-text  { fill: var(--accent); font: 700 13px var(--font-mono); text-anchor: middle; dominant-baseline: middle; }
+              .input-feed-arrow { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 3,2; fill: none; }
+
+              /* Per-neuron input values: the 4 activation values at
+                 layer 1, i.e. the embedding of the current token
+                 projected onto 4 dimensions. The JS writes one value
+                 per input node from s.inputValues. */
+              .input-values { opacity: 0; transition: opacity 0.2s ease; }
+              .predict-model.active .input-values { opacity: 1; }
+              .input-value { fill: var(--accent); font: 10px var(--font-mono); text-anchor: end; }
+
               /* When the LLM is "predicting" the existing JS toggles
                  .active on #predict-model. We use that to run a
                  left-to-right wave of activation through the layers
@@ -102,6 +122,29 @@
                contract the existing JS uses to toggle .active. -->
           <g class="predict-model" id="predict-model" transform="translate(230, 0)">
             <text class="llm-label" x="170" y="22">LLM</text>
+
+            <!-- Current input token, shown above layer 1 during predict
+                 states. The text is set by the JS (inputToken field on
+                 the current state); visibility follows the
+                 .predict-model.active class. The dashed arrow makes
+                 the "applied to the input neurons" link explicit. -->
+            <g class="input-feed" id="input-feed">
+              <rect class="input-feed-box"   x="12"  y="30" width="76" height="18" rx="3"/>
+              <text class="input-feed-text"  id="input-feed-text" x="50" y="39">the</text>
+              <line class="input-feed-arrow" x1="50" y1="49" x2="50" y2="55"/>
+            </g>
+
+            <!-- Per-neuron input activations at layer 1: one scalar
+                 per input node, the embedding of the current token
+                 in 4 dimensions. JS sets the 4 text contents from
+                 s.inputValues. -->
+            <g class="input-values" id="input-values">
+              <text class="input-value" id="input-value-0" x="40" y="64"  text-anchor="end">0.00</text>
+              <text class="input-value" id="input-value-1" x="40" y="104" text-anchor="end">0.00</text>
+              <text class="input-value" id="input-value-2" x="40" y="144" text-anchor="end">0.00</text>
+              <text class="input-value" id="input-value-3" x="40" y="184" text-anchor="end">0.00</text>
+            </g>
+
             <text class="llm-sublabel" x="170" y="212">stacked transformer blocks</text>
 
             <!-- Edges (drawn first so nodes render on top) -->

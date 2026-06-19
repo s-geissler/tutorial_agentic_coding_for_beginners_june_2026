@@ -1,1 +1,13 @@
-/* Slide-specific styles for the default scaffold. Edit freely. */
+/* Slide 10: enlarge the layer-stack containers so the
+   badge / label / size text is readable from the back of
+   the room. The default .layer font-size inherits the slide
+   base (26px); we bump it to 1.2rem and scale the badge and
+   size children proportionally. The .label is the primary
+   descriptive text, so it gets the largest bump. Padding
+   and gap are widened slightly so the larger text does not
+   feel cramped. */
+.layer-stack { gap: 0.65rem; }
+.layer       { font-size: 1.2rem; padding: 0.8rem 1rem; }
+.layer .label { font-size: 1.3rem; }
+.layer .badge { font-size: 1.05rem; }
+.layer .size  { font-size: 1.05rem; }
