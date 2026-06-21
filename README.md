@@ -14,9 +14,11 @@ critically.
 
 - `html_slides/` — the 28-slide deck, built with the local `deck.js`
   checkout in `material/deck.js`. Build artefacts land in `html_slides/dist`.
+  Open `html_slides/dist/index.html` in you local browser.
 - `material/sample-app/` — a small FastAPI todo app used as the live
   hands-on target. It is intentionally rough; the exercises are about
   finding and fixing its flaws with an agent.
 - `material/deck.js/` — local fork of [deck.js](https://github.com/s-geissler/deck.js)
   used to render the slides.
 - `AGENTS.md` — orientation file for coding agents working in this repo.
+- `.opencode` contains agents and skills used during the session.
